@@ -17,6 +17,7 @@ export const myQueryFn = query$((a: number, b: number) => {
 ## Output
 
 ```ts
+import server$ from "solid-start/server";
 import { query$ } from "./query";
 
 export const myQueryFn = query$(server$((a: number, b: number) => {
