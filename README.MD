@@ -1,3 +1,44 @@
+# pRPC
+
+Write simple and interactive SolidStart code that will run on the server but will easily be used on the client.
+
+## Queries
+
+### Server Function
+
+```ts
+import { query$ } from "prpc";
+export const myQueryFn = query$((a: number, b: number) => {
+  const result = a + b;
+  console.log("this is running on the server", result);
+  return result;
+});
+// myQueryFn.createQuery(1, 2)
+```
+
+### Client Call
+
+```tsx
+import { Match, Switch, type VoidComponent } from "solid-js";
+import { myQueryFn } from "~/server/queries";
+
+const Home: VoidComponent = () => {
+  const myNum = myQueryFn.createQuery(1, 2);
+  return (
+    <Switch>
+      <Match when={myNum.data}>
+        <div>Num {myNum.data}</div>
+      </Match>
+      <Match when={myNum.error}>
+        <div>Error</div>
+      </Match>
+    </Switch>
+  );
+};
+
+export default Home;
+```
+
 # Issue
 
 Current issue is that the current regex doesn't close the `query$` function `)`, the code is invalid and will not run
