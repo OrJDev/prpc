@@ -16,10 +16,61 @@ export const add = query$((input: { a: number; b: number }) => {
   console.log("add", result);
   return result;
 });
+```
 
-export const divide = query$((input: { a: number; b: number }) => {
-  const result = input.a / input.b;
-  console.log("divide", result);
+### Client
+
+```tsx
+import {
+  createSignal,
+  Match,
+  Suspense,
+  Switch,
+  type VoidComponent,
+} from "solid-js";
+import { add } from "~/server/queries";
+
+const Home: VoidComponent = () => {
+  const [num1, setNum1] = createSignal(1);
+  const solution = add.createQuery(() => ({
+    a: num1(),
+    b: 2,
+  }));
+  return (
+    <Suspense>
+      <Switch>
+        <Match when={solution.data}>
+          <div class="font-bold">Num {solution.data}</div>
+          <button
+            class="border border-gray-300 p-3"
+            onClick={() => setNum1((num) => num + 1)}
+          >
+            Increment
+          </button>
+        </Match>
+        <Match when={solution.error}>
+          <div>Error</div>
+        </Match>
+      </Switch>
+    </Suspense>
+  );
+};
+
+export default Home;
+```
+
+## Mutations
+
+### Server Function
+
+```ts
+import { mutation$ } from "prpc";
+import { isServer } from "solid-js/web";
+
+export const add = mutation$((input: { a: number; b: number }) => {
+  const result = input.a + input.b;
+  console.log(isServer); // true
+  console.log("add", result);
   return result;
 });
 ```
@@ -27,34 +78,49 @@ export const divide = query$((input: { a: number; b: number }) => {
 ### Client
 
 ```tsx
-import { createSignal, Match, Switch, type VoidComponent } from "solid-js";
-import { add } from "~/server/queries"; // the function we created before
+import {
+  createSignal,
+  Match,
+  Suspense,
+  Switch,
+  type VoidComponent,
+} from "solid-js";
+import { add } from "~/server/mutations";
 
-const Home: VoidComponent = () => {
+const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const solution = add.createQuery(() => ({
-    a: num1(),
-    b: 2,
-  })); // this will run the queryFn function on the server
+  const solution = add.createMutation();
   return (
-    <Switch>
-      <Match when={solution.data}>
-        <div class="font-bold">Num {solution.data}</div>
-        <button
-          class="border border-gray-300 p-3"
-          onClick={() => setNum1((num) => num + 1)}
-        >
-          Increment
-        </button>
-      </Match>
-      <Match when={solution.error}>
-        <div>Error</div>
-      </Match>
-    </Switch>
+    <Suspense>
+      <Switch>
+        <Match when={solution.data}>
+          <div class="font-bold">Num {solution.data}</div>
+        </Match>
+        <Match when={solution.error}>
+          <div>Error</div>
+        </Match>
+      </Switch>
+      <button
+        class="border border-gray-300 p-3"
+        onClick={() => setNum1((num) => num + 1)}
+      >
+        Increment {num1()}
+      </button>
+      <button
+        onClick={() =>
+          solution.mutateAsync({
+            a: num1(),
+            b: 2,
+          })
+        }
+      >
+        Submit
+      </button>
+    </Suspense>
   );
 };
 
-export default Home;
+export default Mutation;
 ```
 
 This project was created using [Create JD App](https://github.com/OrJDev/create-jd-app)

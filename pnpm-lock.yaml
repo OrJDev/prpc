@@ -4,8 +4,6 @@ specifiers:
   '@adeora/solid-query': 0.19.0
   '@solidjs/meta': ^0.28.2
   '@solidjs/router': ^0.7.0
-  '@trpc/client': ^10.12.0
-  '@trpc/server': ^10.12.0
   '@types/node': ^18.14.0
   '@typescript-eslint/eslint-plugin': ^5.52.0
   '@typescript-eslint/parser': ^5.52.0
@@ -16,8 +14,6 @@ specifiers:
   solid-js: ^1.6.11
   solid-start: ^0.2.21
   solid-start-node: ^0.2.21
-  solid-start-trpc: ^0.0.16
-  solid-trpc: 0.1.0-sssr.6
   tailwindcss: ^3.2.7
   typescript: ^4.9.5
   undici: 5.20.0
@@ -28,12 +24,8 @@ dependencies:
   '@adeora/solid-query': 0.19.0_solid-js@1.6.11
   '@solidjs/meta': 0.28.2_solid-js@1.6.11
   '@solidjs/router': 0.7.0_solid-js@1.6.11
-  '@trpc/client': 10.12.0_@trpc+server@10.12.0
-  '@trpc/server': 10.12.0
   solid-js: 1.6.11
   solid-start: 0.2.21_r3twzvevrblh5ubuvlf3y4dj5y
-  solid-start-trpc: 0.0.16_zo5q3u3jirfuzhy6q6aywvn36q
-  solid-trpc: 0.1.0-sssr.6_ejbbprxvnepxf4ygswze3vjjf4
   undici: 5.20.0
   zod: 3.20.6
 
@@ -1543,18 +1535,6 @@ packages:
       solid-js: ^1.5.3
     dependencies:
       solid-js: 1.6.11
-
-  /@trpc/client/10.12.0_@trpc+server@10.12.0:
-    resolution: {integrity: sha512-CUBRaE0FpYiRnPGkFB9oLD2cdFd5fSzQwPSR7/zXNKMjwdE+5P7q5mtgbh3bFey3lYidmpKDFgYRnl9Cz2Z7OQ==}
-    peerDependencies:
-      '@trpc/server': 10.12.0
-    dependencies:
-      '@trpc/server': 10.12.0
-    dev: false
-
-  /@trpc/server/10.12.0:
-    resolution: {integrity: sha512-gD5FCNCIDgx1fuYbCfFQgIYT1HVUzsXtQUrvG+nTLBL19eWJctwHetWYB2b71NmfLvq/b+QSH1OzPq1WvsHeag==}
-    dev: false
 
   /@types/cookie/0.5.1:
     resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
@@ -3781,20 +3761,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /solid-start-trpc/0.0.16_zo5q3u3jirfuzhy6q6aywvn36q:
-    resolution: {integrity: sha512-99/EGIE0SObmCVhZR00bYpkEQpCDP22YgjalQpVgm0BKy2+tJzEC6vdvOII2Ppa0Fm7iPwc4LDZoFX2E3KYmsg==}
-    peerDependencies:
-      '@trpc/client': ^10.0.0
-      '@trpc/server': ^10.0.0
-      solid-js: ^1.5.7
-      solid-start: ^0.2.1
-    dependencies:
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/server': 10.12.0
-      solid-js: 1.6.11
-      solid-start: 0.2.21_r3twzvevrblh5ubuvlf3y4dj5y
-    dev: false
-
   /solid-start/0.2.21_r3twzvevrblh5ubuvlf3y4dj5y:
     resolution: {integrity: sha512-igh1vI6d8sBm9BeGGcJOE7ewEOSlhzmL3f4iVX0bg5oz+9xtqAf1EA0MvNkTLTvq5YKsVKYy80oJmm/xg0F8jw==}
     hasBin: true
@@ -3867,22 +3833,6 @@ packages:
       wait-on: 6.0.1_debug@4.3.4
     transitivePeerDependencies:
       - supports-color
-
-  /solid-trpc/0.1.0-sssr.6_ejbbprxvnepxf4ygswze3vjjf4:
-    resolution: {integrity: sha512-cnuRn9MEcyoKOrw59pEe6Xz+dwCqNzph5if4xMo/+++C5odfg2KXCMDy/++GIGZEVMh3/yu0V73Ri6AWvhZESg==}
-    peerDependencies:
-      '@adeora/solid-query': ^0.16.0 || ~0.16.0
-      '@trpc/client': ^10.0.0-rc.2
-      '@trpc/server': ^10.0.0-rc.2
-      solid-js: ^1.5.3
-      solid-start: ^0.2.1
-    dependencies:
-      '@adeora/solid-query': 0.19.0_solid-js@1.6.11
-      '@trpc/client': 10.12.0_@trpc+server@10.12.0
-      '@trpc/server': 10.12.0
-      solid-js: 1.6.11
-      solid-start: 0.2.21_r3twzvevrblh5ubuvlf3y4dj5y
-    dev: false
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}

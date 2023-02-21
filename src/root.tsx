@@ -13,8 +13,9 @@ import {
   Title,
   Link,
 } from "solid-start";
-import { queryClient } from "~/utils/trpc";
-import { QueryClientProvider } from "@adeora/solid-query";
+import { QueryClient, QueryClientProvider } from "@adeora/solid-query";
+
+const queryClient = new QueryClient();
 
 export default function Root() {
   return (
