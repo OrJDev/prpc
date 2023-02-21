@@ -10,7 +10,6 @@ const convert$ToServer$: Plugin = {
     if (id.endsWith(".ts") && mRgx.test(code)) {
       const newCode = code.replace(mRgx, "query$(server$($1 => {$2}))");
       const withServer = `import server$ from "solid-start/server";\n${newCode}`;
-      console.log("**newCode**\n", withServer);
       return withServer;
     }
     return null;

@@ -1,13 +1,17 @@
-import { createQuery } from "@adeora/solid-query";
+import { createQuery, type CreateQueryResult } from "@adeora/solid-query";
+import type { InferReturnType, ValueOrAccessor } from "./types";
+import { unwrapValue } from "./utils";
 
-type RemapParams<T> = () => T;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const query$ = <Fn extends (...args: any[]) => any>(queryFn: Fn) => {
+export const query$ = <Fn extends (input: any) => any>(queryFn: Fn) => {
   return {
-    createQuery: <Params = Parameters<Fn>>(...args: RemapParams<Params>[]) => {
+    createQuery: <Params extends Parameters<Fn> = Parameters<Fn>>(
+      input: ValueOrAccessor<Params[0]>
+    ): CreateQueryResult<InferReturnType<Fn>> => {
+      const innerArgs = () => unwrapValue(input);
       return createQuery(() => ({
-        queryKey: ["rpc", ...args.map((a) => a())],
-        queryFn: () => queryFn(...args.map((a) => a())),
+        queryKey: ["rpc", ...innerArgs()],
+        queryFn: () => queryFn(innerArgs()),
       }));
     },
   };

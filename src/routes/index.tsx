@@ -3,8 +3,10 @@ import { add } from "~/server/queries";
 
 const Home: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const solution = add.createQuery(num1, () => 2);
-
+  const solution = add.createQuery(() => ({
+    a: num1(),
+    b: 2,
+  }));
   return (
     <Switch>
       <Match when={solution.data}>
