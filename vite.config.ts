@@ -1,9 +1,10 @@
 import solid from "solid-start/vite";
 import { defineConfig } from "vite";
-import query from "./query";
+import prpc from "./prpc";
+import vercel from "solid-start-vercel";
 
 export default defineConfig(() => {
   return {
-    plugins: [query(), solid({ ssr: true })],
+    plugins: [prpc(), solid({ ssr: true, adapter: vercel({ edge: false }) })],
   };
 });
