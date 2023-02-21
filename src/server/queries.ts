@@ -1,13 +1,15 @@
+import { isServer } from "solid-js/web";
 import { query$ } from "./query";
 
-export const myQueryFn = query$((a: number, b: number) => {
+export const add = query$((a: number, b: number) => {
   const result = a + b;
-  console.log("myQueryFn", result);
+  console.log(isServer);
+  console.log("add", result);
   return result;
 });
 
-export const myQueryFn2 = query$((a: number, b: number) => {
+export const divide = query$((a: number, b: number) => {
   const result = a / b;
-  console.log("myQueryFn2", result);
+  console.log("divide", result);
   return result;
 });
