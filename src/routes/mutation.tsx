@@ -11,8 +11,8 @@ const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
   const solution = add.createMutation();
   return (
-    <Suspense>
-      <div class="flex flex-col gap-2 items-center my-16">
+    <div class="flex flex-col gap-2 items-center my-16">
+      <Suspense>
         <Switch>
           <Match when={solution.data}>
             <div class="font-bold">Num {solution.data}</div>
@@ -27,18 +27,18 @@ const Mutation: VoidComponent = () => {
         >
           Increment {num1()}
         </button>
-        <button
-          onClick={() =>
-            solution.mutateAsync({
-              a: num1(),
-              b: 2,
-            })
-          }
-        >
-          Submit
-        </button>
-      </div>
-    </Suspense>
+      </Suspense>
+      <button
+        onClick={() =>
+          solution.mutateAsync({
+            a: num1(),
+            b: 2,
+          })
+        }
+      >
+        Submit
+      </button>
+    </div>
   );
 };
 

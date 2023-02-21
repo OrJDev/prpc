@@ -30,33 +30,36 @@ import {
 } from "solid-js";
 import { add } from "~/server/queries";
 
-const Home: VoidComponent = () => {
+const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
   const solution = add.createQuery(() => ({
     a: num1(),
     b: 2,
   }));
+
   return (
-    <Suspense>
-      <Switch>
-        <Match when={solution.data}>
-          <div class="font-bold">Num {solution.data}</div>
-          <button
-            class="border border-gray-300 p-3"
-            onClick={() => setNum1((num) => num + 1)}
-          >
-            Increment
-          </button>
-        </Match>
-        <Match when={solution.error}>
-          <div>Error</div>
-        </Match>
-      </Switch>
-    </Suspense>
+    <div>
+      <Suspense>
+        <Switch>
+          <Match when={solution.data}>
+            <div class="font-bold">Num {solution.data}</div>
+          </Match>
+          <Match when={solution.error}>
+            <div>Error</div>
+          </Match>
+        </Switch>
+      </Suspense>
+      <button
+        class="border border-gray-300 p-3"
+        onClick={() => setNum1((num) => num + 1)}
+      >
+        Increment
+      </button>
+    </div>
   );
 };
 
-export default Home;
+export default Query;
 ```
 
 ## Mutations
@@ -85,42 +88,38 @@ import {
   Switch,
   type VoidComponent,
 } from "solid-js";
-import { add } from "~/server/mutations";
+import { add } from "~/server/queries";
 
-const Mutation: VoidComponent = () => {
+const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const solution = add.createMutation();
+  const solution = add.createQuery(() => ({
+    a: num1(),
+    b: 2,
+  }));
+
   return (
-    <Suspense>
-      <Switch>
-        <Match when={solution.data}>
-          <div class="font-bold">Num {solution.data}</div>
-        </Match>
-        <Match when={solution.error}>
-          <div>Error</div>
-        </Match>
-      </Switch>
+    <div class="flex flex-col gap-2 items-center my-16">
+      <Suspense>
+        <Switch>
+          <Match when={solution.data}>
+            <div class="font-bold">Num {solution.data}</div>
+          </Match>
+          <Match when={solution.error}>
+            <div>Error</div>
+          </Match>
+        </Switch>
+      </Suspense>
       <button
         class="border border-gray-300 p-3"
         onClick={() => setNum1((num) => num + 1)}
       >
-        Increment {num1()}
+        Increment
       </button>
-      <button
-        onClick={() =>
-          solution.mutateAsync({
-            a: num1(),
-            b: 2,
-          })
-        }
-      >
-        Submit
-      </button>
-    </Suspense>
+    </div>
   );
 };
 
-export default Mutation;
+export default Query;
 ```
 
 This project was created using [Create JD App](https://github.com/OrJDev/create-jd-app)

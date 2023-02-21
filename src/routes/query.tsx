@@ -15,24 +15,24 @@ const Query: VoidComponent = () => {
   }));
 
   return (
-    <Suspense>
-      <div class="flex flex-col gap-2 items-center my-16">
+    <div class="flex flex-col gap-2 items-center my-16">
+      <Suspense>
         <Switch>
           <Match when={solution.data}>
             <div class="font-bold">Num {solution.data}</div>
-            <button
-              class="border border-gray-300 p-3"
-              onClick={() => setNum1((num) => num + 1)}
-            >
-              Increment
-            </button>
           </Match>
           <Match when={solution.error}>
             <div>Error</div>
           </Match>
         </Switch>
-      </div>
-    </Suspense>
+      </Suspense>
+      <button
+        class="border border-gray-300 p-3"
+        onClick={() => setNum1((num) => num + 1)}
+      >
+        Increment
+      </button>
+    </div>
   );
 };
 
