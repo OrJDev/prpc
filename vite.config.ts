@@ -4,6 +4,6 @@ import query from "./query";
 
 export default defineConfig(() => {
   return {
-    plugins: [solid({ ssr: true }), query()],
+    plugins: [query(), solid({ ssr: true })],
   };
 });
