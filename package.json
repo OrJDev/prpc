@@ -26,6 +26,7 @@
     "@solidjs/router": "^0.7.0",
     "solid-js": "^1.6.11",
     "solid-start": "^0.2.21",
+    "solid-start-vercel": "^0.2.21",
     "undici": "5.20.0",
     "zod": "^3.20.6"
   },
