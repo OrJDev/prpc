@@ -6,13 +6,17 @@ export default function prpc(): Plugin {
     // @ts-expect-error - name is not in the type
     name: "prpc",
     transform(code: string, id: string) {
-      const mRgx =
+      const queryRgx =
         /query\$\((\s*\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
-      if (id.endsWith(".ts") && mRgx.test(code)) {
-        return `import server$ from "solid-start/server";\n${code.replace(
-          mRgx,
-          "query$(server$($1 => {$2}))"
-        )}`;
+      const mutationRgx =
+        /mutation\$\((\s*\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
+      if (
+        id.endsWith(".ts") &&
+        (queryRgx.test(code) || mutationRgx.test(code))
+      ) {
+        return `import server$ from "solid-start/server";\n${code
+          .replace(queryRgx, "query$(server$($1 => {$2}))")
+          .replace(mutationRgx, "mutation$(server$($1 => {$2}))")}`;
       }
       return null;
     },
