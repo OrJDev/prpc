@@ -1,16 +1,22 @@
 import { createSignal, Match, Switch, type VoidComponent } from "solid-js";
-import { myQueryFn } from "~/server/queries";
+import { add } from "~/server/queries";
 
 const Home: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const myNum = myQueryFn.createQuery(num1, () => 2);
+  const solution = add.createQuery(num1, () => 2);
+
   return (
     <Switch>
-      <Match when={myNum.data}>
-        <div>Num {myNum.data}</div>
-        <button onClick={() => setNum1((num) => num + 1)}>Increment</button>
+      <Match when={solution.data}>
+        <div class="font-bold">Num {solution.data}</div>
+        <button
+          class="border border-gray-300 p-3"
+          onClick={() => setNum1((num) => num + 1)}
+        >
+          Increment
+        </button>
       </Match>
-      <Match when={myNum.error}>
+      <Match when={solution.error}>
         <div>Error</div>
       </Match>
     </Switch>
