@@ -10,7 +10,7 @@ export const query$ = <Fn extends (input: any) => any>(queryFn: Fn) => {
     ): CreateQueryResult<InferReturnType<Fn>> => {
       const innerArgs = () => unwrapValue(input);
       return createQuery(() => ({
-        queryKey: ["rpc", ...innerArgs()],
+        queryKey: ["rpc", innerArgs()],
         queryFn: () => queryFn(innerArgs()),
       }));
     },
