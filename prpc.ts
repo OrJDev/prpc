@@ -3,7 +3,6 @@ import type { Plugin } from "vite";
 export default function prpc(): Plugin {
   return {
     enforce: "pre",
-    // @ts-expect-error - name is not in the type
     name: "prpc",
     transform(code: string, id: string) {
       const queryRgx =

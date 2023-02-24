@@ -1,18 +1,45 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createQuery, type CreateQueryResult } from "@adeora/solid-query";
-import type { InferReturnType, ValueOrAccessor } from "./types";
-import { unwrapValue } from "./utils";
+import type { z, ZodObject } from "zod";
+import type {
+  FCreateQueryOptions,
+  ExpectedFn,
+  InferReturnType,
+  PRPCOptions,
+  ValueOrAccessor,
+} from "./types";
+import { genQueryKey, getPRPCInput, unwrapValue } from "./utils";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const query$ = <Fn extends (input: any) => any>(queryFn: Fn) => {
-  return {
-    createQuery: (
-      input: ValueOrAccessor<Parameters<Fn>[0]>
-    ): CreateQueryResult<InferReturnType<Fn>> => {
-      const innerArgs = () => unwrapValue(input);
-      return createQuery(() => ({
-        queryKey: ["rpc", innerArgs()],
-        queryFn: () => queryFn(innerArgs()),
-      }));
-    },
+export function query$<
+  ZObj extends ZodObject<any>,
+  Fn extends ExpectedFn<z.infer<ZObj>>
+>(
+  queryFn: Fn,
+  schema: ZObj,
+  opts?: () => PRPCOptions
+): (
+  input: ValueOrAccessor<Parameters<Fn>[0]>,
+  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
+) => CreateQueryResult<InferReturnType<Fn>>;
+
+export function query$<Fn extends ExpectedFn>(
+  queryFn: Fn,
+  opts?: () => PRPCOptions
+): (
+  input: ValueOrAccessor<Parameters<Fn>[0]>,
+  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
+) => CreateQueryResult<InferReturnType<Fn>>;
+
+export function query$(...args: any[]) {
+  const { fn, opts } = getPRPCInput(...args);
+  // @todo: add schema validation ^
+  return (input: any, queryOpts: any) => {
+    const innerArgs = () => unwrapValue(input);
+    return createQuery(() => ({
+      queryKey: genQueryKey(innerArgs(), opts?.()),
+      queryFn: () => fn(innerArgs()),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...((queryOpts?.() || {}) as any),
+    }));
   };
-};
+}
