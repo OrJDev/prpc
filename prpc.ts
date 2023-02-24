@@ -13,7 +13,12 @@ export default function prpc(): Plugin {
         id.endsWith(".ts") &&
         (queryRgx.test(code) || mutationRgx.test(code))
       ) {
-        return `import server$ from "solid-start/server";\n${code
+        if (
+          !/import\s+server\$\s+from\s+["']solid-start\/server["']/g.test(code)
+        ) {
+          code = `import server$ from "solid-start/server";\n${code}`;
+        }
+        return `${code
           .replace(queryRgx, "query$(server$($1 => {$2}))")
           .replace(mutationRgx, "mutation$(server$($1 => {$2}))")}`;
       }

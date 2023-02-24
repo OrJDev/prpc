@@ -20,14 +20,19 @@ pnpm dev
 ```ts
 import { query$ } from "@prpc/solid";
 import { isServer } from "solid-js/web";
+import server$ from "solid-start/server";
 
 export const add = query$(
-  (input: { a: number; b: number }) => {
+  (input) => {
     const result = input.a + input.b;
-    console.log(isServer);
+    console.log(isServer /* true */, server$.request);
     console.log("add", result);
     return result;
   },
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
   () => ({
     key: "add", // this will be used as the query key (along with the input), for tanstack query
   })
