@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { PRPCOptions, ValueOrAccessor } from "./types";
+import type { ExpectedFn, PRPCOptions, ValueOrAccessor } from "./types";
 
 export const unwrapValue = <V extends ValueOrAccessor<any>>(
   value: V
@@ -27,13 +27,13 @@ export const genQueryKey = (
 export const getPRPCInput = (...args: any[]) => {
   if (args.length === 3) {
     return {
-      fn: args[0],
+      fn: args[0] as ExpectedFn,
       schema: args[1],
       opts: args[2],
     };
   }
   return {
-    fn: args[0],
+    fn: args[0] as ExpectedFn,
     opts: args[1],
   };
 };
