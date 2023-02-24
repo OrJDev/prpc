@@ -2,12 +2,23 @@
 
 Write simple and interactive SolidStart code that will run on the server but will easily be used on the client.
 
+## Installation
+
+This wasn't published on NPM yet, so if you want to try it out, do the following:
+
+```bash
+git clone git@github.com:OrJDev/prpc.git
+cd prpc
+pnpm install
+pnpm dev
+```
+
 ## Queries
 
 ### Server Function
 
 ```ts
-import { query$ } from "prpc";
+import { query$ } from "@prpc/solid";
 import { isServer } from "solid-js/web";
 
 export const add = query$(
@@ -26,7 +37,7 @@ export const add = query$(
 #### With Zod
 
 ```ts
-import { query$ } from "prpc";
+import { query$ } from "@prpc/solid";
 export const decrease = query$(
   (input) => {
     // input is inferred
@@ -94,7 +105,7 @@ export default Query;
 ### Server Function
 
 ```ts
-import { mutation$ } from "prpc";
+import { mutation$ } from "@prpc/solid";
 import { isServer } from "solid-js/web";
 
 export const add = mutation$(
