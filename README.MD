@@ -10,12 +10,39 @@ Write simple and interactive SolidStart code that will run on the server but wil
 import { query$ } from "prpc";
 import { isServer } from "solid-js/web";
 
-export const add = query$((input: { a: number; b: number }) => {
-  const result = input.a + input.b;
-  console.log(isServer); // true
-  console.log("add", result);
-  return result;
-});
+export const add = query$(
+  (input: { a: number; b: number }) => {
+    const result = input.a + input.b;
+    console.log(isServer);
+    console.log("add", result);
+    return result;
+  },
+  () => ({
+    key: "add", // this will be used as the query key (along with the input), for tanstack query
+  })
+);
+```
+
+#### With Zod
+
+```ts
+import { query$ } from "prpc";
+export const decrease = query$(
+  (input) => {
+    // input is inferred
+    const result = input.a + input.b;
+    console.log(isServer);
+    console.log("add", result);
+    return result;
+  },
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+  () => ({
+    key: "decrease",
+  })
+);
 ```
 
 ### Client
@@ -32,29 +59,29 @@ import { add } from "~/server/queries";
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const solution = add.createQuery(() => ({
-    a: num1(),
-    b: 2,
-  }));
+  const addRes = add(
+    () => ({
+      a: num1(),
+      b: 2,
+    }),
+    () => ({
+      placeholderData: (prev) => prev,
+    })
+  );
 
   return (
     <div>
       <Suspense>
         <Switch>
-          <Match when={solution.data}>
-            <div class="font-bold">Num {solution.data}</div>
+          <Match when={addRes.data}>
+            <div class="font-bold">Num {addRes.data}</div>
           </Match>
-          <Match when={solution.error}>
+          <Match when={addRes.error}>
             <div>Error</div>
           </Match>
         </Switch>
       </Suspense>
-      <button
-        class="border border-gray-300 p-3"
-        onClick={() => setNum1((num) => num + 1)}
-      >
-        Increment
-      </button>
+      <button onClick={() => setNum1((num) => num + 1)}>Increment</button>
     </div>
   );
 };
@@ -70,12 +97,37 @@ export default Query;
 import { mutation$ } from "prpc";
 import { isServer } from "solid-js/web";
 
-export const add = mutation$((input: { a: number; b: number }) => {
-  const result = input.a + input.b;
-  console.log(isServer); // true
-  console.log("add", result);
-  return result;
-});
+export const add = mutation$(
+  (input: { a: number; b: number }) => {
+    const result = input.a + input.b;
+    console.log(isServer);
+    console.log("add", result);
+    return result;
+  },
+  () => ({
+    key: "add", // this will be used the mutation key for tanstack query
+  })
+);
+```
+
+#### With Zod
+
+```ts
+export const decrease = mutation$(
+  (input) => {
+    const result = input.a + input.b;
+    console.log(isServer);
+    console.log("add", result);
+    return result;
+  },
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+  () => ({
+    key: "decrease",
+  })
+);
 ```
 
 ### Client
@@ -88,38 +140,41 @@ import {
   Switch,
   type VoidComponent,
 } from "solid-js";
-import { add } from "~/server/queries";
+import { add } from "~/server/mutations";
 
-const Query: VoidComponent = () => {
+const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const solution = add.createQuery(() => ({
-    a: num1(),
-    b: 2,
-  }));
-
+  const mutationRes = add();
   return (
-    <div class="flex flex-col gap-2 items-center my-16">
+    <div>
       <Suspense>
         <Switch>
-          <Match when={solution.data}>
-            <div class="font-bold">Num {solution.data}</div>
+          <Match when={mutationRes.data}>
+            <div>Num {mutationRes.data}</div>
           </Match>
-          <Match when={solution.error}>
+          <Match when={mutationRes.error}>
             <div>Error</div>
           </Match>
         </Switch>
+        <button onClick={() => setNum1((num) => num + 1)}>
+          Increment {num1()}
+        </button>
       </Suspense>
       <button
-        class="border border-gray-300 p-3"
-        onClick={() => setNum1((num) => num + 1)}
+        onClick={() =>
+          mutationRes.mutateAsync({
+            a: num1(),
+            b: 2,
+          })
+        }
       >
-        Increment
+        Submit
       </button>
     </div>
   );
 };
 
-export default Query;
+export default Mutation;
 ```
 
 This project was created using [Create JD App](https://github.com/OrJDev/create-jd-app)

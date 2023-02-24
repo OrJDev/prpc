@@ -9,28 +9,25 @@ import { add } from "~/server/mutations";
 
 const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1);
-  const solution = add.createMutation();
+  const mutationRes = add();
   return (
-    <div class="flex flex-col gap-2 items-center my-16">
+    <div>
       <Suspense>
         <Switch>
-          <Match when={solution.data}>
-            <div class="font-bold">Num {solution.data}</div>
+          <Match when={mutationRes.data}>
+            <div>Num {mutationRes.data}</div>
           </Match>
-          <Match when={solution.error}>
+          <Match when={mutationRes.error}>
             <div>Error</div>
           </Match>
         </Switch>
-        <button
-          class="border border-gray-300 p-3"
-          onClick={() => setNum1((num) => num + 1)}
-        >
+        <button onClick={() => setNum1((num) => num + 1)}>
           Increment {num1()}
         </button>
       </Suspense>
       <button
         onClick={() =>
-          solution.mutateAsync({
+          mutationRes.mutateAsync({
             a: num1(),
             b: 2,
           })

@@ -9,7 +9,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.52.0
   autoprefixer: ^10.4.13
   eslint: ^8.34.0
-  eslint-plugin-solid: ^0.9.4
+  eslint-plugin-solid: ^0.10.0
   postcss: ^8.4.21
   solid-js: ^1.6.11
   solid-start: ^0.2.21
@@ -37,7 +37,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
   autoprefixer: 10.4.13_postcss@8.4.21
   eslint: 8.34.0
-  eslint-plugin-solid: 0.9.4_7kw3g6rralp5ps6mg3uyzz6azm
+  eslint-plugin-solid: 0.10.0_7kw3g6rralp5ps6mg3uyzz6azm
   postcss: 8.4.21
   solid-start-node: 0.2.21_lp6vchd2imr5d4nqkfwwalitp4
   tailwindcss: 3.2.7_postcss@8.4.21
@@ -2557,8 +2557,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-plugin-solid/0.9.4_7kw3g6rralp5ps6mg3uyzz6azm:
-    resolution: {integrity: sha512-AGS7XnkepV2jiFwBMSg3FW7GKe6uJwgx65nnRC7I6s0dbV7rGpouwj9KDkXV5NJHQENxACeOLUTgjyMi3JeHNw==}
+  /eslint-plugin-solid/0.10.0_7kw3g6rralp5ps6mg3uyzz6azm:
+    resolution: {integrity: sha512-x8Jpe1EI44neuMuXG8safkIHWozkjJ2UCi9k6204OYL5sK+1+fSOOHuwd9i6bG2NcHV49SIykG3rbZCuojwtfA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
