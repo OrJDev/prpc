@@ -13,7 +13,7 @@ const Query: VoidComponent = () => {
   const addRes = add(
     () => ({
       a: num1(),
-      b: 3,
+      b: "3",
     }),
     () => ({
       placeholderData: (prev) => prev,

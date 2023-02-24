@@ -7,6 +7,8 @@ export default function prpc(): Plugin {
     /mutation\$\((\s*\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
   const zodCheckRgx =
     /\((\s*\w+\s*\)\s*=>[\s\S]*?)\s*,\s*(z\.object\([\s\S]*?\}\))\s*/g;
+  const serverCheckRgx =
+    /import\s+server\$\s+from\s+["']solid-start\/server["']/g;
   return {
     enforce: "pre",
     name: "prpc",
@@ -15,9 +17,7 @@ export default function prpc(): Plugin {
         id.endsWith(".ts") &&
         (queryRgx.test(code) || mutationRgx.test(code))
       ) {
-        if (
-          !/import\s+server\$\s+from\s+["']solid-start\/server["']/g.test(code)
-        ) {
+        if (!serverCheckRgx.test(code)) {
           code = `import server$ from "solid-start/server";\n${code}`;
         }
         return `${code
