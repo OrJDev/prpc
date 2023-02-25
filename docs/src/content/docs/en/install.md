@@ -45,8 +45,6 @@ export default defineConfig(() => {
 })
 ```
 
-[Next up: Usage](/en/usage)
-
 ### QueryProvider
 
 ```ts
@@ -93,3 +91,5 @@ export default function Root() {
   )
 }
 ```
+
+[Next up: Usage](/en/usage)

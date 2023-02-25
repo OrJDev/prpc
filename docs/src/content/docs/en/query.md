@@ -1,9 +1,9 @@
 ---
 title: 'query$'
-description: 'Overview of the query$ utility'
+description: 'API for the query$ function'
 ---
 
-**Overview of the query$ utility**
+**API for the query$ function**
 
 Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Return object has `useQuery` method on it from `@adeora/solid-query`.
 

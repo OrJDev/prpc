@@ -1,9 +1,9 @@
 ---
 title: 'mutation$'
-description: 'Overview of the mutation$ utility'
+description: 'API for the mutation$ function'
 ---
 
-**Overview of the mutation$ utility**
+**API for the mutation$ function**
 
 Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Returns a `createMutation` is from `@adeora/solid-query`.
 
