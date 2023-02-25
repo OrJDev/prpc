@@ -1,6 +1,6 @@
+import { query$ } from "prpc";
 import { isServer } from "solid-js/web";
 import { z } from "zod";
-import { query$ } from "../prpc/query";
 
 export const add = query$(
   (input) => {

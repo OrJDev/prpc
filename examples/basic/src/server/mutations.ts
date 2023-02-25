@@ -1,6 +1,6 @@
+import { mutation$ } from "prpc";
 import { isServer } from "solid-js/web";
 import { z } from "zod";
-import { mutation$ } from "../prpc/mutation";
 
 export const add = mutation$(
   (input: { a: number; b: number }) => {

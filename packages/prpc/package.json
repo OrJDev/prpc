@@ -1,41 +1,81 @@
 {
   "name": "prpc",
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
-  "version": "alpha-0.0.1",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "solid-start dev --port 3000",
-    "start": "solid-start start --port 3000",
-    "build": "solid-start build",
-    "lint": "eslint --fix \"**/*.{ts,tsx,js,jsx}\"",
-    "clean": "rm -rf dist node_modules .turbo .solid",
-    "ts:check": "tsc --noEmit --skipLibCheck"
+    "build": "tsup",
+    "dev": "tsup --watch"
   },
   "type": "module",
+  "main": "./dist/server.js",
+  "module": "./dist/server.js",
+  "browser": {
+    "./dist/server.js": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "worker": {
+      "solid": "./dist/server.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      }
+    },
+    "browser": {
+      "solid": "./dist/index.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "deno": {
+      "solid": "./dist/server.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      }
+    },
+    "node": {
+      "solid": "./dist/server.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      }
+    },
+    "solid": "./dist/index.jsx",
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "devDependencies": {
-    "@types/node": "^18.14.0",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
-    "autoprefixer": "^10.4.13",
-    "eslint": "^8.34.0",
-    "eslint-plugin-solid": "^0.10.0",
-    "postcss": "^8.4.21",
-    "solid-start-node": "^0.2.21",
-    "tailwindcss": "^3.2.7",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.2"
+    "@babel/core": "^7.18.13",
+    "@babel/preset-typescript": "^7.18.6",
+    "@rollup/plugin-babel": "5.3.1",
+    "@rollup/plugin-node-resolve": "13.3.0",
+    "@types/node": "^18.7.14",
+    "babel-preset-solid": "^1.5.3",
+    "rollup": "^2.79.0",
+    "solid-js": "^1.5.3",
+    "typescript": "^4.8.2",
+    "solid-start": "^0.2.22",
+    "@adeora/solid-query": "0.19.0",
+    "tsup": "^6.6.3",
+    "tsup-preset-solid": "^0.1.5"
   },
   "dependencies": {
-    "@tanstack/query-core": "https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core",
-    "@adeora/solid-query": "0.19.0",
-    "@solidjs/meta": "^0.28.2",
-    "@solidjs/router": "^0.7.0",
-    "solid-js": "^1.6.11",
-    "solid-start": "^0.2.21",
-    "solid-start-vercel": "^0.2.21",
-    "undici": "5.20.0",
-    "zod": "^3.20.6"
+    "@tanstack/query-core": "https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core"
+  },
+  "peerDependencies": {
+    "@trpc/client": "^10.0.0-rc.2",
+    "@trpc/server": "^10.0.0-rc.2",
+    "solid-start": "^0.2.22",
+    "solid-js": "^1.5.3",
+    "zod": "^3.20.6",
+    "@adeora/solid-query": "^0.19.0"
   },
   "engines": {
     "node": ">=16"
-  }
+  },
+  "typesVersions": {}
 }

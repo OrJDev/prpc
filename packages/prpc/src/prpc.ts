@@ -1,6 +1,6 @@
 import type { Plugin } from "vite";
 
-export default function prpc(): Plugin {
+export function prpc(): Plugin {
   const queryRgx =
     /query\$\((\s*\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
   const mutationRgx =
