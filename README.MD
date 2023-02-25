@@ -1,10 +1,10 @@
 # pRPC
 
-An open source `bling` utility library. Makes working with `server$` and `@algolia/query` easier.
+An open source `bling` utility library. Makes working with `server$` and `@adeora/solid-query` easier.
 
 ## Docs
 
-- [docs](https://idk.com)
+- [docs](https://prpc.vercel.app/en/introduction)
 
 ## Packages
 
