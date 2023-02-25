@@ -41,6 +41,7 @@ export const SIDEBAR: Sidebar = {
       { text: "Install", link: "en/install" },
       { text: "Usage", link: "en/usage" },
       { text: "Errors", link: "en/errors" },
+      { text: "Examples", link: "en/examples" },
     ],
     Utils: [
       { text: "query$", link: "en/query" },
