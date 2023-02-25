@@ -1,25 +1,37 @@
-dist
-.solid
-.output
-.vercel
-.netlify
-netlify
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
+.pnp
+.pnp.js
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-*.launch
-.settings/
+# testing
+coverage
 
-# Temp
-gitignore
+# next.js
+.next/
+out/
+build
 
-# System Files
+# misc
 .DS_Store
-Thumbs.db
+*.pem
 
-.env
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*env
+
+# turbo
+.turbo
+
+# builds
+dist/

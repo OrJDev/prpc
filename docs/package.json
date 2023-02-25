@@ -1,0 +1,27 @@
+{
+  "name": "docs",
+  "description": "Docs for prpc",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "clean": "rm -rf ./node_modules .turbo"
+  },
+  "dependencies": {
+    "@algolia/client-search": "^4.13.1",
+    "@astrojs/solid-js": "^2.0.2",
+    "@astrojs/vercel": "^3.1.3",
+    "@docsearch/css": "^3.1.0",
+    "@docsearch/js": "^3.1.0",
+    "@types/node": "^18.0.0",
+    "astro": "^2.0.15",
+    "solid-js": "^1.4.3"
+  },
+  "devDependencies": {
+    "html-escaper": "^3.0.3"
+  }
+}
