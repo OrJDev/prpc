@@ -46,5 +46,11 @@ export const SIDEBAR: Sidebar = {
       { text: "query$", link: "en/query" },
       { text: "mutation$", link: "en/mutation" },
     ],
+    Components: [
+      {
+        text: "QueryProvider",
+        link: "en/query-provider",
+      },
+    ],
   },
 };
