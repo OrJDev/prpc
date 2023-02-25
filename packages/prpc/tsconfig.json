@@ -1,20 +1,10 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "esnext",
-    "newLine": "LF",
-    "moduleResolution": "node",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnreachableCode": false,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
     "outDir": "./dist",
-    "module": "esnext",
-    "types": ["solid-start/env"],
+    "rootDir": "./src",
+    "noErrorTruncation": true,
+    "jsx": "preserve",
   },
-  "include": ["./src", "scripts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["./src"]
 }

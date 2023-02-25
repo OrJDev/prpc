@@ -2,11 +2,11 @@ import type { Plugin } from "vite";
 
 export function prpc(): Plugin {
   const queryRgx =
-    /query\$\((\s*\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
+    /query\$\((\s*(?:async\s*)?\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
   const mutationRgx =
-    /mutation\$\((\s*\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
+    /mutation\$\((\s*(?:async\s*)?\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g;
   const zodCheckRgx =
-    /\((\s*\w+\s*\)\s*=>[\s\S]*?)\s*,\s*(z\.object\([\s\S]*?\}\))\s*/g;
+    /\(\s(?:async\s*)?\((\s*\w+\s*\)\s*=>[\s\S]*?)\s*,\s*(z\.object\([\s\S]*?\}\))\s*/g;
   const serverCheckRgx =
     /import\s+server\$\s+from\s+["']solid-start\/server["']/g;
 
@@ -18,6 +18,8 @@ export function prpc(): Plugin {
           const [func, zodSchema] = zodGroup;
           // Need to split the args from the func body so we can insert the zod validations
           const [args, funcBody] = func.split(`=> {\n`);
+
+          console.log({ func, zodSchema, args, funcBody });
 
           // console.log(
           //   `${preface}(server$((${args} => {\nconst schema = ${zodSchema};\nconsole.log(${args};\nschema.parse((${args});\n${funcBody}))\n`

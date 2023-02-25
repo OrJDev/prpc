@@ -10,14 +10,9 @@
     "test": "turbo run test",
     "test:coverage": "turbo run test:coverage",
     "format": "prettier --write \"**.*.{ts,tsx,md}\"",
-    "build:prpc": "turbo run build --scope=prpc",
-    "dev:docs": "turbo run dev --scope=docs",
-    "build:docs": "turbo run build --scope=docs",
-    "start:docs": "turbo run start --scope=docs",
-    "dev:basic": "turbo run dev --scope=basic",
-    "build:basic": "turbo run build --scope=basic",
-    "start:basic": "turbo run start --scope=basic",
-    "ts:check": "torbo run ts:check --continue"
+    "ts:check": "torbo run ts:check --continue",
+    "dev:packages": "turbo run dev --filter=./packages/*",
+    "prepare": "husky install"
   },
   "type": "module",
   "engines": {
@@ -25,7 +20,11 @@
     "pnpm": ">=7"
   },
   "devDependencies": {
+    "husky": "^8.0.0",
+    "@types/node": "^18.11.9",
     "turbo": "1.2.4",
-    "typescript": "^4.8.2"
+    "typescript": "^4.8.2",
+    "tsup": "^6.5.0",
+    "tsup-preset-solid": "0.1.8"
   }
 }

@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "target": "esnext",
+    "newLine": "LF",
+    "moduleResolution": "Node",
     "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "jsxImportSource": "solid-js",
-    "jsx": "preserve",
-  }
+    "module": "esnext",
+    "types": ["node"]
+  },
+  "exclude": ["node_modules", "dist"]
 }

@@ -8,6 +8,8 @@ export default defineConfig(
     {
       // entries with '.tsx' extension will have `solid` export condition generated
       entry: "src/index.tsx",
+      // Setting `true` will generate a development-only entry
+      devEntry: true,
       // Setting `true` will generate a server-only entry
       serverEntry: true,
     },
@@ -21,6 +23,6 @@ export default defineConfig(
     // Setting `true` will remove all `console.*` calls and `debugger` statements
     dropConsole: true,
     // Setting `true` will generate a CommonJS build alongside ESM (default: `false`)
-    cjs: false,
+    cjs: true,
   }
 );
