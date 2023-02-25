@@ -1,78 +1,78 @@
 ---
 // fetch all commits for just this page's path
 type Props = {
-  path: string;
-};
-const { path } = Astro.props;
-const resolvedPath = `docs/${path}`;
-const url = `https://api.github.com/repos/OrJDev/prpc/commits?path=${resolvedPath}`;
-const commitsURL = `https://github.com/OrJDev/prpc/commits/main/${resolvedPath}`;
+  path: string
+}
+const { path } = Astro.props
+const resolvedPath = `docs/${path}`
+const url = `https://api.github.com/repos/OrJDev/prpc/commits?path=${resolvedPath}`
+const commitsURL = `https://github.com/OrJDev/prpc/commits/main/${resolvedPath}`
 
 type Commit = {
   author: {
-    id: string;
-    login: string;
-  };
-};
+    id: string
+    login: string
+  }
+}
 
 async function getCommits(url: string) {
   try {
-    const token = import.meta.env.GITHUB_TOKEN ?? "hello";
+    const token = import.meta.env.GITHUB_TOKEN ?? 'hello'
     if (!token) {
       throw new Error(
         'Cannot find "GITHUB_TOKEN" used for escaping rate-limiting.'
-      );
+      )
     }
 
-    const auth = `Basic ${Buffer.from(token, "binary").toString("base64")}`;
+    const auth = `Basic ${Buffer.from(token, 'binary').toString('base64')}`
 
     const res = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: auth,
-        "User-Agent": "prpc-docs/1.0",
+        'User-Agent': 'prpc-docs/1.0',
       },
-    });
+    })
 
-    const data = await res.json();
+    const data = await res.json()
 
     if (!res.ok) {
       throw new Error(
         `Request to fetch commits failed. Reason: ${res.statusText}
        Message: ${data.message}`
-      );
+      )
     }
 
-    return data as Commit[];
+    return data as Commit[]
   } catch (e) {
     console.warn(`[error]  /src/components/AvatarList.astro 
-    ${(e as any)?.message ?? e}`);
-    return [] as Commit[];
+    ${(e as any)?.message ?? e}`)
+    return [] as Commit[]
   }
 }
 
 function removeDups(arr: Commit[]) {
-  const map = new Map<string, Commit["author"]>();
+  const map = new Map<string, Commit['author']>()
 
   for (let item of arr) {
-    const author = item.author;
+    const author = item.author
     // Deduplicate based on author.id
-    map.set(author.id, { login: author.login, id: author.id });
+    map.set(author.id, { login: author.login, id: author.id })
   }
 
-  return [...map.values()];
+  return [...map.values()]
 }
 
-const data = await getCommits(url);
-const unique = removeDups(data);
-const recentContributors = unique.slice(0, 3); // only show avatars for the 3 most recent contributors
-const additionalContributors = unique.length - recentContributors.length; // list the rest of them as # of extra contributors
+const data = await getCommits(url)
+const unique = removeDups(data)
+const recentContributors = unique.slice(0, 3) // only show avatars for the 3 most recent contributors
+const additionalContributors = unique.length - recentContributors.length // list the rest of them as # of extra contributors
 ---
 
 <!-- Thanks to @5t3ph for https://smolcss.dev/#smol-avatar-list! -->
-<div class="contributors">
+<div class='contributors'>
   <ul
-    class="avatar-list"
+    class='avatar-list'
     style={`--avatar-count: ${recentContributors.length}`}
   >
     {
@@ -82,8 +82,8 @@ const additionalContributors = unique.length - recentContributors.length; // lis
             <img
               alt={`Contributor ${item.login}`}
               title={`Contributor ${item.login}`}
-              width="64"
-              height="64"
+              width='64'
+              height='64'
               src={`https://avatars.githubusercontent.com/u/${item.id}`}
             />
           </a>
@@ -97,7 +97,7 @@ const additionalContributors = unique.length - recentContributors.length; // lis
         <a
           href={commitsURL}
         >{`and ${additionalContributors} additional contributor${
-          additionalContributors > 1 ? "s" : ""
+          additionalContributors > 1 ? 's' : ''
         }.`}</a>
       </span>
     )

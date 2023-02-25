@@ -43,13 +43,17 @@ export const SIDEBAR: Sidebar = {
       { text: 'Errors', link: 'en/errors' },
       { text: 'Examples', link: 'en/examples' },
     ],
-    'API References': [
+    API: [
       { text: 'query$', link: 'en/query' },
       { text: 'mutation$', link: 'en/mutation' },
       {
         text: 'QueryProvider',
         link: 'en/query-provider',
       },
+    ],
+    References: [
+      { text: 'Contributors', link: 'en/contributors' },
+      { text: 'Sponsors', link: 'en/sponsors' },
     ],
   },
 }
