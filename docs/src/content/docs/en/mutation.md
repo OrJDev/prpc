@@ -1,6 +1,6 @@
 ---
-title: "Mutation$"
-description: "Overview of the mutation$ utility"
+title: 'mutation$'
+description: 'Overview of the mutation$ utility'
 ---
 
 **Overview of the mutation$ utility**
@@ -12,20 +12,20 @@ Converts the function to be a `server$` function and will add in zod validation 
 ### Without Zod
 
 ```ts
-import { mutation$ } from "@prpc/solid";
-import { isServer } from "solid-js/web";
+import { mutation$ } from '@prpc/solid'
+import { isServer } from 'solid-js/web'
 
 export const add = mutation$(
   (input: { a: number; b: number }) => {
-    const result = input.a + input.b;
-    console.log(isServer);
-    console.log("add", result);
-    return result;
+    const result = input.a + input.b
+    console.log(isServer)
+    console.log('add', result)
+    return result
   },
   () => ({
-    key: "add", // this will be used the mutation key for tanstack query
+    key: 'add', // this will be used the mutation key for tanstack query
   })
-);
+)
 ```
 
 ### With Zod
@@ -33,19 +33,19 @@ export const add = mutation$(
 ```ts
 export const decrease = mutation$(
   (input) => {
-    const result = input.a + input.b;
-    console.log(isServer);
-    console.log("add", result);
-    return result;
+    const result = input.a + input.b
+    console.log(isServer)
+    console.log('add', result)
+    return result
   },
   z.object({
     a: z.number(),
     b: z.number(),
   }),
   () => ({
-    key: "decrease",
+    key: 'decrease',
   })
-);
+)
 ```
 
 ### Client Usage
@@ -57,12 +57,12 @@ import {
   Suspense,
   Switch,
   type VoidComponent,
-} from "solid-js";
-import { add } from "~/server/mutations";
+} from 'solid-js'
+import { add } from '~/server/mutations'
 
 const Mutation: VoidComponent = () => {
-  const [num1, setNum1] = createSignal(1);
-  const mutationRes = add();
+  const [num1, setNum1] = createSignal(1)
+  const mutationRes = add()
   return (
     <div>
       <Suspense>
@@ -89,8 +89,8 @@ const Mutation: VoidComponent = () => {
         Submit
       </button>
     </div>
-  );
-};
+  )
+}
 ```
 
 ## API
@@ -107,14 +107,14 @@ export function mutation$<
   opts?: () => PRPCOptions
 ): (
   mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
-) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>;
+) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
 
 export function mutation$<Fn extends ExpectedFn>(
   queryFn: Fn,
   opts?: () => PRPCOptions
 ): (
   mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
-) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>;
+) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
 ```
 
 - First argument is the function to be wrapped with `server$`

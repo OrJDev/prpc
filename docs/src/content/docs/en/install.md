@@ -1,6 +1,6 @@
 ---
-title: "Install"
-description: "Installing pRPC"
+title: 'Install'
+description: 'Installing pRPC'
 ---
 
 **Adding pRPC to solid-start**
@@ -10,19 +10,19 @@ description: "Installing pRPC"
 pnpm
 
 ```sh
-pnpm add prpc@latest
+pnpm add @prpc/solid@latest
 ```
 
 yarn
 
 ```sh
-yarn add prpc@latest
+yarn add @prpc/solid@latest
 ```
 
 npm
 
 ```sh
-npm install prpc@latest
+npm install @prpc/solid@latest
 ```
 
 ### Vite Plugin
@@ -30,7 +30,7 @@ npm install prpc@latest
 Add the following to your vite config
 
 ```ts
-import prpc from 'prpc';
+import prpc from '@prpc/solid';
 import solid from 'solid-start/vite';
 ...
 export default defineConfig(() => {
@@ -51,8 +51,8 @@ export default defineConfig(() => {
 
 ```ts
 // @refresh reload
-import { QueryProvider } from "prpc";
-import { Suspense } from "solid-js";
+import { QueryProvider } from '@prpc/solid'
+import { Suspense } from 'solid-js'
 import {
   Body,
   ErrorBoundary,
@@ -64,18 +64,18 @@ import {
   Routes,
   Scripts,
   Title,
-} from "solid-start";
+} from 'solid-start'
 
 export default function Root() {
   return (
-    <Html lang="en">
+    <Html lang='en'>
       <Head>
         <Title>pRPC Basic</Title>
-        <Meta charset="utf-8" />
-        <Meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta name="theme-color" content="#026d56" />
-        <Meta name="description" content="pRPC Basic example" />
-        <Link rel="icon" href="/favicon.ico" />
+        <Meta charset='utf-8' />
+        <Meta name='viewport' content='width=device-width, initial-scale=1' />
+        <Meta name='theme-color' content='#026d56' />
+        <Meta name='description' content='pRPC Basic example' />
+        <Link rel='icon' href='/favicon.ico' />
       </Head>
       <Body>
         <QueryProvider>
@@ -90,6 +90,6 @@ export default function Root() {
         <Scripts />
       </Body>
     </Html>
-  );
+  )
 }
 ```

@@ -1,39 +1,38 @@
 ---
-import { SITE } from "../../consts";
-import { getLanguageFromURL, KNOWN_LANGUAGE_CODES } from "../../languages";
-import AstroLogo from "./AstroLogo.astro";
-import LanguageSelect from "./LanguageSelect";
-import Search from "./Search";
-import SidebarToggle from "./SidebarToggle";
-import SkipToContent from "./SkipToContent.astro";
+import { SITE } from '../../consts'
+import { getLanguageFromURL, KNOWN_LANGUAGE_CODES } from '../../languages'
+import LanguageSelect from './LanguageSelect'
+import Search from './Search'
+import SidebarToggle from './SidebarToggle'
+import SkipToContent from './SkipToContent.astro'
 
 type Props = {
-  currentPage: string;
-};
+  currentPage: string
+}
 
-const { currentPage } = Astro.props;
-const lang = getLanguageFromURL(currentPage);
+const { currentPage } = Astro.props
+const lang = getLanguageFromURL(currentPage)
 ---
 
 <header>
   <SkipToContent />
-  <nav class="nav-wrapper" title="Top Navigation">
-    <div class="menu-toggle">
+  <nav class='nav-wrapper' title='Top Navigation'>
+    <div class='menu-toggle'>
       <SidebarToggle client:idle />
     </div>
-    <div class="logo flex">
-      <a href="/">
-        <AstroLogo size={40} />
-        <h1>{SITE.title ?? "Documentation"}</h1>
+    <div class='logo flex'>
+      <a href='/'>
+        <!-- <AstroLogo size={40} /> -->
+        <h1>{SITE.title ?? 'Documentation'}</h1>
       </a>
     </div>
-    <div style="flex-grow: 1;"></div>
+    <div style='flex-grow: 1;'></div>
     {
       KNOWN_LANGUAGE_CODES.length > 1 && (
         <LanguageSelect lang={lang} client:idle />
       )
     }
-    <div class="search-item">
+    <div class='search-item'>
       <Search client:idle />
     </div>
   </nav>
@@ -68,6 +67,7 @@ const lang = getLanguageFromURL(currentPage);
   }
 
   .logo a {
+    /* padding-left: 2em; */
     display: flex;
     padding: 0.5em 0.25em;
     margin: -0.5em -0.25em;
@@ -90,6 +90,7 @@ const lang = getLanguageFromURL(currentPage);
     font: inherit;
     color: inherit;
     margin: 0;
+    padding-left: 0.75em;
   }
 
   .nav-wrapper {
@@ -98,7 +99,7 @@ const lang = getLanguageFromURL(currentPage);
     justify-content: flex-end;
     gap: 1em;
     width: 100%;
-    max-width: 82em;
+    /* max-width: 82em; */
     padding: 0 1rem;
   }
 
