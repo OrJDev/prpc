@@ -1,6 +1,5 @@
 ---
 import { SIDEBAR } from '../../consts'
-import { getLanguageFromURL } from '../../languages'
 
 type Props = {
   currentPage: string
@@ -10,8 +9,7 @@ const { currentPage } = Astro.props
 const currentPageMatch = currentPage.endsWith('/')
   ? currentPage.slice(1, -1)
   : currentPage.slice(1)
-const langCode = getLanguageFromURL(currentPage)
-const sidebar = SIDEBAR[langCode]
+const sidebar = SIDEBAR
 ---
 
 <nav aria-labelledby='grid-left'>
