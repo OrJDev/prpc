@@ -1,36 +1,42 @@
 {
-  "name": "my-app",
+  "name": "prpc-mono",
+  "description": "Workspace for prpc",
+  "version": "0.0.0",
   "scripts": {
-    "dev": "solid-start dev --port 3000",
-    "start": "solid-start start --port 3000",
-    "build": "solid-start build",
-    "lint": "eslint --fix \"**/*.{ts,tsx,js,jsx}\""
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel --include-dependencies --no-deps",
+    "clean": "turbo run clean --parallel && rm -rf node_modules pnpm-lock.yaml && pnpm install",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "format": "prettier --write \"**.*.{ts,tsx,md}\"",
+    "ts:check": "torbo run ts:check --continue",
+    "dev:packages": "turbo run dev --filter=./packages/*",
+    "prepare": "husky install"
   },
   "type": "module",
-  "devDependencies": {
-    "@types/node": "^18.14.0",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
-    "autoprefixer": "^10.4.13",
-    "eslint": "^8.34.0",
-    "eslint-plugin-solid": "^0.10.0",
-    "postcss": "^8.4.21",
-    "solid-start-node": "^0.2.21",
-    "tailwindcss": "^3.2.7",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.2"
-  },
-  "dependencies": {
-    "@adeora/solid-query": "0.19.0",
-    "@solidjs/meta": "^0.28.2",
-    "@solidjs/router": "^0.7.0",
-    "solid-js": "^1.6.11",
-    "solid-start": "^0.2.21",
-    "solid-start-vercel": "^0.2.21",
-    "undici": "5.20.0",
-    "zod": "^3.20.6"
-  },
   "engines": {
-    "node": ">=16"
+    "node": ">=16",
+    "pnpm": ">=7"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.7",
+    "@changesets/cli": "^2.25.2",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.5.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^2.8.0",
+    "sort-package-json": "^2.1.0",
+    "husky": "^8.0.0",
+    "@types/node": "^18.11.9",
+    "turbo": "1.2.4",
+    "typescript": "^4.8.2",
+    "tsup": "^6.5.0",
+    "tsup-preset-solid": "0.1.8"
   }
 }
