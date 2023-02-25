@@ -2,8 +2,8 @@
 import { createQuery, type CreateQueryResult } from "@adeora/solid-query";
 import type { z, ZodObject } from "zod";
 import type {
-  FCreateQueryOptions,
   ExpectedFn,
+  FCreateQueryOptions,
   InferReturnType,
   PRPCOptions,
   ValueOrAccessor,
@@ -32,7 +32,7 @@ export function query$<Fn extends ExpectedFn>(
 
 export function query$(...args: any[]) {
   const { fn, opts } = getPRPCInput(...args);
-  // @todo: add schema validation ^
+
   return (input: any, queryOpts: any) => {
     const innerArgs = () => unwrapValue(input);
     return createQuery(() => ({

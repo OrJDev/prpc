@@ -30,6 +30,7 @@ export function mutation$<Fn extends ExpectedFn>(
 
 export function mutation$(...args: any[]) {
   const { fn, opts } = getPRPCInput(...args);
+
   return (mutationOpts?: any) =>
     createMutation(() => ({
       mutationKey: genQueryKey(undefined, opts?.()),
