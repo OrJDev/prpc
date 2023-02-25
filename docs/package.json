@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "clean": "rm -rf ./node_modules .turbo"
+    "clean": "rm -rf ./node_modules .turbo",
+    "ts:check": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@algolia/client-search": "^4.13.1",

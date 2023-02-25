@@ -11,7 +11,12 @@
     "test:coverage": "turbo run test:coverage",
     "format": "prettier --write \"**.*.{ts,tsx,md}\"",
     "dev:prpc": "turbo run dev --scope=prpc",
-    "dev:docs": "turbo run dev --scope=docs"
+    "build:prpc": "turbo run build --scope=prpc",
+    "start:prpc": "turbo run start --scope=prpc",
+    "dev:docs": "turbo run dev --scope=docs",
+    "build:docs": "turbo run build --scope=docs",
+    "start:docs": "turbo run start --scope=docs",
+    "ts:check": "torbo run ts:check --continue"
   },
   "type": "module",
   "engines": {
