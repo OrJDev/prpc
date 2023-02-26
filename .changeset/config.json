@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["example-solid", "example-nextjs"]
+  "ignore": ["dev-solidstart"]
 }
