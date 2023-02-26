@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["dev-solidstart"]
+  "ignore": ["dev-solidstart", "docs"]
 }

@@ -1,8 +1,8 @@
 {
   "name": "docs",
   "description": "Docs for prpc",
+  "private": true,
   "type": "module",
-  "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
