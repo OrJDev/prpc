@@ -29,10 +29,13 @@ export const decrease = query$(
 // pRPC output
 export const decrease = query$(
   server$((input) => {
-    const result = input.a + input.b
+    const result = input.a - input.b
     console.log(isServer)
     console.log('add', result)
     return result
+  }),
+  () => ({
+    key: 'decrease',
   })
 )
 ```
@@ -60,7 +63,7 @@ export const add = query$(
   })
 )
 
-/* pRPC output
+// pRPC output
 export const add = query$(
   server$((input) => {
     const schema = z.object({
@@ -69,12 +72,14 @@ export const add = query$(
     })
     schema.parse(input)
     const result = input.a + input.b
-    console.log(isServer, server$.request)
+    console.log(isServer /* true */)
     console.log('add', result)
     return result
+  }),
+  () => ({
+    key: 'add',
   })
 )
-*/
 ```
 
 ### Client Usage

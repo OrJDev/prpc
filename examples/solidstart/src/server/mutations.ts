@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 export const add = mutation$(
   async (input: { a: number; b: number }) => {
+    // eslint-disable-next-line promise/param-names
     await new Promise((res) => setTimeout(res, 250))
     const result = input.a + input.b
     console.log(isServer)
