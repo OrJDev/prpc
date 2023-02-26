@@ -13,4 +13,4 @@ const Home: VoidComponent = () => {
 
 export default Home
 
-// trigger ci
+// trigger c
