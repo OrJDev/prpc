@@ -89,4 +89,4 @@ export default function Root() {
 }
 ```
 
-Read more at [our docs](https://prpc.vercel.app)
+Read more - [docs](https://prpc.vercel.app)
