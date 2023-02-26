@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.1.2
+
+### Patch Changes
+
+- [`9114c7d`](https://github.com/OrJDev/prpc/commit/9114c7d4bd3977f08a6e73507330e1698bd56da8) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: regex for queries, mutations, and zod parsing.
+
 ## 0.1.1
 
 ### Patch Changes
