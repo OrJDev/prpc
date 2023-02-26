@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createQuery, type CreateQueryResult } from "@adeora/solid-query";
-import type { z, ZodObject } from "zod";
+import { createQuery, type CreateQueryResult } from '@adeora/solid-query'
+import type { z, ZodObject } from 'zod'
 import type {
   ExpectedFn,
   FCreateQueryOptions,
   InferReturnType,
   PRPCOptions,
   ValueOrAccessor,
-} from "./types";
-import { genQueryKey, getPRPCInput, unwrapValue } from "./utils";
+} from './types'
+import { genQueryKey, getPRPCInput, unwrapValue } from './utils'
 
 export function query$<
   ZObj extends ZodObject<any>,
@@ -20,7 +20,7 @@ export function query$<
 ): (
   input: ValueOrAccessor<Parameters<Fn>[0]>,
   queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-) => CreateQueryResult<InferReturnType<Fn>>;
+) => CreateQueryResult<InferReturnType<Fn>>
 
 export function query$<Fn extends ExpectedFn>(
   queryFn: Fn,
@@ -28,18 +28,17 @@ export function query$<Fn extends ExpectedFn>(
 ): (
   input: ValueOrAccessor<Parameters<Fn>[0]>,
   queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-) => CreateQueryResult<InferReturnType<Fn>>;
+) => CreateQueryResult<InferReturnType<Fn>>
 
 export function query$(...args: any[]) {
-  const { fn, opts } = getPRPCInput(...args);
+  const { fn, opts } = getPRPCInput(...args)
 
   return (input: any, queryOpts: any) => {
-    const innerArgs = () => unwrapValue(input);
+    const innerArgs = () => unwrapValue(input)
     return createQuery(() => ({
       queryKey: genQueryKey(innerArgs(), opts?.()),
       queryFn: () => fn(innerArgs()),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...((queryOpts?.() || {}) as any),
-    }));
-  };
+    }))
+  }
 }

@@ -1,11 +1,11 @@
 {
-  "name": "prpc",
+  "name": "@prpc/solid",
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
-    "build": "tsup --config ../../tsup.config.ts",
+    "build": "rm -rf dist && tsup --config ../../tsup.config.js",
     "clean": "rm -rf ./node_modules dist .turbo .solid",
-    "dev": "tsup --config ../../tsup.config.ts --watch",
+    "dev": "tsup --config ../../tsup.config.js --watch",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "typecheck": "tsc --noEmit"
   },
@@ -81,26 +81,31 @@
     "./dist/server.cjs": "./dist/index.cjs"
   },
   "devDependencies": {
+    "@adeora/solid-query": "0.19.0",
     "@babel/core": "^7.18.13",
     "@babel/preset-typescript": "^7.18.6",
     "@rollup/plugin-babel": "5.3.1",
     "@rollup/plugin-node-resolve": "13.3.0",
     "@types/node": "^18.7.14",
+    "@typescript-eslint/parser": "^5.44.0",
     "babel-preset-solid": "^1.5.3",
     "rollup": "^2.79.0",
     "solid-js": "^1.5.3",
-    "typescript": "^4.8.2",
     "solid-start": "^0.2.22",
-    "@adeora/solid-query": "0.19.0"
-  },
-  "dependencies": {
-    "@tanstack/query-core": "https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core",
-    "@adeora/solid-query": "^0.19.0"
+    "typescript": "^4.8.2",
+    "vite": "^4.1.4",
+    "zod": "^3.20.6"
   },
   "peerDependencies": {
-    "solid-start": "^0.2.22",
+    "@adeora/solid-query": "^0.20.0",
     "solid-js": "^1.5.3",
+    "solid-start": "^0.2.22",
     "zod": "^3.20.6"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=16"

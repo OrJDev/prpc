@@ -5,6 +5,6 @@
     "rootDir": "./src",
     "noErrorTruncation": true,
     "jsx": "preserve",
-  },
-  "include": ["./src"]
+    "jsxImportSource": "solid-js"
+  }
 }

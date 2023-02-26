@@ -8,11 +8,6 @@ node_modules
 # testing
 coverage
 
-# next.js
-.next/
-out/
-build
-
 # misc
 .DS_Store
 *.pem
@@ -30,8 +25,6 @@ yarn-error.log*
 .env.production.local
 *env
 
-# turbo
-.turbo
 
 # builds
 dist/

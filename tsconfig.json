@@ -1,13 +1,10 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "esnext",
-    "newLine": "LF",
-    "moduleResolution": "Node",
-    "strict": true,
-    "module": "esnext",
-    "types": ["node"]
+    "outDir": "./dist",
+    "noErrorTruncation": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "examples/dev-solidstart", "dist"]
 }

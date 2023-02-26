@@ -19,6 +19,18 @@
     "node": ">=16",
     "pnpm": ">=7"
   },
+  "lint-staged": {
+    "*.{js,json}": "prettier --write",
+    "packages/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "examples/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "package.json": "sort-package-json"
+  },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.2",
@@ -37,6 +49,7 @@
     "turbo": "1.2.4",
     "typescript": "^4.8.2",
     "tsup": "^6.5.0",
-    "tsup-preset-solid": "0.1.8"
+    "tsup-preset-solid": "0.1.8",
+    "@tanstack/query-core": "https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core"
   }
 }

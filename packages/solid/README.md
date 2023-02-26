@@ -1,8 +1,6 @@
-# pRPC
+# @prpc/solid
 
-Write server code, query / mutate it on the server and validate inputs using zod with only few lines of code. Supporting SolidStar and Bling.
-
-Read more at [our docs](https://prpc.vercel.app)
+SolidSart adapter for pRPC.
 
 ### Install
 
@@ -90,3 +88,5 @@ export default function Root() {
   )
 }
 ```
+
+Read more at [our docs](https://prpc.vercel.app)
