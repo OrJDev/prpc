@@ -11,9 +11,6 @@ export function prpc(): Plugin {
   const zodRgx =
     /(?:async\s*)?\((\s*\w+\s*(?:.*?)\)\s*=>[\s\S]*?)\s*,\s*(z\.object\([\s\S]*?\}\))\s*,\s*(\(\)\s*=>*[\s\S]*\}\))/g
 
-  const serverCheckRgx =
-    /import\s+server\$\s+from\s+["']solid-start\/server["']/g
-
   const parseArgs = (args: string): { args: string; isAsync: boolean } => {
     let isAsync = false
 
@@ -71,9 +68,10 @@ export function prpc(): Plugin {
         id.endsWith('.ts') &&
         (queryRgx.test(code) || mutationRgx.test(code))
       ) {
-        if (!serverCheckRgx.test(code)) {
+        if (!code.trim().includes(`import server$`)) {
           code = `import server$ from "solid-start/server";\n${code}`
         }
+
         const newCode = `${code
           .replace(queryRgx, parseFunction('query$'))
           .replace(mutationRgx, parseFunction('mutation$'))}`
