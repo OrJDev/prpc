@@ -114,7 +114,7 @@ importers:
 
   packages/solid:
     specifiers:
-      '@adeora/solid-query': 0.19.0
+      '@adeora/solid-query': ^0.16.0
       '@babel/core': ^7.18.13
       '@babel/preset-typescript': ^7.18.6
       '@rollup/plugin-babel': 5.3.1
@@ -129,7 +129,7 @@ importers:
       vite: ^4.1.4
       zod: ^3.20.6
     devDependencies:
-      '@adeora/solid-query': 0.19.0_solid-js@1.6.11
+      '@adeora/solid-query': 0.16.0_solid-js@1.6.11
       '@babel/core': 7.21.0
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.0
       '@rollup/plugin-babel': 5.3.1_4tnfxcmsyr7y5qv3uwkivwqysm
@@ -146,6 +146,15 @@ importers:
 
 packages:
 
+  /@adeora/solid-query/0.16.0_solid-js@1.6.11:
+    resolution: {integrity: sha512-ndbEzwriQO+JAbxvfnKihSYczoUdns34MCZT8WZwjcJP/iOkmSyI3WchoZGFh5RJhWdPV/k3oLYMhtnxANfl7Q==}
+    peerDependencies:
+      '@tanstack/query-core': https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core
+      solid-js: '>=1.0.0'
+    dependencies:
+      solid-js: 1.6.11
+    dev: true
+
   /@adeora/solid-query/0.19.0_solid-js@1.6.11:
     resolution: {integrity: sha512-PL1CPhIk52N2oTy++1/I4eZA1lNxagKxBcOZELCel5bcFyj18cv9cQYjUlNwUkbHfPISPUPnBmnn/3bhbt6vZA==}
     peerDependencies:
@@ -154,6 +163,7 @@ packages:
     dependencies:
       '@tanstack/query-core': '@pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core'
       solid-js: 1.6.11
+    dev: false
 
   /@algolia/autocomplete-core/1.7.4:
     resolution: {integrity: sha512-daoLpQ3ps/VTMRZDEBfU8ixXd+amZcNJ4QSP3IERGyzqnL5Ch8uSRFt/4G8pUvW9c3o6GA4vtVv4I4lmnkdXyg==}
