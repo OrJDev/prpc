@@ -13,7 +13,9 @@ export type InferReturnType<T> = T extends (...args: any[]) => infer R
     : R
   : never
 
-export type ValueOrAccessor<T = unknown> = T | Accessor<T>
+export type ValueOrAccessor<T = unknown> = T extends undefined
+  ? void | undefined
+  : T | Accessor<T>
 
 export type AsParam<
   Fn extends (input: any) => any,

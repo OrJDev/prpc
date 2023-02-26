@@ -31,3 +31,12 @@ export const decrease = query$(
     key: 'decrease',
   })
 )
+
+export const noInput = query$(
+  () => {
+    return 1
+  },
+  () => ({
+    key: 'noInput',
+  })
+)
