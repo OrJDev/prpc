@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rm -rf dist && tsup --config ../../tsup.config.js",
     "clean": "rm -rf ./node_modules dist .turbo .solid",
-    "dev": "tsup --config ../../tsup.config.js --watch",
+    "dev": "rm -rf dist && tsup --config ../../tsup.config.js --watch",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "typecheck": "tsc --noEmit"
   },

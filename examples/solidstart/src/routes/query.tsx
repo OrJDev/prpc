@@ -1,9 +1,11 @@
 import {
-  createEffect,
   createSignal,
+  Match,
   Suspense,
+  Switch,
   type VoidComponent,
 } from 'solid-js'
+import { A } from 'solid-start'
 import { add } from '~/server/queries'
 
 const Query: VoidComponent = () => {
@@ -15,17 +17,21 @@ const Query: VoidComponent = () => {
     }),
     () => ({
       placeholderData: (prev) => prev,
+      retry: false,
     })
   )
 
-  createEffect(() => console.log(JSON.parse(JSON.stringify(addRes))))
-
   return (
     <div class='flex flex-col gap-3 px-3'>
-      <Suspense>
-        <p class='font-bold'>
-          {addRes.data ? `Num: ${addRes.data}` : 'Pending'}
-        </p>
+      <div class='flex items-center gap-1'>
+        <A href='/mutation'>Mutation</A>
+        <A href='/query'>Query</A>
+      </div>
+      <Suspense fallback='Loading...'>
+        <Switch>
+          <Match when={addRes.error}>Error: {addRes.error?.message}</Match>
+          <Match when={addRes.data}>Num: {addRes.data}</Match>
+        </Switch>
       </Suspense>
       <button
         class='border border-gray-300 p-3'

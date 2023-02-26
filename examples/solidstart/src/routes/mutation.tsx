@@ -23,7 +23,7 @@ const Mutation: VoidComponent = () => {
             <div>Result: {mutationRes.data}</div>
           </Match>
           <Match when={mutationRes.error}>
-            <div>Error</div>
+            <div>Error {mutationRes.error!.message}</div>
           </Match>
           <Match when={mutationRes.isLoading}>
             <div>Loading...</div>
@@ -41,7 +41,7 @@ const Mutation: VoidComponent = () => {
         onClick={() =>
           mutationRes.mutateAsync({
             a: num1(),
-            b: 2,
+            b: 3,
           })
         }
       >

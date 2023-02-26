@@ -11,7 +11,7 @@ export default defineConfig(
   {
     printInstructions: false,
     writePackageJson: true,
-    dropConsole: true,
+    dropConsole: false,
     cjs: true,
   }
 )

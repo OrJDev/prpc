@@ -1,31 +1,65 @@
 import type { Plugin } from 'vite'
 
+type Preface = 'query$' | 'mutation$'
+
 export function prpc(): Plugin {
-  const queryRgx =
-    /query\$\((\s*(?:async\s*)?\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g
   const mutationRgx =
-    /mutation\$\((\s*(?:async\s*)?\((?:[^)(]*|\((?:[^)(]*|\([^)(]*\))*\))*\))\s*=>\s*{([\s\S]*?)}\)/g
-  const zodCheckRgx =
-    /\(\s(?:async\s*)?\((\s*\w+\s*\)\s*=>[\s\S]*?)\s*,\s*(z\.object\([\s\S]*?\}\))\s*/g
+    /mutation\$\(\s*(?:async\s*)?\((\s*\w+\s*(?:.*?)\)\s*=>[\s\S]*?)\s*,\s*(\(\)\s*=>*[\s\S]*?\}\))/g
+  const queryRgx =
+    /query\$\(\s*(?:async\s*)?\((\s*\w+\s*(?:.*?)\)\s*=>[\s\S]*?)\s*,\s*(\(\)\s*=>*[\s\S]*?\}\))/g
+
+  const zodRgx =
+    /(?:async\s*)?\((\s*\w+\s*(?:.*?)\)\s*=>[\s\S]*?)\s*,\s*(z\.object\([\s\S]*?\}\))\s*,\s*(\(\)\s*=>*[\s\S]*\}\))/g
+
   const serverCheckRgx =
     /import\s+server\$\s+from\s+["']solid-start\/server["']/g
 
-  const parseFunction = (preface: 'query$' | 'mutation$') => {
-    return (match: string, ...groups: string[]) => {
-      if (zodCheckRgx.test(match)) {
-        return match.replace(zodCheckRgx, (_, ...zodGroup: string[]) => {
-          // This regex splits the arguments into their own groups.
-          const [func, zodSchema] = zodGroup
-          // Need to split the args from the func body so we can insert the zod validations
-          const [args, funcBody] = func.split(`=> {\n`)
+  const parseArgs = (args: string): { args: string; isAsync: boolean } => {
+    let isAsync = false
 
-          // Create the schema at the top of the function. Logging is for initial testing, we will want to remove it before it is prod ready. Them parse the args, but my regex sucks and I couldn't get the left ( around it so add it back in haha. Then execute the rest of the function body!
-          return `${preface}(server$((${args} => {\nconst schema = ${zodSchema};\nschema.parse(${args};\n${funcBody}))\n`
+    if (args.includes('async')) {
+      args = args.split('async')[1]
+      isAsync = true
+    }
+    if (args.includes(':')) {
+      args = args.split(':')[0]
+    }
+    args = args.trim()
+
+    if (!args.endsWith(')')) args = args + ')'
+    if (!args.startsWith('(')) args = '(' + args
+
+    return { args, isAsync }
+  }
+
+  const parseFunction = (preface: Preface) => {
+    return (match: string, ...groups: string[]) => {
+      if (zodRgx.test(match)) {
+        return match.replace(zodRgx, (_, ...zodGroups: string[]) => {
+          const [func, zodSchema, keyOptions] = zodGroups
+
+          const [args, funcBody] = func.split('=> {\n')
+
+          const { args: parsedArgs, isAsync } = parseArgs(args)
+
+          // Create the schema at the top of the function, parse it, then return the rest.
+          const updatedCode = `${isAsync ? '(' : ''}server$(${
+            isAsync ? 'async ' : ''
+          }${parsedArgs} => {\nconst schema = ${zodSchema};\nschema.parse${parsedArgs};\n${funcBody}),\n${keyOptions}`
+          return updatedCode
         })
+      } else {
+        const [func, keyOptions] = groups
+        const [args, funcBody] = func.split(`=> {\n`)
+
+        const { args: parsedArgs, isAsync } = parseArgs(args)
+
+        // Parse it to add server$, then return the rest.
+        const updatedCode = `${preface}(server$(${
+          isAsync ? 'async ' : ''
+        }${parsedArgs} => {\n${funcBody}),\n${keyOptions}`
+        return updatedCode
       }
-      // If there isn't a zod object in the 2nd argument, do the normal parsing where we wrap server$ around the function and args.
-      const [args, functionBody] = groups
-      return `${preface}(server$(${args} => {${functionBody}}))`
     }
   }
 
@@ -43,6 +77,8 @@ export function prpc(): Plugin {
         const newCode = `${code
           .replace(queryRgx, parseFunction('query$'))
           .replace(mutationRgx, parseFunction('mutation$'))}`
+
+        // console.log('newCoden', newCode)
         return newCode
       }
       return null
