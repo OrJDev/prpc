@@ -1,5 +1,13 @@
 # @prpc/solid
 
+## 0.1.3
+
+### Patch Changes
+
+- [`e46c5fb`](https://github.com/OrJDev/prpc/commit/e46c5fbdab7c268e3a1cb200ff542fdb350e7a2f) Thanks [@OrJDev](https://github.com/OrJDev)! - Fix: only import server$ once
+
+- [`af20ff3`](https://github.com/OrJDev/prpc/commit/af20ff3508df4b63cd8324afbb1ea837f4b3ac59) Thanks [@OrJDev](https://github.com/OrJDev)! - Fix: don't ask for input when there is no input
+
 ## 0.1.2
 
 ### Patch Changes
