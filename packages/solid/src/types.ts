@@ -26,10 +26,6 @@ export type AsParam<
 
 export type ExpectedFn<T = any> = (input: T) => any
 
-export type PRPCOptions = {
-  key?: any
-}
-
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 
 export type FCreateQueryOptions<
