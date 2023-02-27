@@ -37,17 +37,3 @@ export const getPRPCInput = (...args: any[]) => {
     opts: args[1],
   }
 }
-
-export const getPrpcInputV2 = (...args: any[]) => {
-  if (args.length === 3) {
-    return {
-      fn: args[0] as ExpectedFn,
-      schema: args[1],
-      key: args[2],
-    }
-  }
-  return {
-    fn: args[0] as ExpectedFn,
-    key: args[1],
-  }
-}
