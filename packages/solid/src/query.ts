@@ -15,16 +15,13 @@ export function query$<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(queryFn: Fn, key: string, _schema?: ZObj) {
   return (
-    input: any,
-    queryOpts: any
-  ): ((
     input: ValueOrAccessor<Parameters<Fn>[0]>,
     queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-  ) => CreateQueryResult<InferReturnType<Fn>>) => {
+  ): CreateQueryResult<InferReturnType<Fn>> => {
     const innerArgs = () => unwrapValue(input)
     return createQuery(() => ({
-      queryKey: genQueryKey(innerArgs(), key),
-      queryFn: () => queryFn(innerArgs()),
+      queryKey: genQueryKey(innerArgs() as any, key),
+      queryFn: () => queryFn(innerArgs() as any),
       ...((queryOpts?.() || {}) as any),
     })) as any
   }
