@@ -49,3 +49,8 @@ export type FCreateMutationOptions<
 > = FunctionedParams<
   OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
 >
+
+export type Input<Payload extends object = never> = {
+  payload: Payload extends never ? never : Payload
+  request: Request
+}
