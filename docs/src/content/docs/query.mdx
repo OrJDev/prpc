@@ -5,7 +5,7 @@ description: 'API for the query$ function'
 
 **API for the query$ function**
 
-Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Return object has `useQuery` method on it from `@adeora/solid-query`.
+Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Return object has `useQuery` method on it from `@tanstack/solid-query`.
 
 ## Examples
 
@@ -138,9 +138,9 @@ export function query$<Fn extends ExpectedFn>(
 ```
 
 - First argument is the function to be wrapped with `server$`
-- Second argument can either be the zod schema or key for `@adeora/solid-query`
+- Second argument can either be the zod schema or key for `@tanstack/solid-query`
 - Third argument is only used when the 2nd is a zod schema, and needs to be the key.
 
 ### Usage
 
-Returns an object with `createQuery` from `@adeora/solid-query`
+Returns an object with `createQuery` from `@tanstack/solid-query`

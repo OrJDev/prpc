@@ -9,19 +9,19 @@ Read more at [our docs](https://prpc.vercel.app)
 pnpm
 
 ```sh
-pnpm add @prpc/solid@latest @adeora/solid-query@latest
+pnpm add @prpc/solid@latest @tanstack/solid-query@alpha
 ```
 
 yarn
 
 ```sh
-yarn add @prpc/solid@latest @adeora/solid-query@latest
+yarn add @prpc/solid@latest @tanstack/solid-query@alpha
 ```
 
 npm
 
 ```sh
-npm install @prpc/solid@latest @adeora/solid-query@latest
+npm install @prpc/solid@latest @tanstack/solid-query@alpha
 ```
 
 ### Vite Plugin

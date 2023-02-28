@@ -4,7 +4,7 @@ import type {
   QueryKey,
   SolidMutationOptions,
   SolidQueryOptions,
-} from '@adeora/solid-query'
+} from '@tanstack/solid-query'
 import type { Accessor } from 'solid-js'
 
 export type InferReturnType<T> = T extends (...args: any[]) => infer R

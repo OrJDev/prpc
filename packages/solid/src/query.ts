@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createQuery, type CreateQueryResult } from '@adeora/solid-query'
+import { createQuery, type CreateQueryResult } from '@tanstack/solid-query'
 import type { z, ZodObject } from 'zod'
 import type {
   ExpectedFn,
