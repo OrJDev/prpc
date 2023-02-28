@@ -1,0 +1,33 @@
+{
+  "name": "@prpc/vite",
+  "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
+  "version": "0.1.3",
+  "scripts": {
+    "build": "rm -rf dist && tsc -p .",
+    "clean": "rm -rf ./node_modules dist .turbo .solid",
+    "dev": "rm -rf dist && tsc -p . --watch",
+    "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "devDependencies": {
+    "vite": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "typesVersions": {}
+}

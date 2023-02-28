@@ -71,12 +71,11 @@ export function prpc(): Plugin {
         if (!code.trim().includes(`import server$`)) {
           code = `import server$ from "solid-start/server";\n${code}`
         }
-
         const newCode = `${code
           .replace(queryRgx, parseFunction('query$'))
           .replace(mutationRgx, parseFunction('mutation$'))}`
 
-        // console.log('newCoden', newCode)
+        console.log('newCoden', newCode)
         return newCode
       }
       return null

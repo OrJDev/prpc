@@ -10,19 +10,32 @@ import type {
   FCreateMutationOptions,
   InferReturnType,
 } from './types'
-import { genQueryKey, unwrapValue } from './utils'
+import { genQueryKey, getPRPCInput, unwrapValue } from './utils'
 
 export function mutation$<
-  ZObj extends ZodObject<any> | undefined,
-  Fn extends ExpectedFn<ZObj extends ZodObject<any> ? z.infer<ZObj> : undefined>
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(mutationFn: Fn, key: string, _schema?: ZObj) {
-  return (
-    mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
-  ): CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>> =>
+  ZObj extends ZodObject<any>,
+  Fn extends ExpectedFn<z.infer<ZObj>>
+>(
+  queryFn: Fn,
+  key: string,
+  schema: ZObj
+): (
+  mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
+) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+
+export function mutation$<Fn extends ExpectedFn>(
+  queryFn: Fn,
+  key: string
+): (
+  mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
+) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+
+export function mutation$(...args: any[]) {
+  const { key, fn } = getPRPCInput(...args)
+  return (mutationOpts?: any) =>
     createMutation(() => ({
       mutationKey: genQueryKey(key),
-      mutationFn: (input: any) => mutationFn(unwrapValue(input)),
+      mutationFn: (input: any) => fn(unwrapValue(input)),
       ...((mutationOpts?.() || {}) as any),
     })) as any
 }

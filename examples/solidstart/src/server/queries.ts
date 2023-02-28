@@ -1,22 +1,18 @@
 import { query$ } from '@prpc/solid'
 import { isServer } from 'solid-js/web'
 import { z } from 'zod'
-import server$ from 'solid-start/server'
 
 export const add = query$(
   (input) => {
     const result = input.a + input.b
     console.log(isServer /* true */)
-    console.log('req', server$.request)
     console.log('add', result)
     return result
   },
+  'add',
   z.object({
     a: z.number(),
     b: z.number(),
-  }),
-  () => ({
-    key: 'add',
   })
 )
 
@@ -27,16 +23,9 @@ export const decrease = query$(
     console.log('add', result)
     return result
   },
-  () => ({
-    key: 'decrease',
-  })
-)
-
-export const noInput = query$(
-  () => {
-    return 1
-  },
-  () => ({
-    key: 'noInput',
+  'decrease',
+  z.object({
+    a: z.number(),
+    b: z.number(),
   })
 )
