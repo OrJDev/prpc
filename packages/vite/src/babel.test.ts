@@ -105,7 +105,6 @@ test('transformpRPC$ transformations', () => {
     filename: 'testing',
   })
   expect(output).not.toBeNull()
-  console.log(output!.code)
   // eslint-disable-next-line
   expect(output!.code).toEqual(transformedCode.trim())
 })
