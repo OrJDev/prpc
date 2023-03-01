@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Plugin } from 'vite'
-import { transform } from '@babel/core'
+import { transform, type types } from '@babel/core'
 
 export function prpc(): Plugin {
   return {
@@ -25,7 +25,7 @@ export function prpc(): Plugin {
   }
 }
 
-function transformpRPC$({ types: t }: { types: any }) {
+function transformpRPC$({ types: t }: { types: typeof types }) {
   return {
     visitor: {
       Program(path: any) {
@@ -45,12 +45,12 @@ function transformpRPC$({ types: t }: { types: any }) {
       },
       CallExpression(path: any) {
         const { callee } = path.node
-
         if (
           t.isIdentifier(callee, { name: 'query$' }) ||
           t.isIdentifier(callee, { name: 'mutation$' })
         ) {
           const [serverFunction, key, zodSchema] = path.node.arguments
+          // @todo: fix this, it doesn't replace request$
           serverFunction.body.body.forEach((body: any) => {
             if (
               body.expression &&
@@ -60,6 +60,7 @@ function transformpRPC$({ types: t }: { types: any }) {
               body.expression.object.name = 'server$.request'
             }
           })
+
           if (zodSchema) {
             serverFunction.body.body.unshift(t.identifier('.parse(payload)'))
             serverFunction.body.body.unshift(zodSchema)
@@ -71,7 +72,7 @@ function transformpRPC$({ types: t }: { types: any }) {
             serverFunction.body
           )
           if (serverFunction.async) {
-            console.log('async')
+            originFn.async = true
           }
           const wrappedArg = t.callExpression(t.identifier('server$'), [
             originFn,

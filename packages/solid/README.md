@@ -7,19 +7,19 @@ SolidSart adapter for pRPC.
 pnpm
 
 ```sh
-pnpm add @prpc/solid@latest @tanstack/solid-query@alpha
+pnpm add @prpc/solid@latest @adeora/solid-query@latest
 ```
 
 yarn
 
 ```sh
-yarn add @prpc/solid@latest @tanstack/solid-query@alpha
+yarn add @prpc/solid@latest @adeora/solid-query@latest
 ```
 
 npm
 
 ```sh
-npm install @prpc/solid@latest @tanstack/solid-query@alpha
+npm install @prpc/solid@latest @adeora/solid-query@latest
 ```
 
 ### Vite Plugin
