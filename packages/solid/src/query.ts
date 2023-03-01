@@ -5,7 +5,7 @@ import type {
   ExpectedFn,
   FCreateQueryOptions,
   InferReturnType,
-  ValueOrAccessor,
+  AsParam,
 } from './types'
 import { genQueryKey, unwrapValue } from './utils'
 
@@ -15,7 +15,7 @@ export function query$<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(queryFn: Fn, key: string, _schema?: ZObj) {
   return (
-    input: ValueOrAccessor<Parameters<Fn>[0]>,
+    input: AsParam<Fn>,
     queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
   ) => {
     return createQuery(() => ({
