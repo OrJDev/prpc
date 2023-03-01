@@ -5,40 +5,27 @@ import type {
   ExpectedFn,
   FCreateQueryOptions,
   InferReturnType,
-  PRPCOptions,
-  ValueOrAccessor,
+  AsParam,
 } from './types'
-import { genQueryKey, getPRPCInput, unwrapValue } from './utils'
+import { genQueryKey, unwrapValue } from './utils'
 
 export function query$<
-  ZObj extends ZodObject<any>,
-  Fn extends ExpectedFn<z.infer<ZObj>>
->(
-  queryFn: Fn,
-  schema: ZObj,
-  opts?: () => PRPCOptions
-): (
-  input: ValueOrAccessor<Parameters<Fn>[0]>,
-  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-) => CreateQueryResult<InferReturnType<Fn>>
-
-export function query$<Fn extends ExpectedFn>(
-  queryFn: Fn,
-  opts?: () => PRPCOptions
-): (
-  input: ValueOrAccessor<Parameters<Fn>[0]>,
-  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-) => CreateQueryResult<InferReturnType<Fn>>
-
-export function query$(...args: any[]) {
-  const { fn, opts } = getPRPCInput(...args)
-
-  return (input: any, queryOpts: any) => {
-    const innerArgs = () => unwrapValue(input)
+  ZObj extends ZodObject<any> | undefined,
+  Fn extends ExpectedFn<ZObj extends ZodObject<any> ? z.infer<ZObj> : undefined>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+>(queryFn: Fn, key: string, _schema?: ZObj) {
+  return (
+    input: AsParam<Fn>,
+    queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
+  ) => {
     return createQuery(() => ({
-      queryKey: genQueryKey(innerArgs(), opts?.()),
-      queryFn: () => fn(innerArgs()),
+      queryKey: genQueryKey(key, unwrapValue(input)),
+      queryFn: () =>
+        queryFn({
+          payload: unwrapValue(input) as any,
+          request$: {} as unknown as Request, // babel will handle this
+        }),
       ...((queryOpts?.() || {}) as any),
-    }))
+    })) as CreateQueryResult<InferReturnType<Fn>>
   }
 }

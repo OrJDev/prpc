@@ -10,6 +10,7 @@ import { add } from '~/server/queries'
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
+
   const addRes = add(
     () => ({
       a: num1(),

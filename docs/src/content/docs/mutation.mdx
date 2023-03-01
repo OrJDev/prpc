@@ -9,42 +9,23 @@ Converts the function to be a `server$` function and will add in zod validation 
 
 ## Examples
 
-### Without Zod
-
 ```ts
 import { mutation$ } from '@prpc/solid'
+import { z } from 'zod'
 import { isServer } from 'solid-js/web'
 
-export const add = mutation$(
-  (input: { a: number; b: number }) => {
-    const result = input.a + input.b
-    console.log(isServer)
-    console.log('add', result)
-    return result
-  },
-  () => ({
-    key: 'add', // this will be used the mutation key for tanstack query
-  })
-)
-```
-
-### With Zod
-
-```ts
 export const decrease = mutation$(
-  (input) => {
-    const result = input.a + input.b
+  ({ payload }) => {
+    const result = payload.a - payload.b
     console.log(isServer)
     console.log('add', result)
     return result
   },
+  'decrease', // this will be used the mutation key
   z.object({
     a: z.number(),
     b: z.number(),
-  }),
-  () => ({
-    key: 'decrease',
-  })
+  }) // this will be used as the input type and input validation
 )
 ```
 
@@ -58,11 +39,11 @@ import {
   Switch,
   type VoidComponent,
 } from 'solid-js'
-import { add } from '~/server/mutations'
+import { decrease } from '~/server/mutations'
 
 const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const mutationRes = add()
+  const mutationRes = decrease()
   return (
     <div>
       <Suspense>
@@ -97,29 +78,9 @@ const Mutation: VoidComponent = () => {
 
 ### Creation
 
-```ts
-export function mutation$<
-  ZObj extends ZodObject<any>,
-  Fn extends ExpectedFn<z.infer<ZObj>>
->(
-  queryFn: Fn,
-  schema: ZObj,
-  opts?: () => PRPCOptions
-): (
-  mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
-) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
-
-export function mutation$<Fn extends ExpectedFn>(
-  queryFn: Fn,
-  opts?: () => PRPCOptions
-): (
-  mutationOpts?: FCreateMutationOptions<InferReturnType<Fn>>
-) => CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
-```
-
 - First argument is the function to be wrapped with `server$`
-- Second argument can either be the zod schema or key for `@adeora/solid-query`
-- Third argument is only used when the 2nd is a zod schema, and needs to be the key.
+- Second argument is the mutation key for `@adeora/solid-query`
+- Third argument is zod schema (optional)
 
 ### Usage
 

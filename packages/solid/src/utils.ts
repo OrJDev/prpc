@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ExpectedFn, PRPCOptions, ValueOrAccessor } from './types'
+import type { ExpectedFn, ValueOrAccessor } from './types'
 
 export const unwrapValue = <V extends ValueOrAccessor<any>>(
   value: V
@@ -10,13 +10,9 @@ export const unwrapValue = <V extends ValueOrAccessor<any>>(
   return value as V extends ValueOrAccessor<infer R> ? R : never
 }
 
-export const genQueryKey = (
-  input?: any,
-  opts?: PRPCOptions,
-  isMutation = false
-) => {
-  if (opts?.key) {
-    return [opts.key, input].filter(Boolean)
+export const genQueryKey = (key: string, input?: any, isMutation = false) => {
+  if (key) {
+    return [key, input].filter(Boolean)
   }
   if (isMutation) {
     return undefined
@@ -24,16 +20,23 @@ export const genQueryKey = (
   return ['prpc.query', input].filter(Boolean)
 }
 
-export const getPRPCInput = (...args: any[]) => {
+export const getPRPCInput = (
+  ...args: any[]
+): {
+  key: string
+  fn: ExpectedFn
+} => {
   if (args.length === 3) {
     return {
       fn: args[0] as ExpectedFn,
-      schema: args[1],
-      opts: args[2],
+      key: args[2],
     }
   }
   return {
     fn: args[0] as ExpectedFn,
-    opts: args[1],
+    key: args[1],
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const fakeUse = (_: any) => null

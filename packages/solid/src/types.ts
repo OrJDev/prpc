@@ -17,18 +17,21 @@ export type ValueOrAccessor<T = unknown> = T extends undefined
   ? void | undefined
   : T | Accessor<T>
 
+export type ExpectedInput<T> = {
+  payload: T
+  request$: Request
+}
+
+export type ExpectedFn<T = any> = (props: ExpectedInput<T>) => any
+
 export type AsParam<
-  Fn extends (input: any) => any,
+  Fn extends ExpectedFn,
   CAccessor extends boolean = true
 > = CAccessor extends true
-  ? ValueOrAccessor<Parameters<Fn>[0]>
-  : Parameters<Fn>[0]
+  ? ValueOrAccessor<UnwrapFnInput<Parameters<Fn>[0]>>
+  : UnwrapFnInput<Parameters<Fn>[0]>
 
-export type ExpectedFn<T = any> = (input: T) => any
-
-export type PRPCOptions = {
-  key?: any
-}
+export type UnwrapFnInput<T> = T extends ExpectedInput<infer B> ? B : T
 
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 

@@ -9,76 +9,23 @@ Converts the function to be a `server$` function and will add in zod validation 
 
 ## Examples
 
-### Without Zod
-
 ```ts
 import { query$ } from '@prpc/solid'
-export const decrease = query$(
-  (input) => {
-    // input is inferred
-    const result = input.a + input.b
-    console.log(isServer)
-    console.log('add', result)
-    return result
-  },
-  () => ({
-    key: 'decrease',
-  })
-)
-
-// pRPC output
-export const decrease = query$(
-  server$((input) => {
-    const result = input.a - input.b
-    console.log(isServer)
-    console.log('add', result)
-    return result
-  }),
-  () => ({
-    key: 'decrease',
-  })
-)
-```
-
-### With Zod
-
-```ts
-import { query$ } from '@prpc/solid'
+import { z } from 'zod'
 import { isServer } from 'solid-js/web'
-import server$ from 'solid-start/server'
 
-export const add = query$(
-  (input) => {
-    const result = input.a + input.b
-    console.log(isServer /* true */, server$.request)
+export const decrease = query$(
+  ({ payload }) => {
+    const result = payload.a - payload.b
+    console.log(isServer)
     console.log('add', result)
     return result
   },
+  'decrease', // this will be used as the query key (along with the input)
   z.object({
     a: z.number(),
     b: z.number(),
-  }),
-  () => ({
-    key: 'add', // this will be used as the query key (along with the input), for tanstack query
-  })
-)
-
-// pRPC output
-export const add = query$(
-  server$((input) => {
-    const schema = z.object({
-      a: z.number(),
-      b: z.number(),
-    })
-    schema.parse(input)
-    const result = input.a + input.b
-    console.log(isServer /* true */)
-    console.log('add', result)
-    return result
-  }),
-  () => ({
-    key: 'add',
-  })
+  }) // this will be used as the input type and input validation
 )
 ```
 
@@ -86,11 +33,11 @@ export const add = query$(
 
 ```ts
 import { createSignal, Suspense, type VoidComponent } from 'solid-js'
-import { add } from '~/server/queries'
+import { decrease } from '~/server/queries'
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const addRes = add(
+  const addRes = decrease(
     () => ({
       a: num1(),
       b: 2,
@@ -113,33 +60,9 @@ const Query: VoidComponent = () => {
 
 ## API
 
-### Creation
-
-```ts
-export function query$<
-  ZObj extends ZodObject<any>,
-  Fn extends ExpectedFn<z.infer<ZObj>>
->(
-  queryFn: Fn,
-  schema: ZObj,
-  opts?: () => PRPCOptions
-): (
-  input: ValueOrAccessor<Parameters<Fn>[0]>,
-  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-) => CreateQueryResult<InferReturnType<Fn>>
-
-export function query$<Fn extends ExpectedFn>(
-  queryFn: Fn,
-  opts?: () => PRPCOptions
-): (
-  input: ValueOrAccessor<Parameters<Fn>[0]>,
-  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
-) => CreateQueryResult<InferReturnType<Fn>>
-```
-
 - First argument is the function to be wrapped with `server$`
-- Second argument can either be the zod schema or key for `@adeora/solid-query`
-- Third argument is only used when the 2nd is a zod schema, and needs to be the key.
+- Second argument is the mutation key for `@adeora/solid-query`
+- Third argument is zod schema (optional)
 
 ### Usage
 
