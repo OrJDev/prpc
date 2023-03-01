@@ -3,9 +3,9 @@ import { isServer } from 'solid-js/web'
 import { z } from 'zod'
 
 export const add = mutation$(
-  ({ payload, request$ }) => {
+  async ({ payload, request$ }) => {
     // eslint-disable-next-line promise/param-names
-    // await new Promise((res) => setTimeout(res, 250))
+    await new Promise((res) => setTimeout(res, 250))
     const result = payload.a + payload.b
     console.log(isServer)
     console.log('add', result)

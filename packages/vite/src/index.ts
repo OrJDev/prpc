@@ -12,7 +12,7 @@ export function prpc(): Plugin {
         id.endsWith('.ts')
       ) {
         const transformed = transform(code, {
-          presets: ['solid', '@babel/preset-typescript'],
+          presets: ['@babel/preset-typescript'],
           plugins: [transformpRPC$],
           filename: id,
         })
@@ -66,12 +66,17 @@ function transformpRPC$({ types: t }: { types: any }) {
             path.node.arguments.pop()
           }
 
+          const originFn = t.arrowFunctionExpression(
+            serverFunction.params,
+            serverFunction.body
+          )
+          if (serverFunction.async) {
+            console.log('async')
+          }
           const wrappedArg = t.callExpression(t.identifier('server$'), [
-            t.arrowFunctionExpression(
-              serverFunction.params,
-              serverFunction.body
-            ),
+            originFn,
           ])
+
           const newCallExpr = t.callExpression(callee, [wrappedArg, key])
           path.replaceWith(newCallExpr)
           path.skip()
