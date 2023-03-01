@@ -12,10 +12,12 @@ export function prpc(): Plugin {
         code.includes('mutation$(')
       ) {
         const transformed = transform(code, {
+          presets: ['solid', '@babel/preset-typescript'],
           plugins: [transformpRPC$],
+          filename: id,
         })
         if (transformed) {
-          console.log('transformed', transformed.code)
+          return transformed.code
         }
       }
       return null
