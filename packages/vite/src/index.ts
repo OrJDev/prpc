@@ -25,7 +25,7 @@ export function prpc(): Plugin {
   }
 }
 
-function transformpRPC$({
+export function transformpRPC$({
   types: t,
   template: temp,
 }: {

@@ -7,7 +7,9 @@
     "clean": "rm -rf ./node_modules dist .turbo .solid",
     "dev": "rm -rf dist && tsc -p . --watch",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "type": "module",
   "exports": {
@@ -26,8 +28,10 @@
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@types/babel__core": "^7.20.0",
+    "@vitest/coverage-c8": "^0.29.2",
     "vite": "^4.1.2",
-    "vite-plugin-solid": "^2.5.0"
+    "vite-plugin-solid": "^2.5.0",
+    "vitest": "^0.29.2"
   },
   "engines": {
     "node": ">=16"
