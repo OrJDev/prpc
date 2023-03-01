@@ -24,7 +24,10 @@ export type AsParam<
   ? ValueOrAccessor<Parameters<Fn>[0]>
   : Parameters<Fn>[0]
 
-export type ExpectedFn<T = any> = (input: T) => any
+export type ExpectedFn<T = any> = (props: {
+  payload: T
+  request$: Request
+}) => any
 
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 

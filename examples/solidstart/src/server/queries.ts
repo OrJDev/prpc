@@ -3,10 +3,11 @@ import { isServer } from 'solid-js/web'
 import { z } from 'zod'
 
 export const add = query$(
-  (input) => {
-    const result = input.a + input.b
+  ({ payload, request$ }) => {
+    const result = payload.a + payload.b
     console.log(isServer /* true */)
     console.log('add', result)
+    console.log(request$.headers.get('user-agent'))
     return result
   },
   'add',
@@ -17,8 +18,8 @@ export const add = query$(
 )
 
 export const decrease = query$(
-  (input: { a: number; b: number }) => {
-    const result = input.a - input.b
+  ({ payload }) => {
+    const result = payload.a - payload.b
     console.log(isServer)
     console.log('add', result)
     return result

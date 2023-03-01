@@ -3,12 +3,13 @@ import { isServer } from 'solid-js/web'
 import { z } from 'zod'
 
 export const add = mutation$(
-  async (input) => {
+  ({ payload, request$ }) => {
     // eslint-disable-next-line promise/param-names
-    await new Promise((res) => setTimeout(res, 250))
-    const result = input.a + input.b
+    // await new Promise((res) => setTimeout(res, 250))
+    const result = payload.a + payload.b
     console.log(isServer)
     console.log('add', result)
+    console.log(request$.headers.get('user-agent'))
     return result
   },
   'add',
@@ -19,8 +20,8 @@ export const add = mutation$(
 )
 
 export const decrease = mutation$(
-  (input) => {
-    const result = input.a - input.b
+  ({ payload }) => {
+    const result = payload.a - payload.b
     console.log(isServer)
     console.log('add', result)
     return result
