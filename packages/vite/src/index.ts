@@ -8,19 +8,15 @@ export function prpc(): Plugin {
     name: 'prpc',
     transform(code: string, id: string) {
       if (
-        (id.endsWith('.ts') && code.includes('query$(')) ||
-        code.includes('mutation$(')
+        (code.includes('query$(') || code.includes('mutation$(')) &&
+        id.endsWith('.ts')
       ) {
-        // const bCode = code.includes('import server$')
-        //   ? code
-        //   : `import server$ from "solid-start/server";\n${code}`
         const transformed = transform(code, {
           presets: ['solid', '@babel/preset-typescript'],
           plugins: [transformpRPC$],
           filename: id,
         })
         if (transformed) {
-          // console.log('transformed.code', transformed.code)
           return transformed.code
         }
       }
