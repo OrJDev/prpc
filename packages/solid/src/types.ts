@@ -20,14 +20,19 @@ export type ValueOrAccessor<T = unknown> = T extends undefined
 export type AsParam<
   Fn extends (input: any) => any,
   CAccessor extends boolean = true
-> = CAccessor extends true
-  ? ValueOrAccessor<Parameters<Fn>[0]>
-  : Parameters<Fn>[0]
+> = UnwrapFnInput<
+  CAccessor extends true
+    ? ValueOrAccessor<Parameters<Fn>[0]>
+    : Parameters<Fn>[0]
+>
 
-export type ExpectedFn<T = any> = (props: {
+export type ExpectedInput<T> = {
   payload: T
   request$: Request
-}) => any
+}
+export type ExpectedFn<T = any> = (props: ExpectedInput<T>) => any
+
+export type UnwrapFnInput<T> = T extends ExpectedInput<infer B> ? B : T
 
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 
