@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Plugin } from 'vite'
 import { transform, type types } from '@babel/core'
+import type { Plugin } from 'vite'
 
 export function prpc(): Plugin {
   return {
@@ -50,15 +50,16 @@ function transformpRPC$({ types: t }: { types: typeof types }) {
           t.isIdentifier(callee, { name: 'mutation$' })
         ) {
           const [serverFunction, key, zodSchema] = path.node.arguments
-          // @todo: fix this, it doesn't replace request$
-          serverFunction.body.body.forEach((body: any) => {
-            if (
-              body.expression &&
-              body.expression.object &&
-              body.expression.object.name === 'request$'
-            ) {
-              body.expression.object.name = 'server$.request'
-            }
+
+          path.traverse({
+            Identifier(innerPath: any) {
+              if (
+                innerPath.node.name === 'request$' &&
+                innerPath.scope?.path?.listKey !== 'params'
+              ) {
+                innerPath.node.name = 'server$.request'
+              }
+            },
           })
 
           if (zodSchema) {
