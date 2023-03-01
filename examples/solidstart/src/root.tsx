@@ -14,7 +14,7 @@ import {
   Link,
 } from 'solid-start'
 import { QueryProvider } from '@prpc/solid'
-import { QueryClient } from '@tanstack/solid-query'
+import { QueryClient } from '@adeora/solid-query'
 
 const queryClient = new QueryClient()
 

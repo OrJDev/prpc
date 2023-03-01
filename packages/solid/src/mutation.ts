@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  createMutation,
-  type CreateMutationResult,
-} from '@tanstack/solid-query'
+import { createMutation, type CreateMutationResult } from '@adeora/solid-query'
 import type { z, ZodObject } from 'zod'
 import type {
   AsParam,

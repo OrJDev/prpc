@@ -25,7 +25,7 @@
     "@prpc/solid": "workspace:*",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.7.0",
-    "@tanstack/solid-query": "5.0.0-alpha.0",
+    "@adeora/solid-query": "^0.20.0",
     "solid-js": "^1.6.11",
     "solid-start": "^0.2.21",
     "undici": "5.20.0",

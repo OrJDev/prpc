@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@changesets/changelog-github': ^0.4.7
       '@changesets/cli': ^2.25.2
+      '@tanstack/query-core': https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core
       '@types/node': ^18.11.9
       '@typescript-eslint/eslint-plugin': ^5.44.0
       '@typescript-eslint/parser': ^5.44.0
@@ -25,6 +26,7 @@ importers:
     devDependencies:
       '@changesets/changelog-github': 0.4.8
       '@changesets/cli': 2.26.0
+      '@tanstack/query-core': '@pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core'
       '@types/node': 18.14.1
       '@typescript-eslint/eslint-plugin': 5.53.0_cjo54hduev4bqhpjw5znwiokqu
       '@typescript-eslint/parser': 5.53.0_ycpbpc6yetojsgtrx3mwntkhsu
@@ -90,10 +92,10 @@ importers:
 
   examples/solidstart:
     specifiers:
+      '@adeora/solid-query': ^0.20.0
       '@prpc/solid': workspace:*
       '@solidjs/meta': ^0.28.2
       '@solidjs/router': ^0.7.0
-      '@tanstack/solid-query': 5.0.0-alpha.0
       '@types/node': ^18.14.0
       '@typescript-eslint/eslint-plugin': ^5.52.0
       '@typescript-eslint/parser': ^5.52.0
@@ -110,10 +112,10 @@ importers:
       vite: ^4.1.2
       zod: ^3.20.6
     dependencies:
+      '@adeora/solid-query': 0.20.0_solid-js@1.6.11
       '@prpc/solid': link:../../packages/solid
       '@solidjs/meta': 0.28.2_solid-js@1.6.11
       '@solidjs/router': 0.7.0_solid-js@1.6.11
-      '@tanstack/solid-query': 5.0.0-alpha.0_solid-js@1.6.11
       solid-js: 1.6.11
       solid-start: 0.2.22_glxabd56qh7kqtjq7bhdxxj5jy
       undici: 5.20.0
@@ -133,12 +135,12 @@ importers:
 
   packages/solid:
     specifiers:
+      '@adeora/solid-query': ^0.16.0
       '@babel/core': ^7.18.13
       '@babel/preset-typescript': ^7.18.6
       '@prpc/vite': workspace:*
       '@rollup/plugin-babel': 5.3.1
       '@rollup/plugin-node-resolve': 13.3.0
-      '@tanstack/solid-query': ^5.0.0-alpha.0
       '@types/node': ^18.7.14
       '@typescript-eslint/parser': ^5.44.0
       babel-preset-solid: ^1.5.3
@@ -150,11 +152,11 @@ importers:
     dependencies:
       '@prpc/vite': link:../vite
     devDependencies:
+      '@adeora/solid-query': 0.16.0_solid-js@1.6.11
       '@babel/core': 7.21.0
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.0
       '@rollup/plugin-babel': 5.3.1_4tnfxcmsyr7y5qv3uwkivwqysm
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
-      '@tanstack/solid-query': 5.0.0-alpha.0_solid-js@1.6.11
       '@types/node': 18.14.1
       '@typescript-eslint/parser': 5.53.0_ycpbpc6yetojsgtrx3mwntkhsu
       babel-preset-solid: 1.6.10_@babel+core@7.21.0
@@ -166,11 +168,35 @@ importers:
 
   packages/vite:
     specifiers:
+      '@babel/core': ^7.18.13
+      '@types/babel__core': ^7.20.0
       vite: ^4.1.2
+      vite-plugin-solid: ^2.5.0
     devDependencies:
+      '@babel/core': 7.21.0
+      '@types/babel__core': 7.20.0
       vite: 4.1.4
+      vite-plugin-solid: 2.5.0_solid-js@1.6.11+vite@4.1.4
 
 packages:
+
+  /@adeora/solid-query/0.16.0_solid-js@1.6.11:
+    resolution: {integrity: sha512-ndbEzwriQO+JAbxvfnKihSYczoUdns34MCZT8WZwjcJP/iOkmSyI3WchoZGFh5RJhWdPV/k3oLYMhtnxANfl7Q==}
+    peerDependencies:
+      '@tanstack/query-core': https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core
+      solid-js: '>=1.0.0'
+    dependencies:
+      solid-js: 1.6.11
+    dev: true
+
+  /@adeora/solid-query/0.20.0_solid-js@1.6.11:
+    resolution: {integrity: sha512-dzDDNtEP+yCzXkwD6Y+V8jY9hos74DeOvqjgEg7zNqEwmPeW5mT3RQ6FQX30kH67m51QTile+bnszkn1MNmt0Q==}
+    peerDependencies:
+      '@tanstack/query-core': https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core
+      solid-js: '>=1.0.0'
+    dependencies:
+      solid-js: 1.6.11
+    dev: false
 
   /@algolia/autocomplete-core/1.7.4:
     resolution: {integrity: sha512-daoLpQ3ps/VTMRZDEBfU8ixXd+amZcNJ4QSP3IERGyzqnL5Ch8uSRFt/4G8pUvW9c3o6GA4vtVv4I4lmnkdXyg==}
@@ -2672,17 +2698,6 @@ packages:
       - vite
     dev: false
 
-  /@tanstack/query-core/5.0.0-alpha.0:
-    resolution: {integrity: sha512-cnLZlOMQiHmhfTPEoGauQRrF2Za+UcvhnFDqHnQcUTHCxp3dA89TsVeusW3cv8t4XH125fwyn77UwjC1A37Pvw==}
-
-  /@tanstack/solid-query/5.0.0-alpha.0_solid-js@1.6.11:
-    resolution: {integrity: sha512-i85e4aQg1RAhVoyBAjTtN+/G/Oz5AwhmNEmW5deZPN7Zjcl4iFFPxNwqaswQejTAkDrASYfuOKZI8Zh+1GLBXQ==}
-    peerDependencies:
-      solid-js: ^1.6.2
-    dependencies:
-      '@tanstack/query-core': 5.0.0-alpha.0
-      solid-js: 1.6.11
-
   /@types/acorn/4.0.6:
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
     dependencies:
@@ -2697,26 +2712,22 @@ packages:
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
       '@types/babel__traverse': 7.18.3
-    dev: false
 
   /@types/babel__generator/7.6.4:
     resolution: {integrity: sha512-tFkciB9j2K755yrTALxD44McOrk+gfpIpvC3sxHjRawj6PfnQxrse4Clq5y/Rq+G3mrBurMax/lG8Qn2t9mSsg==}
     dependencies:
       '@babel/types': 7.21.2
-    dev: false
 
   /@types/babel__template/7.4.1:
     resolution: {integrity: sha512-azBFKemX6kMg5Io+/rdGT0dkGreboUVR0Cdm3fz9QJWpaQGJRQXl7C+6hOTCZcMll7KFyEQpgbYI2lHdsS4U7g==}
     dependencies:
       '@babel/parser': 7.21.2
       '@babel/types': 7.21.2
-    dev: false
 
   /@types/babel__traverse/7.18.3:
     resolution: {integrity: sha512-1kbcJ40lLB7MHsj39U4Sh1uTd2E7rLEa79kmDpI6cy+XiXsteB3POdQomoq4FxszMrO3ZYchkhYJw7A2862b3w==}
     dependencies:
       '@babel/types': 7.21.2
-    dev: false
 
   /@types/cookie/0.5.1:
     resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
@@ -8948,7 +8959,7 @@ packages:
       merge-anything: 5.1.4
       solid-js: 1.6.11
       solid-refresh: 0.4.3_solid-js@1.6.11
-      vite: 4.1.4_@types+node@18.14.1
+      vite: 4.1.4
       vitefu: 0.2.4_vite@4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -9368,3 +9379,9 @@ packages:
   /zwitch/2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
+
+  '@pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core':
+    resolution: {tarball: https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core}
+    name: '@tanstack/query-core'
+    version: 4.24.3
+    dev: true
