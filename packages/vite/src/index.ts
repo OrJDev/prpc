@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { transform, type types } from '@babel/core'
+import { transform, type template, type types } from '@babel/core'
 import type { Plugin } from 'vite'
 
 export function prpc(): Plugin {
@@ -25,7 +25,13 @@ export function prpc(): Plugin {
   }
 }
 
-function transformpRPC$({ types: t }: { types: typeof types }) {
+function transformpRPC$({
+  types: t,
+  template: temp,
+}: {
+  types: typeof types
+  template: typeof template
+}) {
   return {
     visitor: {
       Program(path: any) {
@@ -63,18 +69,20 @@ function transformpRPC$({ types: t }: { types: typeof types }) {
           })
 
           if (zodSchema) {
-            serverFunction.body.body.unshift(t.identifier('.parse(payload)'))
-            serverFunction.body.body.unshift(zodSchema)
+            const schema = temp(`const schema = %%zod%%`)({
+              zod: zodSchema,
+            })
+            const asyncParse = temp(`await schema.parseAsync(payload)`)()
+            serverFunction.body.body.unshift(asyncParse)
+            serverFunction.body.body.unshift(schema)
             path.node.arguments.pop()
           }
 
           const originFn = t.arrowFunctionExpression(
             serverFunction.params,
-            serverFunction.body
+            serverFunction.body,
+            true
           )
-          if (serverFunction.async) {
-            originFn.async = true
-          }
           const wrappedArg = t.callExpression(t.identifier('server$'), [
             originFn,
           ])
