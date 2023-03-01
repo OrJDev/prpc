@@ -37,7 +37,6 @@ export const SIDEBAR: Sidebar = {
     { text: 'Introduction', link: 'introduction' },
     { text: 'Install', link: 'install' },
     { text: 'Usage', link: 'usage' },
-    { text: 'Errors', link: 'errors' },
     { text: 'Examples', link: 'examples' },
   ],
   API: [

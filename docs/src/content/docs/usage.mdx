@@ -9,32 +9,38 @@ description: 'How to use pRPC'
 
 ```ts
 import { query$ } from '@prpc/solid'
+import { z } from 'zod'
 import { isServer } from 'solid-js/web'
-import server$ from 'solid-start/server'
 
-export const add = query$(
-  (input) => {
-    const result = input.a + input.b
-    console.log(isServer /* true */, server$.request)
+export const decrease = query$(
+  ({ payload }) => {
+    const result = payload.a - payload.b
+    console.log(isServer)
     console.log('add', result)
     return result
   },
+  'decrease', // this will be used as the query key (along with the input)
   z.object({
     a: z.number(),
     b: z.number(),
-  }),
-  () => ({
-    key: 'add', // this will be used as the query key (along with the input), for tanstack query
-  })
+  }) // this will be used as the input type and input validation
 )
 ```
 
 ### query$ Client
 
 ```tsx
+import {
+  createSignal,
+  Match,
+  Suspense,
+  Switch,
+  type VoidComponent,
+} from 'solid-js'
+import { decrease } from '~/server/queries'
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const addRes = add(
+  const addRes = decrease(
     () => ({
       a: num1(),
       b: 2,
@@ -66,18 +72,21 @@ const Query: VoidComponent = () => {
 
 ```ts
 import { mutation$ } from '@prpc/solid'
+import { z } from 'zod'
 import { isServer } from 'solid-js/web'
 
-export const add = mutation$(
-  (input: { a: number; b: number }) => {
-    const result = input.a + input.b
+export const decrease = mutation$(
+  ({ payload }) => {
+    const result = payload.a - payload.b
     console.log(isServer)
     console.log('add', result)
     return result
   },
-  () => ({
-    key: 'add', // this will be used the mutation key for tanstack query
-  })
+  'decrease', // this will be used the mutation key
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }) // this will be used as the input type and input validation
 )
 ```
 
@@ -91,11 +100,11 @@ import {
   Switch,
   type VoidComponent,
 } from 'solid-js'
-import { add } from '~/server/mutations'
+import { decrease } from '~/server/mutations'
 
 const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const mutationRes = add()
+  const mutationRes = decrease()
   return (
     <div>
       <Suspense>

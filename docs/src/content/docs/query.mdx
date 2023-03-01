@@ -21,11 +21,11 @@ export const decrease = query$(
     console.log('add', result)
     return result
   },
-  'decrease',
+  'decrease', // this will be used as the query key (along with the input)
   z.object({
     a: z.number(),
     b: z.number(),
-  })
+  }) // this will be used as the input type and input validation
 )
 ```
 
