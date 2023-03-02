@@ -3,33 +3,42 @@
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
   "version": "0.3.1",
   "scripts": {
-    "build": "rm -rf dist && tsc -p .",
     "clean": "rm -rf ./node_modules dist .turbo .solid",
-    "dev": "rm -rf dist && tsc -p . --watch",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "build": "pridepack build",
+    "typecheck": "pridepack check",
+    "dev": "pridepack watch"
   },
   "type": "module",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/cjs/production/index.cjs",
+  "module": "./dist/esm/production/index.mjs",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "development": {
+        "require": "./dist/cjs/development/index.cjs",
+        "import": "./dist/esm/development/index.mjs"
+      },
+      "require": "./dist/cjs/production/index.cjs",
+      "import": "./dist/esm/production/index.mjs",
+      "types": "./dist/types/index.d.ts"
     }
   },
-  "module": "./dist/index.js",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "src"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "devDependencies": {
     "@types/babel__core": "7.20.0",
     "@vitest/coverage-c8": "^0.29.2",
     "vite": "^4.1.2",
-    "vitest": "^0.29.2"
+    "vitest": "^0.29.2",
+    "pridepack": "2.4.1"
   },
   "dependencies": {
     "@babel/core": "^7.20.12",
@@ -38,8 +47,7 @@
   "peerDependencies": {
     "vite": "^3 || ^4"
   },
-  "engines": {
-    "node": ">=16"
-  },
-  "typesVersions": {}
+  "typesVersions": {
+    "*": {}
+  }
 }

@@ -1,9 +1,25 @@
 {
-  "extends": "../../tsconfig.json",
+  "exclude": [
+    "vitest.config.ts",
+    "node_modules",
+    "./**/*.test.ts",
+    "./**/*.spec.ts"
+  ],
+  "include": ["src", "types"],
   "compilerOptions": {
-    "outDir": "./dist",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "importHelpers": true,
+    "declaration": true,
+    "sourceMap": true,
     "rootDir": "./src",
-    "noErrorTruncation": true
-  },
-  "exclude": ["vitest.config.ts", "./**/*.test.ts", "./**/*.spec.ts"]
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "target": "ES2017"
+  }
 }
