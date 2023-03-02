@@ -4,6 +4,14 @@
 
 ### Patch Changes
 
+- [`93917f5`](https://github.com/OrJDev/prpc/commit/93917f56d097a99f9bdeac4a0618288ad0fbacda) Thanks [@OrJDev](https://github.com/OrJDev)! - remoove babel as a dep
+
+- [`64e30d5`](https://github.com/OrJDev/prpc/commit/64e30d5d5109ae5d965d54e5819eef0428df9749) Thanks [@OrJDev](https://github.com/OrJDev)! - build: move to esbuild
+
+## 0.3.1
+
+### Patch Changes
+
 - [`2c8c32a`](https://github.com/OrJDev/prpc/commit/2c8c32a57fd7eb70b4ed3f37cbc743ec6cbab3e3) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: minor typescript fixes
 
 - [`60ff52e`](https://github.com/OrJDev/prpc/commit/60ff52e6ca1cb4e75bdc669384c1a57f7ed557d3) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: try and set babel as an actual dep

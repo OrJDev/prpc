@@ -1,5 +1,14 @@
 # @prpc/solid
 
+## 0.2.3
+
+### Patch Changes
+
+- [`3fb8128`](https://github.com/OrJDev/prpc/commit/3fb81288905aa3edc4dc479814cd273320402724) Thanks [@OrJDev](https://github.com/OrJDev)! - remove unused stuff
+
+- Updated dependencies [[`93917f5`](https://github.com/OrJDev/prpc/commit/93917f56d097a99f9bdeac4a0618288ad0fbacda), [`64e30d5`](https://github.com/OrJDev/prpc/commit/64e30d5d5109ae5d965d54e5819eef0428df9749)]:
+  - @prpc/vite@0.3.1
+
 ## 0.2.2
 
 ### Patch Changes
