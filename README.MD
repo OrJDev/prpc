@@ -1,6 +1,6 @@
 # pRPC
 
-Write server code, query / mutate it on the server and validate inputs using zod with only few lines of code. Supporting SolidStar and Bling.
+Write server code, query / mutate it on the server and validate inputs using zod with only few lines of code. Supporting SolidStart and Bling.
 
 Read more at [our docs](https://prpc.vercel.app)
 
