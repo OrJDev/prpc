@@ -4,5 +4,6 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "noErrorTruncation": true
-  }
+  },
+  "exclude": ["vitest.config.ts", "./**/*.test.ts", "./**/*.spec.ts"]
 }
