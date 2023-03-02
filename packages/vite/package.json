@@ -31,9 +31,6 @@
     "vite": "^4.1.2",
     "vitest": "^0.29.2"
   },
-  "dependencies": {
-    "@babel/core": "7.18.13"
-  },
   "engines": {
     "node": ">=16"
   },
