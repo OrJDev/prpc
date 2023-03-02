@@ -1,7 +1,7 @@
 {
   "name": "@prpc/vite",
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "scripts": {
     "clean": "rm -rf ./node_modules dist .turbo .solid",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
