@@ -1,5 +1,13 @@
 # @prpc/vite
 
+## 0.3.1
+
+### Patch Changes
+
+- [`2c8c32a`](https://github.com/OrJDev/prpc/commit/2c8c32a57fd7eb70b4ed3f37cbc743ec6cbab3e3) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: minor typescript fixes
+
+- [`60ff52e`](https://github.com/OrJDev/prpc/commit/60ff52e6ca1cb4e75bdc669384c1a57f7ed557d3) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: try and set babel as an actual dep
+
 ## 0.3.0
 
 ### Minor Changes
