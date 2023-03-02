@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { transform, type template, type types } from '@babel/core'
+import * as babel from '@babel/core'
 import type { Plugin } from 'vite'
 
 export function prpc(): Plugin {
@@ -11,7 +11,7 @@ export function prpc(): Plugin {
         (code.includes('query$(') || code.includes('mutation$(')) &&
         id.endsWith('.ts')
       ) {
-        const transformed = transform(code, {
+        const transformed = babel.transform(code, {
           presets: ['@babel/preset-typescript'],
           plugins: [transformpRPC$],
           filename: id,
@@ -29,8 +29,8 @@ export function transformpRPC$({
   types: t,
   template: temp,
 }: {
-  types: typeof types
-  template: typeof template
+  types: typeof babel.types
+  template: typeof babel.template
 }) {
   return {
     visitor: {

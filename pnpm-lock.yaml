@@ -170,10 +170,15 @@ importers:
 
   packages/vite:
     specifiers:
+      '@babel/core': ^7.20.12
+      '@babel/preset-typescript': ^7.18.6
       '@types/babel__core': 7.20.0
       '@vitest/coverage-c8': ^0.29.2
       vite: ^4.1.2
       vitest: ^0.29.2
+    dependencies:
+      '@babel/core': 7.21.0
+      '@babel/preset-typescript': 7.21.0_@babel+core@7.21.0
     devDependencies:
       '@types/babel__core': 7.20.0
       '@vitest/coverage-c8': 0.29.2_vitest@0.29.2
