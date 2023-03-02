@@ -6,21 +6,24 @@ export function prpc(): Plugin {
   return {
     enforce: 'pre',
     name: 'prpc',
-    transform(code: string, id: string) {
+    async transform(code: string, id: string) {
       if (
         (code.includes('query$(') || code.includes('mutation$(')) &&
         id.endsWith('.ts')
       ) {
-        const transformed = babel.transform(code, {
+        const transformed = await babel.transformAsync(code, {
           presets: ['@babel/preset-typescript'],
           plugins: [transformpRPC$],
           filename: id,
         })
         if (transformed) {
-          return transformed.code
+          return {
+            code: transformed.code ?? '',
+            map: transformed.map,
+          }
         }
       }
-      return null
+      return undefined
     },
   }
 }
