@@ -10,7 +10,6 @@ importers:
       '@types/node': ^18.11.9
       '@typescript-eslint/eslint-plugin': ^5.44.0
       '@typescript-eslint/parser': ^5.44.0
-      esbuild: ^0.17.10
       eslint: ^8.28.0
       eslint-config-prettier: ^8.5.0
       eslint-config-standard-with-typescript: ^23.0.0
@@ -32,7 +31,6 @@ importers:
       '@types/node': 18.14.2
       '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
       '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
-      esbuild: 0.17.10
       eslint: 8.35.0
       eslint-config-prettier: 8.6.0_eslint@8.35.0
       eslint-config-standard-with-typescript: 23.0.0_7lvixuljhmxxzmiqnjqrn63j2e

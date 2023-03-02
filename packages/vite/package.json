@@ -1,9 +1,9 @@
 {
   "name": "@prpc/vite",
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
-  "version": "0.3.1",
+  "version": "0.3.0",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --sourcemap --packages=external --outfile=dist/index.js",
+    "build": "rm -rf dist && tsc -p .",
     "clean": "rm -rf ./node_modules dist .turbo .solid",
     "dev": "rm -rf dist && tsc -p . --watch",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
