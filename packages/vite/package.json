@@ -26,12 +26,13 @@
     "README.md"
   ],
   "devDependencies": {
-    "@babel/core": "^7.18.13",
-    "@types/babel__core": "^7.20.0",
+    "@types/babel__core": "7.20.0",
     "@vitest/coverage-c8": "^0.29.2",
     "vite": "^4.1.2",
-    "vite-plugin-solid": "^2.5.0",
     "vitest": "^0.29.2"
+  },
+  "dependencies": {
+    "@babel/core": "7.18.13"
   },
   "engines": {
     "node": ">=16"
