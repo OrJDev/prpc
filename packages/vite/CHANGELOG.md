@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.3
+
+### Patch Changes
+
+- [`d1a9bc6`](https://github.com/OrJDev/prpc/commit/d1a9bc6408ae6bb86a08df26437b6b4c31715def) Thanks [@OrJDev](https://github.com/OrJDev)! - try and use pridepack
+
 ## 0.3.2
 
 ### Patch Changes
