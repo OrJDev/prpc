@@ -34,22 +34,23 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.2",
+    "@tanstack/query-core": "https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core",
+    "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
+    "esbuild": "^0.17.10",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.5.1",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.0",
     "prettier": "^2.8.0",
     "sort-package-json": "^2.1.0",
-    "husky": "^8.0.0",
-    "@types/node": "^18.11.9",
-    "turbo": "1.2.4",
-    "typescript": "^4.8.2",
     "tsup": "^6.5.0",
     "tsup-preset-solid": "0.1.8",
-    "@tanstack/query-core": "https://pkg.csb.dev/TanStack/query/commit/bc5a2a16/@tanstack/query-core"
+    "turbo": "1.2.4",
+    "typescript": "^4.8.2"
   }
 }
