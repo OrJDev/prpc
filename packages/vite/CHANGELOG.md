@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.2
+
+### Patch Changes
+
+- [`9178e1c`](https://github.com/OrJDev/prpc/commit/9178e1c38c5ca1240e8c93005c4c6725d95037ab) Thanks [@OrJDev](https://github.com/OrJDev)! - try something new with babel
+
 ## 0.3.1
 
 ### Patch Changes
