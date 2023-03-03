@@ -6,22 +6,8 @@ Read more at [our docs](https://prpc.vercel.app)
 
 ### Install
 
-pnpm
-
 ```sh
-pnpm add @prpc/solid@latest @adeora/solid-query@latest
-```
-
-yarn
-
-```sh
-yarn add @prpc/solid@latest @adeora/solid-query@latest
-```
-
-npm
-
-```sh
-npm install @prpc/solid@latest @adeora/solid-query@latest
+pnpm add @prpc/solid@latest @prpc/vite@latest @adeora/solid-query@latest
 ```
 
 ### Vite Plugin
@@ -29,7 +15,7 @@ npm install @prpc/solid@latest @adeora/solid-query@latest
 Add the following to your vite config
 
 ```ts
-import prpc from '@prpc/solid';
+import prpc from '@prpc/vite';
 import solid from 'solid-start/vite';
 ...
 export default defineConfig(() => {
@@ -89,4 +75,57 @@ export default function Root() {
     </Html>
   )
 }
+```
+
+### Further Reading
+
+<img width="875" alt="Screenshot 2023-03-03 at 8 29 59" src="https://user-images.githubusercontent.com/91349014/222648058-3e0d5c2a-0c93-4b35-a673-f0955fb94f99.png">
+
+The code in this image is
+
+```ts
+import { query$ } from '@prpc/solid'
+import { z } from 'zod'
+
+export const helloQuery = query$(
+  ({ payload, request$ }) => {
+    console.log(request$.headers.get('user-agent'))
+    return `server says hello: ${payload.name}`
+  },
+  'hello',
+  z.object({ name: z.string() })
+)
+```
+
+But how is this code working / running on the server? request$ is not an actual thing and you cannot use closures.
+We use a babel plugin built on top of vite that is meant to wrap functions that passed to query$ with server, so for instance:
+
+```ts
+query(myFn)
+```
+
+becomes
+
+```ts
+query(server$(myFn))
+```
+
+This piece of code make the function run on the server, but how do we access the request?
+
+Well as you know request$ is not an actual thing in in SolidStart, this is again where our babel plugin helps, we pass an empty object to this function called request$ and then our babel plugin makes sure to replace all request$ acccess with server$.request (which is a way to get the request in SolidStart)
+
+So for instance:
+
+```ts
+query$(({ request$ }) => {
+  const headers = request$.headers
+})
+```
+
+becomes
+
+```ts
+query$(({ request$ }) => {
+  const headers = server$.request.headers
+})
 ```

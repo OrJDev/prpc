@@ -27,6 +27,21 @@ export const decrease = query$(
 )
 ```
 
+### query$ request
+
+This is how you can access the request object in the server.
+
+```ts
+export const helloQuery = query$(
+  ({ payload, request$ }) => {
+    console.log(request$.headers.get('user-agent'))
+    return `server says hello: ${payload.name}`
+  },
+  'hello',
+  z.object({ name: z.string() })
+)
+```
+
 ### query$ Client
 
 ```tsx
