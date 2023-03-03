@@ -96,6 +96,7 @@ importers:
     specifiers:
       '@adeora/solid-query': ^0.20.0
       '@prpc/solid': workspace:*
+      '@prpc/vite': workspace:*
       '@solidjs/meta': ^0.28.2
       '@solidjs/router': ^0.7.0
       '@types/node': ^18.14.0
@@ -116,6 +117,7 @@ importers:
     dependencies:
       '@adeora/solid-query': 0.20.0_solid-js@1.6.11
       '@prpc/solid': link:../../packages/solid
+      '@prpc/vite': link:../../packages/vite
       '@solidjs/meta': 0.28.2_solid-js@1.6.11
       '@solidjs/router': 0.7.0_solid-js@1.6.11
       solid-js: 1.6.11
@@ -140,7 +142,6 @@ importers:
       '@adeora/solid-query': ^0.16.0
       '@babel/core': ^7.18.13
       '@babel/preset-typescript': ^7.18.6
-      '@prpc/vite': workspace:*
       '@rollup/plugin-babel': 5.3.1
       '@rollup/plugin-node-resolve': 13.3.0
       '@types/node': ^18.7.14
@@ -151,8 +152,6 @@ importers:
       solid-start: ^0.2.22
       typescript: ^4.8.2
       zod: ^3.20.6
-    dependencies:
-      '@prpc/vite': link:../vite
     devDependencies:
       '@adeora/solid-query': 0.16.0_solid-js@1.6.11
       '@babel/core': 7.21.0

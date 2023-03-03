@@ -6,7 +6,7 @@ export interface PRPCPluginOptions {
   babel?: babel.TransformOptions
 }
 
-export function prpc(opts?: PRPCPluginOptions): Plugin {
+export default function prpc(opts?: PRPCPluginOptions): Plugin {
   return {
     enforce: 'pre',
     name: 'prpc',

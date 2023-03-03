@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@prpc/solid": "workspace:*",
+    "@prpc/vite": "workspace:*",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.7.0",
     "@adeora/solid-query": "^0.20.0",

@@ -4,22 +4,8 @@ SolidSart adapter for pRPC.
 
 ### Install
 
-pnpm
-
 ```sh
-pnpm add @prpc/solid@latest @adeora/solid-query@latest
-```
-
-yarn
-
-```sh
-yarn add @prpc/solid@latest @adeora/solid-query@latest
-```
-
-npm
-
-```sh
-npm install @prpc/solid@latest @adeora/solid-query@latest
+pnpm add @prpc/solid@latest @prpc/vite@latest @adeora/solid-query@latest
 ```
 
 ### Vite Plugin
@@ -27,7 +13,7 @@ npm install @prpc/solid@latest @adeora/solid-query@latest
 Add the following to your vite config
 
 ```ts
-import prpc from '@prpc/solid';
+import prpc from '@prpc/vite';
 import solid from 'solid-start/vite';
 ...
 export default defineConfig(() => {
