@@ -1,5 +1,12 @@
 # @prpc/solid
 
+## 0.2.6
+
+### Patch Changes
+
+- Updated dependencies [[`5db7170`](https://github.com/OrJDev/prpc/commit/5db7170344c5c05457433f49bd3502f83d2d3ce7), [`d9f77a2`](https://github.com/OrJDev/prpc/commit/d9f77a262b1653801afa09440879777d95f3ac3b)]:
+  - @prpc/vite@0.3.4
+
 ## 0.2.5
 
 ### Patch Changes
