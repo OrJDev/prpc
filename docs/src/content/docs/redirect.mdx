@@ -1,0 +1,75 @@
+---
+title: 'redirect'
+description: 'API for the redirect function'
+---
+
+**API for the redirect function**
+
+This function will be used to redirect someone to a different page, you call this function on the server and it redirects the user on the client side (;
+
+## Usage Query
+
+```ts
+import { query$, redirect, replyWith } from '@prpc/solid'
+import { z } from 'zod'
+
+export const add = query$(
+  ({ payload }) => {
+    const result = payload.a + payload.b
+    if (result === 10) {
+      return redirect('/somewhere-else')
+    }
+    return replyWith(result, {
+      headers: {
+        'set-cookie': 'solid-testing=1',
+      },
+    })
+  },
+  'add',
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  })
+)
+
+// client usage
+const addRes = add(
+  () => ({
+    a: num1(),
+    b: 3,
+  }),
+  () => ({
+    alwaysCSRRedirect: true,
+  })
+)
+```
+
+## Usage Mutation
+
+```ts
+export const add = mutation$(
+  async ({ payload }) => {
+    await new Promise((res) => setTimeout(res, 250))
+    const result = payload.a + payload.b
+    if (result === 10) {
+      return redirect('/reached-10')
+    }
+    return result
+  },
+  'add',
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  })
+)
+
+// client usage
+const mutationRes = add(() => ({
+  alwaysCSRRedirect: true,
+}))
+```
+
+## alwaysCSRRedirect
+
+Setting this to true will always use the `useNavigate` hook coming from SolidStart.
+When set to false and `typeof window !== 'undefined'` it will use `window.location.href` to redirect.

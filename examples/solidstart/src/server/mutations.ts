@@ -1,5 +1,4 @@
-import { mutation$ } from '@prpc/solid'
-import { isServer } from 'solid-js/web'
+import { mutation$, redirect } from '@prpc/solid'
 import { z } from 'zod'
 
 export const add = mutation$(
@@ -7,8 +6,9 @@ export const add = mutation$(
     // eslint-disable-next-line promise/param-names
     await new Promise((res) => setTimeout(res, 250))
     const result = payload.a + payload.b
-    console.log(isServer)
-    console.log('add', result)
+    if (result === 10) {
+      return redirect('/reached-10')
+    }
     return result
   },
   'add',
@@ -19,11 +19,8 @@ export const add = mutation$(
 )
 
 export const decrease = mutation$(
-  ({ payload, request$ }) => {
+  ({ payload }) => {
     const result = payload.a - payload.b
-    console.log(isServer)
-    console.log('add', result)
-    console.log(request$.headers.get('user-agent'))
     return result
   },
   'decrease',

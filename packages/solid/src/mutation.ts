@@ -6,8 +6,9 @@ import type {
   FCreateMutationOptions,
   InferReturnType,
   AsParam,
+  ModifQueryOptions,
 } from './types'
-import { genQueryKey, tryAndWrap } from './utils'
+import { genQueryKey, getNewOpts, tryAndWrap } from './utils'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,
@@ -15,15 +16,16 @@ export function mutation$<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(queryFn: Fn, key: string, _schema?: ZObj) {
   return (
-    mutationOpts?: FCreateMutationOptions<
-      InferReturnType<Fn>,
-      Error,
-      AsParam<Fn, false>
+    mutationOpts?: ModifQueryOptions<
+      FCreateMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
     >
-  ) =>
-    createMutation(() => ({
+  ) => {
+    const newOpts = getNewOpts(mutationOpts)
+    return createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
-      mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
-      ...((mutationOpts?.() || {}) as any),
+      mutationFn: (input: AsParam<Fn, false>) =>
+        tryAndWrap(queryFn, input, newOpts()?.alwaysCSRRedirect),
+      ...((newOpts?.() || {}) as any),
     })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+  }
 }

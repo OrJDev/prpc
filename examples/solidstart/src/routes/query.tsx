@@ -21,6 +21,7 @@ const Query: VoidComponent = () => {
       onSettled(data, error) {
         console.log({ data, error })
       },
+      alwaysCSRRedirect: true,
     })
   )
 

@@ -52,3 +52,10 @@ export type FCreateMutationOptions<
 > = FunctionedParams<
   OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
 >
+
+export type ModifQueryOptions<T extends FunctionedParams<any>> =
+  FunctionedParams<
+    ReturnType<T> & {
+      alwaysCSRRedirect?: boolean
+    }
+  >

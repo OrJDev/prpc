@@ -10,7 +10,9 @@ import { add } from '~/server/mutations'
 
 const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const mutationRes = add()
+  const mutationRes = add(() => ({
+    alwaysCSRRedirect: true,
+  }))
   return (
     <div class='flex flex-col gap-3 px-3'>
       <div class='flex items-center gap-1'>
@@ -23,7 +25,7 @@ const Mutation: VoidComponent = () => {
             <div>Result: {mutationRes.data}</div>
           </Match>
           <Match when={mutationRes.error}>
-            <div>Error {mutationRes.error!.message}</div>
+            <div>Error {mutationRes.error?.message}</div>
           </Match>
           <Match when={mutationRes.isLoading}>
             <div>Loading...</div>

@@ -1,13 +1,12 @@
-import { query$, replyWith } from '@prpc/solid'
-import { isServer } from 'solid-js/web'
+import { query$, redirect, replyWith } from '@prpc/solid'
 import { z } from 'zod'
 
 export const add = query$(
-  ({ payload, request$ }) => {
+  ({ payload }) => {
     const result = payload.a + payload.b
-    console.log(isServer /* true */)
-    console.log('add', result)
-    console.log(request$.headers.get('user-agent'))
+    if (result === 10) {
+      return redirect('/test')
+    }
     return replyWith(result, {
       headers: {
         'set-cookie': 'solid-testing=1',
@@ -24,8 +23,6 @@ export const add = query$(
 export const decrease = query$(
   ({ payload }) => {
     const result = payload.a - payload.b
-    console.log(isServer)
-    console.log('add', result)
     return result
   },
   'decrease',

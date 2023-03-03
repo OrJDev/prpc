@@ -6,8 +6,9 @@ import type {
   FCreateQueryOptions,
   InferReturnType,
   AsParam,
+  ModifQueryOptions,
 } from './types'
-import { genQueryKey, tryAndWrap, unwrapValue } from './utils'
+import { genQueryKey, getNewOpts, tryAndWrap, unwrapValue } from './utils'
 
 export function query$<
   ZObj extends ZodObject<any> | undefined,
@@ -16,12 +17,13 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
+    queryOpts?: ModifQueryOptions<FCreateQueryOptions<InferReturnType<Fn>>>
   ) => {
+    const newOpts = getNewOpts(queryOpts)
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () => tryAndWrap(queryFn, input),
-      ...((queryOpts?.() || {}) as any),
+      queryFn: () => tryAndWrap(queryFn, input, newOpts?.().alwaysCSRRedirect),
+      ...((newOpts?.() || {}) as any),
     })) as CreateQueryResult<InferReturnType<Fn>>
   }
 }
