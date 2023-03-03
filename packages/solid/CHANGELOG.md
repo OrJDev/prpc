@@ -12,7 +12,7 @@
 
 ### Patch Changes
 
-- [`c204ade`](https://github.com/OrJDev/prpc/commit/c204ade19481c4a3a6f0e581b8a962e528935c0d) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: `replyWith` function to modify cookies / headers
+- [`c204ade`](https://github.com/OrJDev/prpc/commit/c204ade19481c4a3a6f0e581b8a962e528935c0d) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: `response$` function to modify cookies / headers
 
 ## 0.2.7
 

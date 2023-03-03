@@ -1,13 +1,13 @@
-import { query$, redirect, replyWith } from '@prpc/solid'
+import { query$, redirect$, response$ } from '@prpc/solid'
 import { z } from 'zod'
 
 export const add = query$(
   ({ payload }) => {
     const result = payload.a + payload.b
     if (result === 10) {
-      return redirect('/reached-10')
+      return redirect$('/reached-10')
     }
-    return replyWith(
+    return response$(
       { result },
       {
         headers: {

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createMutation, type CreateMutationResult } from '@adeora/solid-query'
+import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
 import type {
   ExpectedFn,
@@ -8,7 +9,7 @@ import type {
   AsParam,
   ModifQueryOptions,
 } from './types'
-import { genQueryKey, getNewOpts, tryAndWrap } from './utils'
+import { genQueryKey, tryAndWrap } from './utils'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,
@@ -20,12 +21,17 @@ export function mutation$<
       FCreateMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
     >
   ) => {
-    const newOpts = getNewOpts(mutationOpts)
+    const navigate = useNavigate()
     return createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(queryFn, input, newOpts()?.alwaysCSRRedirect),
-      ...((newOpts?.() || {}) as any),
+        tryAndWrap(
+          queryFn,
+          input,
+          navigate,
+          mutationOpts?.()?.alwaysCSRRedirect
+        ),
+      ...((mutationOpts?.() || {}) as any),
     })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }
 }

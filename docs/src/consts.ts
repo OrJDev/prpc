@@ -49,11 +49,11 @@ export const SIDEBAR: Sidebar = {
   ],
   Helpers: [
     {
-      text: 'replyWith',
-      link: 'reply-with',
+      text: 'response$',
+      link: 'response',
     },
     {
-      text: 'redirect',
+      text: 'redirect$',
       link: 'redirect',
     },
   ],

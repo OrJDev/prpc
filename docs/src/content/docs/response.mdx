@@ -1,23 +1,23 @@
 ---
-title: 'replyWith'
-description: 'API for the replyWith function'
+title: 'response$'
+description: 'API for the response$ function'
 ---
 
-**API for the replyWith function**
+**API for the response$ function**
 
 This function is used to modify the response headers / cookies without affecting the return type of the function.
 
 ## Usage
 
 ```ts
-import { query$, replyWith } from '@prpc/solid'
+import { query$, response$ } from '@prpc/solid'
 import { z } from 'zod'
 
 export const add = query$(
   ({ payload, request$ }) => {
     const result = payload.a + payload.b
     console.log(request$.headers.get('user-agent'))
-    return replyWith(result, {
+    return response$(result, {
       headers: {
         'set-cookie': 'solid-testing=1',
       },
