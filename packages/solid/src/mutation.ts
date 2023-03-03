@@ -7,7 +7,7 @@ import type {
   InferReturnType,
   AsParam,
 } from './types'
-import { genQueryKey, unwrapValue } from './utils'
+import { genQueryKey, tryAndWrap } from './utils'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,
@@ -23,11 +23,7 @@ export function mutation$<
   ) =>
     createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
-      mutationFn: (input: InferReturnType<Fn>) =>
-        queryFn({
-          payload: unwrapValue(input) as any,
-          request$: {} as unknown as Request, // babel will handle this
-        }),
+      mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
       ...((mutationOpts?.() || {}) as any),
     })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
 }

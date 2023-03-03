@@ -7,7 +7,7 @@ import type {
   InferReturnType,
   AsParam,
 } from './types'
-import { genQueryKey, unwrapValue } from './utils'
+import { genQueryKey, tryAndWrap, unwrapValue } from './utils'
 
 export function query$<
   ZObj extends ZodObject<any> | undefined,
@@ -20,11 +20,7 @@ export function query$<
   ) => {
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () =>
-        queryFn({
-          payload: unwrapValue(input) as any,
-          request$: {} as unknown as Request, // babel will handle this
-        }),
+      queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts?.() || {}) as any),
     })) as CreateQueryResult<InferReturnType<Fn>>
   }

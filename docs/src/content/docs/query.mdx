@@ -7,6 +7,30 @@ description: 'API for the query$ function'
 
 Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Return object has `useQuery` method on it from `@adeora/solid-query`.
 
+If you want to modify the response headers / cookies, make sure to check out the [`replyWith`](/reply-with) docs.
+
+```ts
+import { query$, replyWith } from '@prpc/solid'
+import { z } from 'zod'
+
+export const add = query$(
+  ({ payload, request$ }) => {
+    const result = payload.a + payload.b
+    console.log(request$.headers.get('user-agent'))
+    return replyWith(result, {
+      headers: {
+        'set-cookie': 'solid-testing=1',
+      },
+    })
+  },
+  'add',
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  })
+)
+```
+
 ## Examples
 
 ```ts

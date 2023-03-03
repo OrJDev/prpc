@@ -43,6 +43,10 @@ export const SIDEBAR: Sidebar = {
     { text: 'query$', link: 'query' },
     { text: 'mutation$', link: 'mutation' },
     {
+      text: 'replyWith',
+      link: 'reply-with',
+    },
+    {
       text: 'QueryProvider',
       link: 'query-provider',
     },

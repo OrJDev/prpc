@@ -18,7 +18,9 @@ const Query: VoidComponent = () => {
     }),
     () => ({
       placeholderData: (prev) => prev,
-      retry: false,
+      onSettled(data, error) {
+        console.log({ data, error })
+      },
     })
   )
 
