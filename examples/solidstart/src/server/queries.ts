@@ -5,13 +5,16 @@ export const add = query$(
   ({ payload }) => {
     const result = payload.a + payload.b
     if (result === 10) {
-      return redirect('/test')
+      return redirect('/reached-10')
     }
-    return replyWith(result, {
-      headers: {
-        'set-cookie': 'solid-testing=1',
-      },
-    })
+    return replyWith(
+      { result },
+      {
+        headers: {
+          'set-cookie': 'solid-testing=1',
+        },
+      }
+    )
   },
   'add',
   z.object({

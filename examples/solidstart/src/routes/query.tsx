@@ -21,6 +21,9 @@ const Query: VoidComponent = () => {
       onSettled(data, error) {
         console.log({ data, error })
       },
+      onSuccess: (data) => {
+        console.log('success', data)
+      },
       alwaysCSRRedirect: true,
     })
   )
@@ -34,7 +37,7 @@ const Query: VoidComponent = () => {
       <Suspense fallback='Loading...'>
         <Switch>
           <Match when={addRes.error}>Error: {addRes.error?.message}</Match>
-          <Match when={addRes.data}>Num: {addRes.data}</Match>
+          <Match when={addRes.data}>Num: {addRes.data?.result}</Match>
         </Switch>
       </Suspense>
       <button

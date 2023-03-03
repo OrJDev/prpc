@@ -67,7 +67,7 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
     const newResp = await handleResponse(response, alwaysCSRRedirect)
     if ('response' in newResp) {
       return newResp.response
-    }
+    } else return newResp
   }
   return response
 }
@@ -123,9 +123,15 @@ export const getNewOpts = <
           )
           if (newResp.redirect) {
             navigate(newResp.redirect)
+          } else {
+            return queryOpts?.().onSuccess?.(
+              newResp.response,
+              variables,
+              context
+            )
           }
         } else {
-          return queryOpts?.().onSuccess?.(data, variables, context)
+          return await queryOpts?.().onSuccess?.(data, variables, context)
         }
       },
       onSettled: async (
@@ -135,14 +141,15 @@ export const getNewOpts = <
         context: any
       ) => {
         if (data instanceof Response) {
-          return queryOpts?.().onSettled?.(
+          return await queryOpts?.().onSettled?.(
             await optionalData(data),
             err,
             variables,
             context
           )
+        } else {
+          return await queryOpts?.().onSettled?.(data, err, variables, context)
         }
-        return queryOpts?.().onSettled?.(data, err, variables, context)
       },
     })
 }
