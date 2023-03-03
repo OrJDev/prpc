@@ -2,7 +2,11 @@
 import * as babel from '@babel/core'
 import type { Plugin } from 'vite'
 
-export function prpc(): Plugin {
+export interface PRPCPluginOptions {
+  babel?: babel.TransformOptions
+}
+
+export function prpc(opts?: PRPCPluginOptions): Plugin {
   return {
     enforce: 'pre',
     name: 'prpc',
@@ -12,8 +16,11 @@ export function prpc(): Plugin {
         id.endsWith('.ts')
       ) {
         const transformed = await babel.transformAsync(code, {
-          presets: ['@babel/preset-typescript'],
-          plugins: [transformpRPC$],
+          presets: [
+            ['@babel/preset-typescript'],
+            ...(opts?.babel?.presets ?? []),
+          ],
+          plugins: [[transformpRPC$], ...(opts?.babel?.plugins ?? [])],
           filename: id,
         })
         if (transformed) {

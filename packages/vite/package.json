@@ -1,17 +1,50 @@
 {
   "name": "@prpc/vite",
-  "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
   "version": "0.3.3",
-  "scripts": {
-    "clean": "rm -rf ./node_modules dist .turbo .solid",
-    "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
-    "build": "pridepack build",
-    "typecheck": "pridepack check",
-    "dev": "pridepack watch"
-  },
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "pRPC",
+    "server$"
+  ],
+  "devDependencies": {
+    "@types/babel__core": "^7.20.0",
+    "@types/node": "^18.13.0",
+    "eslint": "^8.33.0",
+    "pridepack": "2.4.0",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5",
+    "@typescript-eslint/parser": "^5.44.0",
+    "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-typescript": "^7.18.6"
+  },
+  "peerDependencies": {
+    "vite": "^3 || ^4"
+  },
+  "scripts": {
+    "prepublishOnly": "pridepack clean && pridepack build",
+    "build": "pridepack build",
+    "type-check": "pridepack check",
+    "lint": "pridepack lint",
+    "clean": "pridepack clean",
+    "watch": "pridepack watch",
+    "start": "pridepack start",
+    "dev": "pridepack dev",
+    "test": "vitest"
+  },
+  "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/production/index.cjs",
   "module": "./dist/esm/production/index.mjs",
@@ -25,27 +58,6 @@
       "import": "./dist/esm/production/index.mjs",
       "types": "./dist/types/index.d.ts"
     }
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "devDependencies": {
-    "@types/babel__core": "7.20.0",
-    "@vitest/coverage-c8": "^0.29.2",
-    "vite": "^4.1.2",
-    "vitest": "^0.29.2",
-    "pridepack": "2.4.1"
-  },
-  "dependencies": {
-    "@babel/core": "^7.20.12",
-    "@babel/preset-typescript": "^7.18.6"
-  },
-  "peerDependencies": {
-    "vite": "^3 || ^4"
   },
   "typesVersions": {
     "*": {}
