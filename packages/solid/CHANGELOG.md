@@ -1,5 +1,13 @@
 # @prpc/solid
 
+## 0.2.9
+
+### Patch Changes
+
+- [`2970cdd`](https://github.com/OrJDev/prpc/commit/2970cdde03a0ee8e88d261d8237394750096ad1c) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: redirect function
+
+- [`4a0f097`](https://github.com/OrJDev/prpc/commit/4a0f097f8921ebf34b81e14b27bf0b0e45bdb16f) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: redirect miscall
+
 ## 0.2.8
 
 ### Patch Changes
