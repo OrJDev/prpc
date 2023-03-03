@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.5
+
+### Patch Changes
+
+- [`d0a591d`](https://github.com/OrJDev/prpc/commit/d0a591d12d9ab3fc4276c64698149f7916db8e9b) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: import the vite plugin directly from vite
+
 ## 0.3.4
 
 ### Patch Changes
