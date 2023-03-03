@@ -101,13 +101,13 @@ But how is this code working / running on the server? request$ is not an actual 
 We use a babel plugin built on top of vite that is meant to wrap functions that passed to query$ with server, so for instance:
 
 ```ts
-query(myFn)
+query$(myFn)
 ```
 
 becomes
 
 ```ts
-query(server$(myFn))
+query$(server$(myFn))
 ```
 
 This piece of code make the function run on the server, but how do we access the request?
@@ -128,4 +128,25 @@ becomes
 query$(({ request$ }) => {
   const headers = server$.request.headers
 })
+```
+
+How do i run it on the client side?
+
+query$ returns: `(...) => createQuery(...)`
+So what it does is, it is taking the function that is running on the server (wrapped with server$) and basically try to query it using `createQuery` from solid query.
+
+So:
+
+```ts
+const myQuery = query$(myFn)
+```
+
+Can be used client side (still will run on the server):
+
+```ts
+const queryRes = myQuery(()=> input);
+
+// queryRes is basically tanstack query
+queryRes.isLoading;
+queryRes.data;
 ```
