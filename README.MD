@@ -12,7 +12,7 @@ pnpm add @prpc/solid@latest @prpc/vite@latest @adeora/solid-query@latest
 
 ### Vite Plugin
 
-Add the following to your vite config
+Add the following to your vite config:
 
 ```ts
 import prpc from '@prpc/vite';
@@ -125,9 +125,11 @@ query$(({ request$ }) => {
 becomes
 
 ```ts
-query$(server$(() => {
-  const headers = server$.request.headers
-}))
+query$(
+  server$(() => {
+    const headers = server$.request.headers
+  })
+)
 ```
 
 How do i call this function from the client?
@@ -144,9 +146,9 @@ const myQuery = query$(myFn)
 Can be used client side (still will run on the server):
 
 ```ts
-const queryRes = myQuery(()=> input);
+const queryRes = myQuery(() => input)
 
 // queryRes is basically tanstack query
-queryRes.isLoading;
-queryRes.data;
+queryRes.isLoading
+queryRes.data
 ```
