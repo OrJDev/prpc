@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.11
+
+### Patch Changes
+
+- [`b75538e`](https://github.com/OrJDev/prpc/commit/b75538e6442f0fae83891acc63381b10ad18788e) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: core - move towards agnostic
+
 ## 0.2.10
 
 ### Patch Changes
