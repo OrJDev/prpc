@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.6
+
+### Patch Changes
+
+- [`5a5560f`](https://github.com/OrJDev/prpc/commit/5a5560f816c30dba6e6080018c8fc6df5db2d5c0) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: pipe$ and middleware$ functions
+
 ## 0.3.5
 
 ### Patch Changes
