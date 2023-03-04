@@ -27,6 +27,7 @@ export const optionalData = async (response: Response) => {
     return undefined
   }
 }
+//
 
 export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   if (key) {
