@@ -19,9 +19,9 @@ const myMiddleware1 = middleware$(({ request$ }) => {
 })
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
-  // if (ctx.test === null) {
-  //   throw new Error('test is null')
-  // }
+  if (ctx.test === null) {
+     throw new Error('test is null')
+   }
   return {
     test: ctx.test,
     o: 1,
