@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.12
+
+### Patch Changes
+
+- [`c5baae3`](https://github.com/OrJDev/prpc/commit/c5baae3dcd0e0b9d7dbc57796a8f2ffd8db4b2dd) Thanks [@OrJDev](https://github.com/OrJDev)! - revert: remove core
+
 ## 0.2.11
 
 ### Patch Changes
