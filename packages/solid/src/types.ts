@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   FunctionedParams,
@@ -37,12 +38,35 @@ export type ValueOrAccessor<T = unknown> = T extends undefined
   ? void | undefined
   : T | (() => T)
 
-export type ExpectedInput<T> = {
+export type ExpectedInput<T, Ctx = any> = {
   payload: T
   request$: Request
+  ctx$: Ctx
 }
 
-export type ExpectedFn<T = any> = (props: ExpectedInput<T>) => any
+// export type InferFinalMiddlware<Mw extends IMiddleware[]> = Mw extends [
+//   infer Head,
+//   ...infer Tail
+// ]
+//   ? Head extends IMiddleware
+//     ? Tail extends IMiddleware[]
+//       ? InferReturnType<Head> & InferFinalMiddlware<Tail>
+//       : InferReturnType<Head>
+//     : {}
+//   : {}
+
+export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
+  Mw extends [
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ...infer _Start,
+    infer Last
+  ]
+    ? InferReturnType<Last>
+    : InferReturnType<Mw>
+
+export type ExpectedFn<T = any, Mw extends IMiddleware[] = any[]> = (
+  props: ExpectedInput<T, InferFinalMiddlware<Mw>>
+) => any
 
 export type AsParam<
   Fn extends ExpectedFn,
@@ -56,3 +80,5 @@ export type UnwrapFnInput<T> = T extends ExpectedInput<infer B> ? B : T
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 
 export type MergeRedirect<T> = T & { alwaysCSRRedirect?: boolean }
+
+export type IMiddleware<T = any> = (ctx$: T & { request$: Request }) => any

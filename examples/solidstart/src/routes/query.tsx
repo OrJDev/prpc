@@ -18,12 +18,10 @@ const Query: VoidComponent = () => {
     }),
     () => ({
       placeholderData: (prev) => prev,
-      onSettled(data, error) {
-        console.log({ data, error })
+      onError: (error) => {
+        console.log(error.message)
       },
-      onSuccess: (data) => {
-        console.log('success', data)
-      },
+      retry: false,
       alwaysCSRRedirect: true,
     })
   )
@@ -46,6 +44,7 @@ const Query: VoidComponent = () => {
       >
         Increment
       </button>
+      <pre>{addRes.error?.message ?? 'n error'}</pre>
     </div>
   )
 }

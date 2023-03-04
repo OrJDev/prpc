@@ -1,4 +1,5 @@
 import { redirect } from 'solid-start'
+import { PRPCClientError } from '.'
 
 export const response$ = <T>(value: T, init?: ResponseInit): T => {
   return new Response(
@@ -16,7 +17,13 @@ export const redirect$ = (
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { AsParam, ExpectedFn, ValueOrAccessor } from './types'
+import type {
+  AsParam,
+  ExpectedFn,
+  IMiddleware,
+  InferFinalMiddlware,
+  ValueOrAccessor,
+} from './types'
 
 const redirectStatusCodes = new Set([204, 301, 302, 303, 307, 308])
 
@@ -64,20 +71,15 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
 ) {
   const response = await queryFn({
     payload: unwrapValue(input) as any,
-    request$: {} as unknown as Request, // babel will handle this
+    request$: {} as unknown as Request, // babel will handle this,
+    // @ts-expect-error idc
+    ctx$: {} as any, // babel will handle this
   })
   if (response instanceof Response) {
-    if (!isRedirectResponse(response)) {
+    const url = response.headers.get('location')
+    if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
     } else {
-      const url = response.headers.get('location')
-      if (!url) {
-        try {
-          return await response.text()
-        } catch {
-          return undefined
-        }
-      }
       if (typeof window !== 'undefined' && !alwaysCSRRedirect) {
         window.location.href = url
       } else {
@@ -86,4 +88,43 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
     }
   }
   return response
+}
+
+export const middleware$ = <
+  Mw extends IMiddleware<CurrentContext>,
+  CurrentContext = unknown
+>(
+  mw: Mw
+): [Mw] => {
+  return [mw]
+}
+
+export const pipe$ = <
+  CurrentMw extends IMiddleware<any> | IMiddleware<any>[],
+  Mw extends IMiddleware<InferFinalMiddlware<CurrentMw>>[]
+>(
+  currentMw: CurrentMw,
+  ...middlewares: Mw
+): Mw => {
+  // merger middleware
+  if (Array.isArray(currentMw)) {
+    return [...currentMw, ...middlewares] as any
+  }
+  return [currentMw, ...middlewares] as any
+}
+
+export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
+  request: Request,
+  middlewares: Mw,
+  ctx: any
+) => {
+  let currentCtx = ctx ?? {}
+  for (const middleware of middlewares) {
+    if (Array.isArray(middleware)) {
+      currentCtx = await callMiddleware$(request, middleware, currentCtx)
+      continue
+    }
+    currentCtx = await middleware({ request$: request, ...currentCtx })
+  }
+  return currentCtx
 }

@@ -8,14 +8,19 @@ import type {
   InferReturnType,
   ExpectedFn,
   AsParam,
+  IMiddleware,
 } from './types'
 import { genQueryKey, tryAndWrap, unwrapValue } from './utils'
 
 export function query$<
   ZObj extends ZodObject<any> | undefined,
-  Fn extends ExpectedFn<ZObj extends ZodObject<any> ? z.infer<ZObj> : undefined>
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends ZodObject<any> ? z.infer<ZObj> : undefined,
+    Mw
+  >
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(queryFn: Fn, key: string, _schema?: ZObj) {
+>(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw | Mw[]) {
   return (
     input: AsParam<Fn>,
     queryOpts?: ModifQueryOptions<FCreateQueryOptions<InferReturnType<Fn>>>

@@ -2,6 +2,7 @@
 import { createMutation, type CreateMutationResult } from '@adeora/solid-query'
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
+import type { IMiddleware } from './types'
 import type {
   FCreateMutationOptions,
   ModifQueryOptions,
@@ -13,9 +14,13 @@ import { genQueryKey, tryAndWrap } from './utils'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,
-  Fn extends ExpectedFn<ZObj extends ZodObject<any> ? z.infer<ZObj> : undefined>
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends ZodObject<any> ? z.infer<ZObj> : undefined,
+    Mw
+  >
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(queryFn: Fn, key: string, _schema?: ZObj) {
+>(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw | Mw[]) {
   return (
     mutationOpts?: ModifQueryOptions<
       FCreateMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>

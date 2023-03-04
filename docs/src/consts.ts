@@ -42,6 +42,8 @@ export const SIDEBAR: Sidebar = {
   API: [
     { text: 'query$', link: 'query' },
     { text: 'mutation$', link: 'mutation' },
+    { text: 'middleware$', link: 'middleware' },
+    { text: 'pipe$', link: 'pipe' },
     {
       text: 'QueryProvider',
       link: 'query-provider',

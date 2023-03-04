@@ -1,0 +1,46 @@
+---
+title: 'middleware$'
+description: 'API for the middleware$ function'
+---
+
+**API for the middleware$ function**
+
+Functions that will run before the query function. Useful for authentication, logging, etc.
+
+## Usage
+
+```ts
+import { middleware$, query$, redirect$, response$ } from '@prpc/solid'
+import { z } from 'zod'
+
+const myMiddleware1 = middleware$(({ request$ }) => {
+  console.log('req', request$)
+  return Math.random() > 0.5 ? { test: true } : { test: null }
+})
+
+export const add = query$(
+  ({ payload, ctx$ }) => {
+    console.log({ ctx$ }) // ctx$ is inferred to be { test: boolean | null }
+    const result = payload.a + payload.b
+    if (result === 10) {
+      return redirect$('/reached-10')
+    }
+    return response$(
+      { result },
+      {
+        headers: {
+          'set-cookie': 'solid-testing=1',
+        },
+      }
+    )
+  },
+  'add',
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+  myMiddleware1
+)
+```
+
+If you want to pipe a middleware, check out the [pipe](/pipe) function.
