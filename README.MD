@@ -125,12 +125,12 @@ query$(({ request$ }) => {
 becomes
 
 ```ts
-query$(({ request$ }) => {
+query$(server$(() => {
   const headers = server$.request.headers
-})
+}))
 ```
 
-How do i run it on the client side?
+How do i call this function from the client?
 
 query$ returns: `(...) => createQuery(...)`
 So what it does is, it is taking the function that is running on the server (wrapped with server$) and basically try to query it using `createQuery` from solid query.

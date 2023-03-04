@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.10
+
+### Patch Changes
+
+- [`9d9c1b5`](https://github.com/OrJDev/prpc/commit/9d9c1b5c6a3a67c22ece8b8dde3457c1fc2a2e9d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: fix the redirect$ function and rename replyWith
+
 ## 0.2.9
 
 ### Patch Changes
