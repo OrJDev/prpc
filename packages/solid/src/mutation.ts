@@ -2,14 +2,9 @@
 import { createMutation, type CreateMutationResult } from '@adeora/solid-query'
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
-import type {
-  ExpectedFn,
-  FCreateMutationOptions,
-  InferReturnType,
-  AsParam,
-  ModifQueryOptions,
-} from './types'
-import { genQueryKey, tryAndWrap } from './utils'
+import type { FCreateMutationOptions, ModifQueryOptions } from './types'
+import type { InferReturnType, ExpectedFn, AsParam } from '@prpc/core/types'
+import { genQueryKey, tryAndWrap } from '@prpc/core/utils'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,

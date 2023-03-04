@@ -2,14 +2,9 @@
 import { createQuery, type CreateQueryResult } from '@adeora/solid-query'
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
-import type {
-  ExpectedFn,
-  FCreateQueryOptions,
-  InferReturnType,
-  AsParam,
-  ModifQueryOptions,
-} from './types'
-import { genQueryKey, tryAndWrap, unwrapValue } from './utils'
+import type { FCreateQueryOptions, ModifQueryOptions } from './types'
+import type { InferReturnType, ExpectedFn, AsParam } from '@prpc/core/types'
+import { genQueryKey, tryAndWrap, unwrapValue } from '@prpc/core/utils'
 
 export function query$<
   ZObj extends ZodObject<any> | undefined,
