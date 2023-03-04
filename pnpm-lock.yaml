@@ -145,30 +145,15 @@ importers:
       typescript: 4.9.5
       vite: 4.1.4_@types+node@18.14.2
 
-  packages/core:
-    specifiers:
-      '@types/node': ^18.7.14
-      '@typescript-eslint/parser': ^5.44.0
-      typescript: ^4.8.2
-      zod: ^3.20.6
-    devDependencies:
-      '@types/node': 18.14.2
-      '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
-      typescript: 4.9.5
-      zod: 3.20.6
-
   packages/solid:
     specifiers:
       '@adeora/solid-query': ^0.16.0
-      '@prpc/core': workspace:*
       '@types/node': ^18.7.14
       '@typescript-eslint/parser': ^5.44.0
       solid-js: ^1.5.3
       solid-start: ^0.2.22
       typescript: ^4.8.2
       zod: ^3.20.6
-    dependencies:
-      '@prpc/core': link:../core
     devDependencies:
       '@adeora/solid-query': 0.16.0_solid-js@1.6.11
       '@types/node': 18.14.2
