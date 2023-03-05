@@ -1,34 +1,17 @@
 import { middleware$, pipe$, query$, redirect$, response$ } from '@prpc/solid'
-import { ServerError } from 'solid-start'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
   console.log('req', request$)
   return { test: null }
 })
-/**
- {
-    test: boolean;
-} | {
-    test: null;
-}
- */
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
-  if (ctx.test === null) {
-    throw new ServerError('test is null')
-  }
   return {
     test: ctx.test,
     o: 1,
   }
 })
-/**
-  {
-    test: boolean;
-    o: number;
-}
- */
 
 const middleware3 = pipe$(middleWare2, (ctx) => {
   return {
@@ -36,13 +19,6 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
     b: 2,
   }
 })
-/**
-  {
-    b: number;
-    test: boolean;
-    o: number;
-}
- */
 
 export const add = query$(
   ({ payload, ctx$ }) => {

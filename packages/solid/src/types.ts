@@ -5,7 +5,7 @@ import type {
   QueryKey,
   SolidMutationOptions,
   SolidQueryOptions,
-} from '@adeora/solid-query'
+} from '@tanstack/solid-query'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,

@@ -7,7 +7,7 @@ Read more at [our docs](https://prpc.vercel.app)
 ### Install
 
 ```sh
-pnpm add @prpc/solid@latest @prpc/vite@latest @adeora/solid-query@latest
+pnpm add @prpc/solid@latest @prpc/vite@latest @tanstack/solid-query@alpha
 ```
 
 ### Vite Plugin

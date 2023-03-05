@@ -5,7 +5,7 @@ description: 'API for the query$ function'
 
 **API for the query$ function**
 
-Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Return object has `useQuery` method on it from `@adeora/solid-query`.
+Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Return object has `useQuery` method on it from `@tanstack/solid-query`.
 
 If you want to modify the response headers / cookies, make sure to check out the [`response$`](/reply-with) docs.
 
@@ -85,9 +85,9 @@ const Query: VoidComponent = () => {
 ## API
 
 - First argument is the function to be wrapped with `server$`
-- Second argument is the mutation key for `@adeora/solid-query`
+- Second argument is the mutation key for `@tanstack/solid-query`
 - Third argument is zod schema (optional)
 
 ### Usage
 
-Returns an object with `createQuery` from `@adeora/solid-query`
+Returns an object with `createQuery` from `@tanstack/solid-query`

@@ -5,7 +5,7 @@ description: 'API for the mutation$ function'
 
 **API for the mutation$ function**
 
-Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Returns a `createMutation` is from `@adeora/solid-query`.
+Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Returns a `createMutation` is from `@tanstack/solid-query`.
 
 If you want to modify the response headers / cookies, make sure to check out the [`response$`](/reply-with) docs.
 
@@ -81,9 +81,9 @@ const Mutation: VoidComponent = () => {
 ### Creation
 
 - First argument is the function to be wrapped with `server$`
-- Second argument is the mutation key for `@adeora/solid-query`
+- Second argument is the mutation key for `@tanstack/solid-query`
 - Third argument is zod schema (optional)
 
 ### Usage
 
-Returns a `createMutation` from `@adeora/solid-query`
+Returns a `createMutation` from `@tanstack/solid-query`

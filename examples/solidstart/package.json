@@ -26,11 +26,11 @@
     "@prpc/vite": "workspace:*",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.7.0",
-    "@adeora/solid-query": "^0.20.0",
     "solid-js": "^1.6.11",
     "solid-start": "^0.2.21",
     "undici": "5.20.0",
-    "zod": "^3.20.6"
+    "zod": "^3.20.6",
+    "@tanstack/solid-query": "^v5.0.0-alpha.2"
   },
   "engines": {
     "node": ">=16"
