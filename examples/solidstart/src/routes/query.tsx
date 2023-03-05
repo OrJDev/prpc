@@ -1,4 +1,5 @@
 import {
+  createEffect,
   createSignal,
   Match,
   Suspense,
@@ -30,6 +31,8 @@ const Query: VoidComponent = () => {
       alwaysCSRRedirect: true,
     })
   )
+
+  createEffect(() => console.log(addRes.isLoading))
 
   return (
     <div class='flex flex-col gap-3 px-3'>

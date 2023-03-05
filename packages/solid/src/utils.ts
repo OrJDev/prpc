@@ -79,6 +79,13 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
+class PRPCClientError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'PRPCClientError'
+  }
+}
+
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
@@ -92,19 +99,20 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
   })
   if (response instanceof Response) {
     const xEnd = response.headers.get('X-End$')
-    if (xEnd) {
+    if (xEnd === '1') {
       const txt = await response.text()
-      throw new Error(txt)
+      // throw new PRPCClientError(txt)
+      return { result: `error is ${txt}` }
     }
     const url = response.headers.get('location')
-    if (!isRedirectResponse(response) || !url) {
-      return await optionalData(response)
-    } else {
+    if (isRedirectResponse(response) && url) {
       if (typeof window !== 'undefined' && !alwaysCSRRedirect) {
         window.location.href = url
       } else {
         navigate(url)
       }
+    } else {
+      return await optionalData(response)
     }
   }
   return response
@@ -138,7 +146,7 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   ctx: any
 ) => {
   let currentCtx = ctx ?? {}
-  for (const middleware of middlewares) {
+  for await (const middleware of middlewares) {
     if (Array.isArray(middleware)) {
       const temp: any = await callMiddleware$(request, middleware, currentCtx)
       if (temp instanceof Response) {
