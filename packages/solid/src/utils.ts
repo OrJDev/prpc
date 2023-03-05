@@ -101,7 +101,7 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
     const xEnd = response.headers.get('X-End$')
     if (xEnd === '1') {
       const txt = await response.text()
-      // throw new PRPCClientError(txt)
+      throw new PRPCClientError(txt)
       return { result: `error is ${txt}` }
     }
     const url = response.headers.get('location')
@@ -135,9 +135,9 @@ export const pipe$ = <
   ...middlewares: Mw
 ): Mw => {
   if (Array.isArray(currentMw)) {
-    return [...currentMw, ...middlewares] as any
+    return [...currentMw, ...middlewares].flat() as any
   }
-  return [currentMw, ...middlewares] as any
+  return [currentMw, ...middlewares].flat() as any
 }
 
 export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
