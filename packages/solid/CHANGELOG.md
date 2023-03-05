@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.14
+
+### Patch Changes
+
+- [`de1a2a1`](https://github.com/OrJDev/prpc/commit/de1a2a11b5acf7a1fddcee9dd1ac960a420420fe) Thanks [@OrJDev](https://github.com/OrJDev)! - move: use tanstack solid query
+
 ## 0.2.13
 
 ### Patch Changes
