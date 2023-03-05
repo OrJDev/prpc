@@ -22,11 +22,11 @@
     "vite": "^4.1.2"
   },
   "dependencies": {
-    "@adeora/solid-query": "^0.20.0",
     "@prpc/solid": "workspace:*",
     "@prpc/vite": "workspace:*",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.7.0",
+    "@tanstack/solid-query": "v5.0.0-alpha.2",
     "solid-js": "^1.6.11",
     "solid-start": "^0.2.21",
     "solid-start-vercel": "^0.2.23",

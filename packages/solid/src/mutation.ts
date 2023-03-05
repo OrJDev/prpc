@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createMutation, type CreateMutationResult } from '@adeora/solid-query'
+import {
+  createMutation,
+  type CreateMutationResult,
+} from '@tanstack/solid-query'
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
 import type { IMiddleware } from './types'

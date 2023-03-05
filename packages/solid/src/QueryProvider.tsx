@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@adeora/solid-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query'
 import type { ParentComponent } from 'solid-js'
 
 export const QueryProvider: ParentComponent<{

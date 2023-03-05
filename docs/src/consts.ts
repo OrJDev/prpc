@@ -43,13 +43,8 @@ export const SIDEBAR: Sidebar = {
     { text: 'query$', link: 'query' },
     { text: 'mutation$', link: 'mutation' },
     { text: 'middleware$', link: 'middleware' },
+    { text: 'end$', link: 'end' },
     { text: 'pipe$', link: 'pipe' },
-    {
-      text: 'QueryProvider',
-      link: 'query-provider',
-    },
-  ],
-  Helpers: [
     {
       text: 'response$',
       link: 'response',
@@ -57,6 +52,10 @@ export const SIDEBAR: Sidebar = {
     {
       text: 'redirect$',
       link: 'redirect',
+    },
+    {
+      text: 'QueryProvider',
+      link: 'query-provider',
     },
   ],
   References: [

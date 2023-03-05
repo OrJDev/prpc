@@ -1,0 +1,33 @@
+---
+title: 'end$'
+description: 'API for the end$ function'
+---
+
+**API for the end$ function**
+
+This function will be used to break out of the middleware chain. It will return a `Response` object with the given error, headers and status.
+
+## Usage
+
+```ts
+import { middleware$, query$, pipe$, end$, redirect$ } from '@prpc/solid'
+import { z } from 'zod'
+
+const myMiddleware1 = middleware$(() => {
+  return { test: null }
+})
+
+const middleWare2 = pipe$(myMiddleware1, (ctx) => {
+  const ua = ctx.request$.headers.get('user-agent')
+  console.log({ ua })
+  if (ctx.test === null) {
+    return end$('test is null', {
+      status: 400,
+    })
+  }
+
+  return {
+    o: 1,
+  }
+})
+```
