@@ -1,9 +1,14 @@
-import { middleware$, pipe$, query$, redirect$, response$ } from '@prpc/solid'
-import { ServerError } from 'solid-start'
+import {
+  middleware$,
+  pipe$,
+  query$,
+  redirect$,
+  response$,
+  end$,
+} from '@prpc/solid'
 import { z } from 'zod'
 
-const myMiddleware1 = middleware$(({ request$ }) => {
-  console.log('req', request$)
+const myMiddleware1 = middleware$(() => {
   return { test: null }
 })
 /**
@@ -15,11 +20,15 @@ const myMiddleware1 = middleware$(({ request$ }) => {
  */
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
+  const ua = ctx.request$.headers.get('user-agent')
+  console.log({ ua })
   if (ctx.test === null) {
-    throw new ServerError('test is null')
+    return end$('test is null', {
+      status: 400,
+    })
   }
+
   return {
-    test: ctx.test,
     o: 1,
   }
 })
@@ -46,7 +55,7 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
 
 export const add = query$(
   ({ payload, ctx$ }) => {
-    console.log({ ctx$ })
+    // console.log({ ctx$ })
     const result = payload.a + payload.b
     if (result === 10) {
       return redirect$('/reached-10')

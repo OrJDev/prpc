@@ -6,6 +6,7 @@ import type {
   SolidMutationOptions,
   SolidQueryOptions,
 } from '@adeora/solid-query'
+import type { ResponseEnd } from './utils'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,
@@ -44,17 +45,6 @@ export type ExpectedInput<T, Ctx = any> = {
   ctx$: Ctx
 }
 
-// export type InferFinalMiddlware<Mw extends IMiddleware[]> = Mw extends [
-//   infer Head,
-//   ...infer Tail
-// ]
-//   ? Head extends IMiddleware
-//     ? Tail extends IMiddleware[]
-//       ? InferReturnType<Head> & InferFinalMiddlware<Tail>
-//       : InferReturnType<Head>
-//     : {}
-//   : {}
-
 export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
   Mw extends [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,8 +54,16 @@ export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
     ? InferReturnType<Last>
     : InferReturnType<Mw>
 
+export type FilteredKeys<T> = {
+  [K in keyof T]: T[K] extends ResponseEnd ? never : K
+}[keyof T]
+
+export type FilterOutNever<T> = {
+  [K in FilteredKeys<T>]: T[K]
+}
+
 export type ExpectedFn<T = any, Mw extends IMiddleware[] = any[]> = (
-  props: ExpectedInput<T, InferFinalMiddlware<Mw>>
+  props: ExpectedInput<T, FilterOutNever<InferFinalMiddlware<Mw>>>
 ) => any
 
 export type AsParam<

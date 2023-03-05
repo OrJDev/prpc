@@ -1,11 +1,30 @@
 import { redirect } from 'solid-start'
-import { PRPCClientError } from '.'
 
 export const response$ = <T>(value: T, init?: ResponseInit): T => {
   return new Response(
     typeof value === 'string' ? value : JSON.stringify(value),
-    init
+    {
+      ...init,
+      headers: {
+        'Content-Type': 'application/json',
+        ...init?.headers,
+      },
+    }
   ) as unknown as T
+}
+
+export class ResponseEnd extends Response {
+  public idEnd = 'ResponseEnd'
+  constructor(value: string, init?: ResponseInit) {
+    super(value, init)
+  }
+}
+
+export const end$ = (error: string, init?: ResponseInit): ResponseEnd => {
+  if (typeof error !== 'string') {
+    return new ResponseEnd(JSON.stringify(error), init)
+  }
+  return new ResponseEnd(error, init)
 }
 
 export const redirect$ = (
@@ -20,6 +39,7 @@ export const redirect$ = (
 import type {
   AsParam,
   ExpectedFn,
+  FilterOutNever,
   IMiddleware,
   InferFinalMiddlware,
   ValueOrAccessor,
@@ -51,7 +71,6 @@ export const optionalData = async (response: Response) => {
     return undefined
   }
 }
-//
 
 export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   if (key) {
@@ -72,10 +91,12 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
   const response = await queryFn({
     payload: unwrapValue(input) as any,
     request$: {} as unknown as Request, // babel will handle this,
-    // @ts-expect-error idc
     ctx$: {} as any, // babel will handle this
   })
-  if (response instanceof Response) {
+  if (response instanceof ResponseEnd) {
+    const txt = await response.text()
+    throw new Error(txt)
+  } else if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
@@ -101,12 +122,11 @@ export const middleware$ = <
 
 export const pipe$ = <
   CurrentMw extends IMiddleware<any> | IMiddleware<any>[],
-  Mw extends IMiddleware<InferFinalMiddlware<CurrentMw>>[]
+  Mw extends IMiddleware<FilterOutNever<InferFinalMiddlware<CurrentMw>>>[]
 >(
   currentMw: CurrentMw,
   ...middlewares: Mw
 ): Mw => {
-  // merger middleware
   if (Array.isArray(currentMw)) {
     return [...currentMw, ...middlewares] as any
   }
@@ -121,10 +141,18 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   let currentCtx = ctx ?? {}
   for (const middleware of middlewares) {
     if (Array.isArray(middleware)) {
-      currentCtx = await callMiddleware$(request, middleware, currentCtx)
+      const temp: any = await callMiddleware$(request, middleware, currentCtx)
+      if (temp instanceof ResponseEnd) {
+        return temp
+      }
+      currentCtx = temp
       continue
     }
-    currentCtx = await middleware({ request$: request, ...currentCtx })
+    const temp = await middleware({ request$: request, ...currentCtx })
+    if (temp instanceof ResponseEnd) {
+      return temp
+    }
+    currentCtx = temp
   }
   return currentCtx
 }

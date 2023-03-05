@@ -24,6 +24,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
           filename: id,
         })
         if (transformed) {
+          console.log(transformed.code)
           return {
             code: transformed.code ?? '',
             map: transformed.map,
@@ -58,24 +59,28 @@ export function transformpRPC$({
             )
           )
         }
-        const callMiddlewareImport = path.node.body.find(
-          (node: any) =>
-            node.type === 'ImportDeclaration' &&
-            node.source.name === 'callMiddleware$'
-        )
-        if (!callMiddlewareImport) {
-          path.node.body.unshift(
-            t.importDeclaration(
-              [
-                t.importSpecifier(
-                  t.identifier('callMiddleware$'),
-                  t.identifier('callMiddleware$')
-                ),
-              ],
-              t.stringLiteral('@prpc/solid')
-            )
+        path.node.body.unshift(
+          t.importDeclaration(
+            [
+              t.importSpecifier(
+                t.identifier('callMiddleware$'),
+                t.identifier('callMiddleware$')
+              ),
+            ],
+            t.stringLiteral('@prpc/solid')
           )
-        }
+        )
+        path.node.body.unshift(
+          t.importDeclaration(
+            [
+              t.importSpecifier(
+                t.identifier('ResponseEnd'),
+                t.identifier('ResponseEnd')
+              ),
+            ],
+            t.stringLiteral('@prpc/solid')
+          )
+        )
       },
       CallExpression(path: any) {
         const { callee } = path.node
@@ -133,9 +138,12 @@ export function transformpRPC$({
             )({
               middlewares: middlewares.map((m: any) => t.identifier(m)),
             })
-            // path.node.arguments.splice(3).forEach(() => {
-            //   path.node.arguments.push(t.identifier('undefined'))
-            // })
+            const validateIsInstanceOfResponse = temp(
+              `if (ctx$ instanceof ResponseEnd) {
+                return ctx$
+              }`
+            )()
+            serverFunction.body.body.unshift(validateIsInstanceOfResponse)
             serverFunction.body.body.unshift(callMiddleware)
           }
 

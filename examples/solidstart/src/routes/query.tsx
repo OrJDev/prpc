@@ -5,7 +5,7 @@ import {
   Switch,
   type VoidComponent,
 } from 'solid-js'
-import { A } from 'solid-start'
+import { A, ServerError } from 'solid-start'
 import { add } from '~/server/queries'
 
 const Query: VoidComponent = () => {
@@ -19,7 +19,12 @@ const Query: VoidComponent = () => {
     () => ({
       placeholderData: (prev) => prev,
       onError: (error) => {
-        console.log(error.message)
+        // console.log({ error })
+        console.log({
+          new: true,
+          error,
+          errorMsg: error.message,
+        })
       },
       retry: false,
       alwaysCSRRedirect: true,
