@@ -11,13 +11,6 @@ import { z } from 'zod'
 const myMiddleware1 = middleware$(() => {
   return { test: null }
 })
-/**
- {
-    test: boolean;
-} | {
-    test: null;
-}
- */
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
   const ua = ctx.request$.headers.get('user-agent')
@@ -32,12 +25,6 @@ const middleWare2 = pipe$(myMiddleware1, (ctx) => {
     o: 1,
   }
 })
-/**
-  {
-    test: boolean;
-    o: number;
-}
- */
 
 const middleware3 = pipe$(middleWare2, (ctx) => {
   return {
@@ -45,13 +32,6 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
     b: 2,
   }
 })
-/**
-  {
-    b: number;
-    test: boolean;
-    o: number;
-}
- */
 
 export const add = query$(
   ({ payload, ctx$ }) => {

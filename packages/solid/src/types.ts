@@ -6,7 +6,6 @@ import type {
   SolidMutationOptions,
   SolidQueryOptions,
 } from '@adeora/solid-query'
-import type { ResponseEnd } from './utils'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,
@@ -55,7 +54,7 @@ export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
     : InferReturnType<Mw>
 
 export type FilteredKeys<T> = {
-  [K in keyof T]: T[K] extends ResponseEnd ? never : K
+  [K in keyof T]: T[K] extends Response ? never : K
 }[keyof T]
 
 export type FilterOutNever<T> = {

@@ -24,7 +24,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
           filename: id,
         })
         if (transformed) {
-          console.log(transformed.code)
+          // console.log(transformed.code)
           return {
             code: transformed.code ?? '',
             map: transformed.map,
@@ -70,17 +70,17 @@ export function transformpRPC$({
             t.stringLiteral('@prpc/solid')
           )
         )
-        path.node.body.unshift(
-          t.importDeclaration(
-            [
-              t.importSpecifier(
-                t.identifier('ResponseEnd'),
-                t.identifier('ResponseEnd')
-              ),
-            ],
-            t.stringLiteral('@prpc/solid')
-          )
-        )
+        // path.node.body.unshift(
+        //   t.importDeclaration(
+        //     [
+        //       t.importSpecifier(
+        //         t.identifier('ResponseEnd'),
+        //         t.identifier('ResponseEnd')
+        //       ),
+        //     ],
+        //     t.stringLiteral('@prpc/solid')
+        //   )
+        // )
       },
       CallExpression(path: any) {
         const { callee } = path.node
@@ -139,7 +139,7 @@ export function transformpRPC$({
               middlewares: middlewares.map((m: any) => t.identifier(m)),
             })
             const validateIsInstanceOfResponse = temp(
-              `if (ctx$ instanceof ResponseEnd) {
+              `if (ctx$ instanceof Response) {
                 return ctx$
               }`
             )()

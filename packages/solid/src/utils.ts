@@ -13,18 +13,15 @@ export const response$ = <T>(value: T, init?: ResponseInit): T => {
   ) as unknown as T
 }
 
-export class ResponseEnd extends Response {
-  public idEnd = 'ResponseEnd'
-  constructor(value: string, init?: ResponseInit) {
-    super(value, init)
-  }
-}
-
-export const end$ = (error: string, init?: ResponseInit): ResponseEnd => {
-  if (typeof error !== 'string') {
-    return new ResponseEnd(JSON.stringify(error), init)
-  }
-  return new ResponseEnd(error, init)
+export const end$ = (_error: string, init?: ResponseInit): Response => {
+  const error = typeof _error === 'string' ? _error : JSON.stringify(_error)
+  return new Response(error, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      'X-End$': '1',
+    },
+  })
 }
 
 export const redirect$ = (
@@ -93,10 +90,12 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
     request$: {} as unknown as Request, // babel will handle this,
     ctx$: {} as any, // babel will handle this
   })
-  if (response instanceof ResponseEnd) {
-    const txt = await response.text()
-    throw new Error(txt)
-  } else if (response instanceof Response) {
+  if (response instanceof Response) {
+    const xEnd = response.headers.get('X-End$')
+    if (xEnd) {
+      const txt = await response.text()
+      throw new Error(txt)
+    }
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
@@ -142,14 +141,14 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   for (const middleware of middlewares) {
     if (Array.isArray(middleware)) {
       const temp: any = await callMiddleware$(request, middleware, currentCtx)
-      if (temp instanceof ResponseEnd) {
+      if (temp instanceof Response) {
         return temp
       }
       currentCtx = temp
       continue
     }
     const temp = await middleware({ request$: request, ...currentCtx })
-    if (temp instanceof ResponseEnd) {
+    if (temp instanceof Response) {
       return temp
     }
     currentCtx = temp
