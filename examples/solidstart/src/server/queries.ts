@@ -5,7 +5,6 @@ import {
   redirect$,
   response$,
   end$,
-  InferFinalMiddlware,
 } from '@prpc/solid'
 import { z } from 'zod'
 
@@ -58,19 +57,6 @@ export const add = query$(
   middleware3
 )
 
-const m = middleware$(() => {
-  return {
-    lmap: 1,
-  }
-})
-const b = query$(
-  ({ ctx$ }) => {
-    return 'b'
-  },
-  'b',
-  undefined,
-  m
-)
 export const decrease = query$(
   ({ payload }) => {
     const result = payload.a - payload.b

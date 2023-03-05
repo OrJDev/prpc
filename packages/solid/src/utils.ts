@@ -123,9 +123,11 @@ export const middleware$ = <
   CurrentContext = unknown
 >(
   mw: Mw
-): [Mw] => {
-  return [mw]
+): Mw => {
+  return mw
 }
+
+type Flattened<T> = T extends Array<infer U> ? Flattened<U> : T
 
 export const pipe$ = <
   CurrentMw extends IMiddleware<any> | IMiddleware<any>[],
@@ -133,7 +135,7 @@ export const pipe$ = <
 >(
   currentMw: CurrentMw,
   ...middlewares: Mw
-): Mw => {
+): Flattened<Mw> => {
   if (Array.isArray(currentMw)) {
     return [...currentMw, ...middlewares].flat() as any
   }
