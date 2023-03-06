@@ -24,6 +24,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
           filename: id,
         })
         if (transformed) {
+          console.log(transformed.code)
           return {
             code: transformed.code ?? '',
             map: transformed.map,
@@ -75,6 +76,12 @@ export function transformpRPC$({
               t.stringLiteral('@prpc/solid')
             )
           )
+        }
+      },
+      VariableDeclarator(path: any) {
+        if (t.isIdentifier(path.node.init.callee, { name: 'procedure$' })) {
+          const builderName = path.node.id.name
+          console.log('name', builderName)
         }
       },
       CallExpression(path: any) {

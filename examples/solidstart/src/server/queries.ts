@@ -1,4 +1,11 @@
-import { middleware$, pipe$, query$, redirect$, response$ } from '@prpc/solid'
+import {
+  middleware$,
+  pipe$,
+  procedure$,
+  query$,
+  redirect$,
+  response$,
+} from '@prpc/solid'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
@@ -53,5 +60,31 @@ export const decrease = query$(
   z.object({
     a: z.number(),
     b: z.number(),
+  })
+)
+
+const myMiddleware = middleware$((ctx) => {
+  const ua = ctx.request$.headers.get('user-agent')
+  if (ua?.includes('Chrome')) {
+    return {
+      ...ctx,
+      browser: 'Chrome',
+    }
+  }
+  return {
+    ...ctx,
+    browser: 'Other',
+  }
+})
+const myProcedure = procedure$(myMiddleware)
+
+export const uaQuery = myProcedure.query$(
+  ({ ctx$, payload }) => {
+    const { browser } = ctx$
+    return { browser, payload }
+  },
+  'ua',
+  z.object({
+    test: z.boolean(),
   })
 )

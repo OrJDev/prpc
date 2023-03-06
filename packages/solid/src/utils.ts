@@ -1,5 +1,4 @@
 import { redirect } from 'solid-start'
-import { PRPCClientError } from '.'
 
 export const response$ = <T>(value: T, init?: ResponseInit): T => {
   return new Response(
