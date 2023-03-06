@@ -20,7 +20,7 @@ export function query$<
     Mw
   >
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw | Mw[]) {
+>(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
     queryOpts?: ModifQueryOptions<FCreateQueryOptions<InferReturnType<Fn>>>
