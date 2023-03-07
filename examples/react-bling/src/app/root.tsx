@@ -17,7 +17,16 @@ function ServerMutationHello() {
   return (
     <div className='flex flex-col gap-2 items-center'>
       <button onClick={() => mutateAsync('from astro')}>Click me</button>
-      <button onClick={() => t('from astro').then(console.log)}>
+      <button
+        onClick={() =>
+          t(
+            { name: 'prpc' },
+            {
+              method: 'POST',
+            }
+          ).then(console.log)
+        }
+      >
         Click me two
       </button>
       <div>{isLoading ? 'Loading...' : data}</div>

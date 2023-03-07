@@ -12,6 +12,7 @@ export const helloMutation = mutation$(
   z.string()
 )
 
-export const t = fetch$((input: string) => {
-  return `hello ${input}`
+export const t = fetch$((input: { name: string }) => {
+  console.log(input)
+  return `hello ${input.name}`
 })
