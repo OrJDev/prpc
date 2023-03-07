@@ -3,9 +3,8 @@
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
   "version": "0.2.9",
   "scripts": {
-    "build": "pnpm clean-some && tsup --config ./tsup.config.js && node scripts/postbuild",
-    "clean": "rm -rf ./node_modules dist .turbo .solid utils.* types.* index.* chunk-*",
-    "clean-some": "rm -rf error.* babel.* utils.* types.* index.* chunk-*",
+    "build": "tsup --config ./tsup.config.js",
+    "clean": "rm -rf ./node_modules dist .turbo .solid",
     "dev": "rm -rf dist && tsup --config ./tsup.config.js --watch",
     "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
     "typecheck": "tsc --noEmit"
@@ -15,31 +14,12 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "import": "./dist/utils.js"
-    },
-    "./babel": {
-      "types": "./dist/babel.d.ts",
-      "import": "./dist/babel.js"
-    },
-    "./error": {
-      "types": "./dist/error.d.ts",
-      "import": "./dist/error.js"
-    },
-    "./types": {
-      "types": "./dist/types.d.ts"
     }
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "index.*",
-    "utils.*",
-    "types.*",
-    "babel.*",
-    "error.*",
+    "dist",
     "README.md"
   ],
   "devDependencies": {

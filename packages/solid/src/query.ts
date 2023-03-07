@@ -3,13 +3,15 @@ import { createQuery, type CreateQueryResult } from '@tanstack/solid-query'
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
 import type { FCreateQueryOptions, ModifQueryOptions } from './types'
-import { genQueryKey, tryAndWrap, unwrapValue } from '@prpc/core/utils'
-import type {
-  InferReturnType,
-  ExpectedFn,
-  AsParam,
-  IMiddleware,
-} from '@prpc/core/types'
+import {
+  type InferReturnType,
+  type ExpectedFn,
+  type AsParam,
+  type IMiddleware,
+  genQueryKey,
+  tryAndWrap,
+  unwrapValue,
+} from '@prpc/core'
 
 export function query$<
   ZObj extends ZodObject<any> | undefined,

@@ -1,6 +1,6 @@
 import { transform } from '@babel/core'
 import { expect, test } from 'vitest'
-import { transformpRPC$ } from '../src'
+import { transformpRPC$ } from '@prpc/core'
 
 const inputCode = `
 export const add = query$(

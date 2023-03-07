@@ -6,7 +6,7 @@ import type {
   SolidMutationOptions,
   SolidQueryOptions,
 } from '@tanstack/solid-query'
-import type { MergeRedirect, OmitQueryData } from '@prpc/core/types'
+import type { MergeRedirect, OmitQueryData } from '@prpc/core'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,

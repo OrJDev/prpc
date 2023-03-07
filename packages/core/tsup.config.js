@@ -9,5 +9,6 @@ export default defineConfig((options) => ({
   keepNames: false,
   tsconfig: './tsconfig.json',
   format: ['esm'],
+  bundle: true,
   dts: true,
 }))

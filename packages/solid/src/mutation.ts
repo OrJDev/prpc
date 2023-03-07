@@ -6,13 +6,14 @@ import {
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
 import type { FCreateMutationOptions, ModifQueryOptions } from './types'
-import type {
-  IMiddleware,
-  InferReturnType,
-  ExpectedFn,
-  AsParam,
-} from '@prpc/core/types'
-import { genQueryKey, tryAndWrap } from '@prpc/core/utils'
+import {
+  type IMiddleware,
+  type InferReturnType,
+  type ExpectedFn,
+  type AsParam,
+  genQueryKey,
+  tryAndWrap,
+} from '@prpc/core'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,
