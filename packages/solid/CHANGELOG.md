@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.15
+
+### Patch Changes
+
+- [`247967f`](https://github.com/OrJDev/prpc/commit/247967f8d347fbae3758daf8b94d8451d4914e90) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: pipe$ types & inferMiddleware
+
 ## 0.2.14
 
 ### Patch Changes
