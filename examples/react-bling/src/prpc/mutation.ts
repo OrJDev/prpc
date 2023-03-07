@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  createMutation,
-  type CreateMutationResult,
-} from '@tanstack/solid-query'
-import { useNavigate } from 'solid-start'
+  useMutation,
+  type UseMutationResult,
+  type UseMutationOptions,
+} from '@tanstack/react-query'
 import type zod from 'zod'
-import type { FCreateMutationOptions, ModifQueryOptions } from './types'
 import {
   type IMiddleware,
   type InferReturnType,
   type ExpectedFn,
   type AsParam,
+  type MergeRedirect,
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
@@ -25,21 +25,24 @@ export function mutation$<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
-    mutationOpts?: ModifQueryOptions<
-      FCreateMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+    mutationOpts?: MergeRedirect<
+      UseMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
     >
   ) => {
-    const navigate = useNavigate()
-    return createMutation(() => ({
+    const navigate = (url: string) => {
+      console.log('navigate', url)
+    }
+    return useMutation({
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) =>
         tryAndWrap(
           queryFn,
           input,
           navigate,
-          mutationOpts?.()?.alwaysCSRRedirect
+          mutationOpts?.alwaysCSRRedirect,
+          true
         ),
-      ...((mutationOpts?.() || {}) as any),
-    })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+      ...((mutationOpts || {}) as any),
+    }) as UseMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }
 }

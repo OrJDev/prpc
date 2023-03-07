@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createQuery, type CreateQueryResult } from '@tanstack/solid-query'
-import { useNavigate } from 'solid-start'
+import {
+  useQuery,
+  type UseQueryOptions,
+  type UseQueryResult,
+} from '@tanstack/react-query'
 import type zod from 'zod'
-import type { FCreateQueryOptions, ModifQueryOptions } from './types'
 import {
   type InferReturnType,
   type ExpectedFn,
   type AsParam,
   type IMiddleware,
+  type MergeRedirect,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
@@ -24,14 +27,22 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: ModifQueryOptions<FCreateQueryOptions<InferReturnType<Fn>>>
+    queryOpts?: MergeRedirect<UseQueryOptions<InferReturnType<Fn>>>
   ) => {
-    const navigate = useNavigate()
-    return createQuery(() => ({
+    const navigate = (url: string) => {
+      console.log('navigate', url)
+    }
+    return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () =>
-        tryAndWrap(queryFn, input, navigate, queryOpts?.().alwaysCSRRedirect),
-      ...((queryOpts?.() || {}) as any),
-    })) as CreateQueryResult<InferReturnType<Fn>>
+        tryAndWrap(
+          queryFn,
+          input,
+          navigate,
+          queryOpts?.alwaysCSRRedirect,
+          true
+        ),
+      ...((queryOpts || {}) as any),
+    }) as UseQueryResult<InferReturnType<Fn>>
   }
 }

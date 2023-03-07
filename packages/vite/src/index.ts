@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as babel from '@babel/core'
 import type { Plugin } from 'vite'
-import { transformpRPC$ } from '@prpc/core'
+import { createTransformpRPC$ } from '@prpc/core'
 
 export interface PRPCPluginOptions {
   babel?: babel.TransformOptions
+  isAstro?: boolean
 }
 
 export default function prpc(opts?: PRPCPluginOptions): Plugin {
@@ -16,6 +17,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
         (code.includes('query$(') || code.includes('mutation$(')) &&
         id.endsWith('.ts')
       ) {
+        const transformpRPC$ = createTransformpRPC$(opts?.isAstro ?? false)
         const transformed = await babel.transformAsync(code, {
           presets: [
             ['@babel/preset-typescript'],
@@ -25,6 +27,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
           filename: id,
         })
         if (transformed) {
+          // console.log(transformed.code)
           return {
             code: transformed.code ?? '',
             map: transformed.map,

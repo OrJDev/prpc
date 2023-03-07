@@ -56,14 +56,18 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
   navigate: (url: string) => any,
-  alwaysCSRRedirect?: boolean
+  alwaysCSRRedirect?: boolean,
+  isAstro?: boolean
 ) {
-  const response = await queryFn({
-    payload: unwrapValue(input) as any,
-    request$: {} as unknown as Request, // babel will handle this,
-    // @ts-expect-error idc
-    ctx$: {} as any, // babel will handle this
-  })
+  const response = await queryFn(
+    isAstro
+      ? unwrapValue(input)
+      : ({
+          payload: unwrapValue(input) as any,
+          request$: {} as unknown as Request, // babel will handle this,
+          ctx$: {} as any, // babel will handle this
+        } as any)
+  )
   if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {

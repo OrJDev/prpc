@@ -1,26 +1,29 @@
-import { fetch$, split$, server$ } from '@tanstack/bling'
-import { secret } from './secret.server$'
+import React from 'react'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { helloQuery } from './queries'
+import { helloMutation } from './mutations'
 
-const fetchHello = fetch$(() => console.log('Hello world'))
-
-function ServerHello() {
-  return <button onClick={() => fetchHello()}>ServerFn Hello</button>
+function ServerQueryHello() {
+  const { isLoading, data } = helloQuery()
+  return (
+    <div className='flex flex-col gap-2 items-center'>
+      <div>{isLoading ? 'Loading...' : data}</div>
+    </div>
+  )
 }
 
-const splitHello = split$(() => console.log('I am code split!'))
-
-function SplitHello() {
-  return <button onClick={() => splitHello()}>Split Hello</button>
+function ServerMutationHello() {
+  const { isLoading, data, mutateAsync } = helloMutation()
+  return (
+    <div className='flex flex-col gap-2 items-center'>
+      <button onClick={() => mutateAsync('from astro')}>Click me</button>
+      <div>{isLoading ? 'Loading...' : data}</div>
+    </div>
+  )
 }
-
-const inlineSecret = server$('I am an inline server secret!')
 
 export function App() {
-  console.log('Do you know the server secret?', secret ?? 'Nope.')
-  console.log(
-    'Do you know the inline server secret?',
-    inlineSecret ?? 'Not even.',
-  )
+  const [queryClient] = React.useState(() => new QueryClient())
 
   return (
     <html>
@@ -28,9 +31,10 @@ export function App() {
         <title>Hello World</title>
       </head>
       <body>
-        <div>Hello world</div>
-        <ServerHello />
-        <SplitHello />
+        <QueryClientProvider client={queryClient}>
+          <ServerQueryHello />
+          <ServerMutationHello />
+        </QueryClientProvider>
         <Scripts />
       </body>
     </html>
@@ -38,5 +42,10 @@ export function App() {
 }
 
 function Scripts() {
-  return <script type="module" src="/src/app/entry-client.tsx"></script>
+  return import.meta.env.DEV ? (
+    <>
+      <script type='module' src='/@vite/client'></script>
+      <script type='module' src='/src/app/entry-client.tsx'></script>
+    </>
+  ) : null
 }
