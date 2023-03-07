@@ -66,6 +66,9 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
         request$: {} as unknown as Request, // babel will handle this,
         ctx$: {} as any, // babel will handle this
       } as any)
+  console.log({
+    actualInput,
+  })
   const response = await queryFn(actualInput)
   if (response instanceof Response) {
     const url = response.headers.get('location')

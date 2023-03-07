@@ -1,4 +1,4 @@
-// import { fetch$ } from '@tanstack/bling/server'
+import { fetch$ } from '@tanstack/bling'
 import { z } from 'zod'
 import { mutation$ } from '../prpc'
 
@@ -12,6 +12,6 @@ export const helloMutation = mutation$(
   z.string()
 )
 
-// export const testing = fetch$((g, a) => {
-//   return '1'
-// })
+export const t = fetch$((input: string) => {
+  return `hello ${input}`
+})

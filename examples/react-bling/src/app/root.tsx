@@ -1,10 +1,10 @@
 import React from 'react'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { helloQuery } from './queries'
-import { helloMutation } from './mutations'
+import { helloMutation, t } from './mutations'
 
 function ServerQueryHello() {
-  const { isLoading, data } = helloQuery()
+  const { isLoading, data } = helloQuery('testing')
   return (
     <div className='flex flex-col gap-2 items-center'>
       <div>{isLoading ? 'Loading...' : data}</div>
@@ -17,6 +17,9 @@ function ServerMutationHello() {
   return (
     <div className='flex flex-col gap-2 items-center'>
       <button onClick={() => mutateAsync('from astro')}>Click me</button>
+      <button onClick={() => t('from astro').then(console.log)}>
+        Click me two
+      </button>
       <div>{isLoading ? 'Loading...' : data}</div>
     </div>
   )
