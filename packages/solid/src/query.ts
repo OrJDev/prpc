@@ -2,7 +2,7 @@
 import { createQuery, type CreateQueryResult } from '@tanstack/solid-query'
 import { useNavigate } from 'solid-start'
 import type zod from 'zod'
-import type { FCreateQueryOptions, ModifQueryOptions } from './types'
+import type { FCreateQueryOptions } from './types'
 import {
   type InferReturnType,
   type ExpectedFn,
@@ -24,13 +24,12 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: ModifQueryOptions<FCreateQueryOptions<InferReturnType<Fn>>>
+    queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
   ) => {
     const navigate = useNavigate()
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () =>
-        tryAndWrap(queryFn, input, navigate, queryOpts?.().alwaysCSRRedirect),
+      queryFn: () => tryAndWrap(queryFn, input, navigate),
       ...((queryOpts?.() || {}) as any),
     })) as CreateQueryResult<InferReturnType<Fn>>
   }

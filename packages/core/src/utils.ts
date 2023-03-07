@@ -56,7 +56,6 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
   navigate: (url: string) => any,
-  alwaysCSRRedirect?: boolean,
   isAstro?: boolean
 ) {
   const actualInput = isAstro
@@ -66,20 +65,18 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
         request$: {} as unknown as Request, // babel will handle this,
         ctx$: {} as any, // babel will handle this
       } as any)
-  console.log({
-    actualInput,
-  })
   const response = await queryFn(actualInput)
   if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
     } else {
-      if (typeof window !== 'undefined' && !alwaysCSRRedirect) {
+      if (typeof window !== 'undefined') {
         window.location.href = url
       } else {
         navigate(url)
       }
+      return response
     }
   }
   return response

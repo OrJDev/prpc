@@ -3,9 +3,8 @@ import {
   createMutation,
   type CreateMutationResult,
 } from '@tanstack/solid-query'
-import { useNavigate } from 'solid-start'
 import type zod from 'zod'
-import type { FCreateMutationOptions, ModifQueryOptions } from './types'
+import type { FCreateMutationOptions } from './types'
 import {
   type IMiddleware,
   type InferReturnType,
@@ -14,6 +13,7 @@ import {
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
+import { useNavigate } from 'solid-start'
 
 export function mutation$<
   ZObj extends zod.ZodSchema | undefined,
@@ -25,20 +25,17 @@ export function mutation$<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
-    mutationOpts?: ModifQueryOptions<
-      FCreateMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+    mutationOpts?: FCreateMutationOptions<
+      InferReturnType<Fn>,
+      Error,
+      AsParam<Fn, false>
     >
   ) => {
     const navigate = useNavigate()
     return createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(
-          queryFn,
-          input,
-          navigate,
-          mutationOpts?.()?.alwaysCSRRedirect
-        ),
+        tryAndWrap(queryFn, input, navigate),
       ...((mutationOpts?.() || {}) as any),
     })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }

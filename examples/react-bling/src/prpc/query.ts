@@ -34,14 +34,7 @@ export function query$<
     }
     return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () =>
-        tryAndWrap(
-          queryFn,
-          input,
-          navigate,
-          queryOpts?.alwaysCSRRedirect,
-          true
-        ),
+      queryFn: () => tryAndWrap(queryFn, input, navigate, true),
       ...((queryOpts || {}) as any),
     }) as UseQueryResult<InferReturnType<Fn>>
   }

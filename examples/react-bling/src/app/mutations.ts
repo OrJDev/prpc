@@ -14,5 +14,5 @@ export const helloMutation = mutation$(
 
 export const t = fetch$((input: { name: string }) => {
   console.log(input)
-  return `hello ${input.name}`
+  return `hello ${input?.name ?? 'no name'}`
 })

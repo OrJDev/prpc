@@ -35,13 +35,7 @@ export function mutation$<
     return useMutation({
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(
-          queryFn,
-          input,
-          navigate,
-          mutationOpts?.alwaysCSRRedirect,
-          true
-        ),
+        tryAndWrap(queryFn, input, navigate, true),
       ...((mutationOpts || {}) as any),
     }) as UseMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }

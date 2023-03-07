@@ -65,11 +65,6 @@ export const add = mutation$(
 
 // client usage
 const mutationRes = add(() => ({
-  alwaysCSRRedirect: true,
+  // ... mutation options
 }))
 ```
-
-## alwaysCSRRedirect
-
-Setting this to true will always use the `useNavigate` hook coming from SolidStart.
-When set to false and `typeof window !== 'undefined'` it will use `window.location.href` to redirect.
