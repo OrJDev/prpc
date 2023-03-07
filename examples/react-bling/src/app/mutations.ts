@@ -3,9 +3,9 @@ import { z } from 'zod'
 import { mutation$ } from '../prpc'
 
 export const helloMutation = mutation$(
-  ({ request$ }) => {
+  ({ request$, payload }) => {
     const ua = request$.headers.get('user-agent')
-    console.log({ ua })
+    console.log({ ua, payload })
     return `hello testing`
   },
   'helloMutation',

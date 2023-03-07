@@ -80,6 +80,9 @@ export function createTransformpRPC$(isAstro: boolean) {
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
+
+              const payload = t.identifier('payload')
+              serverFunction.params[0] = payload
             }
             path.traverse({
               Identifier(innerPath: any) {
@@ -94,7 +97,7 @@ export function createTransformpRPC$(isAstro: boolean) {
               },
             })
 
-            if (zodSchema) {
+            if (zodSchema && !isAstro) {
               const schema = temp(`const schema = %%zod%%`)({
                 zod: zodSchema,
               })
