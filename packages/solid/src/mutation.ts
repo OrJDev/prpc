@@ -5,15 +5,14 @@ import {
 } from '@tanstack/solid-query'
 import { useNavigate } from 'solid-start'
 import type { z, ZodObject } from 'zod'
-import type { IMiddleware } from './types'
+import type { FCreateMutationOptions, ModifQueryOptions } from './types'
 import type {
-  FCreateMutationOptions,
-  ModifQueryOptions,
+  IMiddleware,
   InferReturnType,
   ExpectedFn,
   AsParam,
-} from './types'
-import { genQueryKey, tryAndWrap } from './utils'
+} from '@prpc/core/types'
+import { genQueryKey, tryAndWrap } from '@prpc/core/utils'
 
 export function mutation$<
   ZObj extends ZodObject<any> | undefined,

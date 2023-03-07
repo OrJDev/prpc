@@ -1,13 +1,15 @@
+import { redirect } from 'solid-start'
+
 export * from './QueryProvider'
 export * from './mutation'
 export * from './query'
 export * from './types'
-export * from './utils'
+export * from '@prpc/core'
 
-export class PRPCClientError extends Error {
-  constructor(message: string, cause?: Error) {
-    super(message)
-    this.name = 'PRPCClientError'
-    this.stack = cause?.stack
-  }
+export const redirect$ = (
+  url: string,
+  init?: number | ResponseInit
+): undefined => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return redirect(url, init) as any
 }

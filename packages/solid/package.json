@@ -89,6 +89,9 @@
     "zod": "^3.20.6",
     "@tanstack/solid-query": "^v5.0.0-alpha.2"
   },
+  "dependencies": {
+    "@prpc/core": "workspace:*"
+  },
   "peerDependencies": {
     "solid-js": "^1.5.3",
     "@tanstack/solid-query": "^v5.0.0-alpha.2",
