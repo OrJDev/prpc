@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "~*": ["./src/*"]
+    },
+    "noEmit": false,
+    "esModuleInterop": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "outDir": "dist"
+  },
+  "include": ["./src/"],
+  "exclude": ["node_modules", "template"]
+}
