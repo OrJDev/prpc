@@ -5,21 +5,19 @@ description: 'API for the mutation$ function'
 
 **API for the mutation$ function**
 
-Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Returns a `createMutation` is from `@tanstack/solid-query`.
+Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Returns a `useMutation` is from `@tanstack/react-query`.
 
 If you want to modify the response headers / cookies, make sure to check out the [`response$`](/reply-with) docs.
 
 ## Examples
 
 ```ts
-import { mutation$ } from '@prpc/solid'
+import { mutation$ } from '@prpc/react-bling'
 import { z } from 'zod'
-import { isServer } from 'solid-js/web'
 
 export const decrease = mutation$(
   ({ payload }) => {
     const result = payload.a - payload.b
-    console.log(isServer)
     console.log('add', result)
     return result
   },
@@ -34,43 +32,12 @@ export const decrease = mutation$(
 ### Client Usage
 
 ```ts
-import {
-  createSignal,
-  Match,
-  Suspense,
-  Switch,
-  type VoidComponent,
-} from 'solid-js'
-import { decrease } from '~/server/mutations'
-
-const Mutation: VoidComponent = () => {
-  const [num1, setNum1] = createSignal(1)
-  const mutationRes = decrease()
+export default function ServerMutationHello() {
+  const { isLoading, data, mutateAsync } = helloMutation()
   return (
-    <div>
-      <Suspense>
-        <Switch>
-          <Match when={mutationRes.data}>
-            <div>Num {mutationRes.data}</div>
-          </Match>
-          <Match when={mutationRes.error}>
-            <div>Error</div>
-          </Match>
-        </Switch>
-        <button onClick={() => setNum1((num) => num + 1)}>
-          Increment {num1()}
-        </button>
-      </Suspense>
-      <button
-        onClick={() =>
-          mutationRes.mutateAsync({
-            a: num1(),
-            b: 2,
-          })
-        }
-      >
-        Submit
-      </button>
+    <div className='flex flex-col gap-2 items-center'>
+      <button onClick={() => mutateAsync('from astro')}>Click me</button>
+      <div>{isLoading ? 'Loading...' : data}</div>
     </div>
   )
 }
@@ -81,9 +48,9 @@ const Mutation: VoidComponent = () => {
 ### Creation
 
 - First argument is the function to be wrapped with `server$`
-- Second argument is the mutation key for `@tanstack/solid-query`
+- Second argument is the mutation key for `@tanstack/react-query`
 - Third argument is zod schema (optional)
 
 ### Usage
 
-Returns a `createMutation` from `@tanstack/solid-query`
+Returns a `useMutation` from `@tanstack/react-query`

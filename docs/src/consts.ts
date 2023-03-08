@@ -36,14 +36,15 @@ export const SIDEBAR: Sidebar = {
   Overview: [
     { text: 'Introduction', link: 'introduction' },
     { text: 'Install', link: 'install' },
-    { text: 'Usage', link: 'usage' },
     { text: 'Examples', link: 'examples' },
   ],
   '@prpc/solid': [
+    { text: 'Install', link: 'solid/install' },
     { text: 'query$', link: 'solid/query' },
     { text: 'mutation$', link: 'solid/mutation' },
   ],
   '@prpc/react-bling': [
+    { text: 'Install', link: 'react/install' },
     { text: 'query$', link: 'react/query' },
     { text: 'mutation$', link: 'react/mutation' },
   ],
