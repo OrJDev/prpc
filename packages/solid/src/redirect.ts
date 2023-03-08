@@ -25,4 +25,5 @@ export function handleRedirect(
       }
     }
   })
+  return null
 }
