@@ -15,7 +15,7 @@
     "@astrojs/node": "^5.0.3",
     "@astrojs/react": "^1.2.2",
     "@babel/generator": "^7.21.1",
-    "@prpc/core": "workspace:*",
+    "@prpc/react": "workspace:*",
     "@prpc/vite": "workspace:*",
     "@tanstack/bling": "^0.4.0",
     "@tanstack/react-query": "^4.26.1",

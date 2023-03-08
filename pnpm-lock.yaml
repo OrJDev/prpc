@@ -75,7 +75,7 @@ importers:
       '@astrojs/node': ^5.0.3
       '@astrojs/react': ^1.2.2
       '@babel/generator': ^7.21.1
-      '@prpc/core': workspace:*
+      '@prpc/react': workspace:*
       '@prpc/vite': workspace:*
       '@tanstack/bling': ^0.4.0
       '@tanstack/react-query': ^4.26.1
@@ -92,7 +92,7 @@ importers:
       '@astrojs/node': 5.0.4_astro@2.0.18
       '@astrojs/react': 1.2.2_3xleytyzprlgycb2ded54tx72i
       '@babel/generator': 7.21.1
-      '@prpc/core': link:../../packages/core
+      '@prpc/react': link:../../packages/react
       '@prpc/vite': link:../../packages/vite
       '@tanstack/bling': 0.4.0_vite@4.1.4
       '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
@@ -167,6 +167,29 @@ importers:
       '@types/babel__core': 7.20.0
       '@types/node': 18.14.2
       '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
+      typescript: 4.9.5
+      zod: 3.20.6
+
+  packages/react:
+    specifiers:
+      '@prpc/core': workspace:*
+      '@tanstack/bling': 0.4.0
+      '@tanstack/react-query': ^4.26.1
+      '@types/node': ^18.7.14
+      '@typescript-eslint/parser': ^5.44.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      typescript: ^4.8.2
+      zod: ^3.20.6
+    dependencies:
+      '@prpc/core': link:../core
+    devDependencies:
+      '@tanstack/bling': 0.4.0_vite@4.1.4
+      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+      '@types/node': 18.14.2
+      '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       typescript: 4.9.5
       zod: 3.20.6
 
@@ -1402,7 +1425,6 @@ packages:
     dependencies:
       '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
-    dev: false
 
   /@babel/plugin-transform-react-jsx-source/7.19.6_@babel+core@7.21.0:
     resolution: {integrity: sha512-RpAi004QyMNisst/pvSanoRdJ4q+jMCWyk9zdw/CyLB9j8RXEahodR6l2GyttDRyEVWZtbN+TpLiHJ3t34LbsQ==}
@@ -1412,7 +1434,6 @@ packages:
     dependencies:
       '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
-    dev: false
 
   /@babel/plugin-transform-react-jsx/7.21.0_@babel+core@7.21.0:
     resolution: {integrity: sha512-6OAWljMvQrZjR2DaNhVfRz6dkCAVV+ymcLUmaf8bccGOHn2v5rHJK3tTpij0BuhdYWP4LLaqj5lwcdlpAAPuvg==}
@@ -2647,11 +2668,9 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - vite
-    dev: false
 
   /@tanstack/query-core/4.26.1:
     resolution: {integrity: sha512-Zrx2pVQUP4ndnsu6+K/m8zerXSVY8QM+YSbxA1/jbBY21GeCd5oKfYl92oXPK0hPEUtoNuunIdiq0ZMqLos+Zg==}
-    dev: false
 
   /@tanstack/query-core/5.0.0-alpha.2:
     resolution: {integrity: sha512-HZTQTRSb1ZR2lyya7w/hPx1Wx3DvX4527fsCIC6cAEfkXkqWkrCtKVo4mfB3Xthjz+DJz7HiJx7I4n9Ww/VPPw==}
@@ -2672,7 +2691,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
 
   /@tanstack/solid-query/5.0.0-alpha.2_solid-js@1.6.11:
     resolution: {integrity: sha512-wCKyF1bXYPx2b1BlfHD8+4eqzp332H3UkqgZPD9+XYOr3wKiFb3O/gL/Ohukd6WJpG+jR2XMNOBLdSFPhM6Bxg==}
@@ -3023,7 +3041,6 @@ packages:
       vite: 4.1.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@vitest/expect/0.29.2:
     resolution: {integrity: sha512-wjrdHB2ANTch3XKRhjWZN0UueFocH0cQbi2tR5Jtq60Nb3YOSmakjdAvUa2JFBu/o8Vjhj5cYbcMXkZxn1NzmA==}
@@ -6464,7 +6481,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: false
 
   /loupe/2.3.6:
     resolution: {integrity: sha512-RaPMZKiMy8/JruncMU5Bt6na1eftNoo++R4Y+N2FrxkDVTrGvcyzFTsaGif4QTeKESheMGegbhw6iUAq+5A8zA==}
@@ -7855,7 +7871,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
@@ -7864,14 +7879,12 @@ packages:
   /react-refresh/0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
@@ -8266,7 +8279,6 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /section-matter/1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
@@ -9514,7 +9526,6 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
-    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

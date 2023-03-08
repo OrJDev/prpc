@@ -12,6 +12,7 @@ import {
   tryAndWrap,
   unwrapValue,
 } from '@prpc/core'
+import { handleRedirect } from './redirect'
 
 export function query$<
   ZObj extends zod.ZodSchema | undefined,
@@ -29,7 +30,7 @@ export function query$<
     const navigate = useNavigate()
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () => tryAndWrap(queryFn, input, navigate),
+      queryFn: () => tryAndWrap(queryFn, input, navigate, handleRedirect),
       ...((queryOpts?.() || {}) as any),
     })) as CreateQueryResult<InferReturnType<Fn>>
   }

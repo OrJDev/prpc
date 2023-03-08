@@ -38,3 +38,18 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
     },
   }
 }
+
+export function astroPRPC() {
+  return {
+    name: 'prpc',
+    hooks: {
+      'astro:config:setup': (config: any) => {
+        config.updateConfig({
+          vite: {
+            plugins: [prpc({ isAstro: true })],
+          },
+        })
+      },
+    },
+  }
+}

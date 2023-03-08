@@ -1,6 +1,4 @@
-export * from './QueryProvider'
 export * from './mutation'
 export * from './query'
-export * from './types'
 export * from '@prpc/core'
 export * from './redirect'

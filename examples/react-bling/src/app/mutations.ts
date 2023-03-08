@@ -1,6 +1,6 @@
 import { fetch$ } from '@tanstack/bling'
 import { z } from 'zod'
-import { mutation$ } from '../prpc'
+import { mutation$ } from '@prpc/react'
 
 export const helloMutation = mutation$(
   ({ request$, payload }) => {

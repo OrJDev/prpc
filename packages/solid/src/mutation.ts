@@ -14,6 +14,7 @@ import {
   tryAndWrap,
 } from '@prpc/core'
 import { useNavigate } from 'solid-start'
+import { handleRedirect } from './redirect'
 
 export function mutation$<
   ZObj extends zod.ZodSchema | undefined,
@@ -35,7 +36,7 @@ export function mutation$<
     return createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(queryFn, input, navigate),
+        tryAndWrap(queryFn, input, navigate, handleRedirect),
       ...((mutationOpts?.() || {}) as any),
     })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }

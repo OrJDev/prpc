@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import node from '@astrojs/node'
 import { bling } from '@tanstack/bling/vite'
-import prpc from '@prpc/vite'
+import { astroPRPC } from '@prpc/vite'
 // https://astro.build/config
 
 function astroBling() {
@@ -27,20 +27,6 @@ function astroBling() {
         config.vite.build?.rollupOptions?.input.push('src/app/entry-client.tsx')
         config.vite.build.ssrManifest = true
         config.vite.build.manifest = true
-      },
-    },
-  }
-}
-function astroPRPC() {
-  return {
-    name: 'prpc',
-    hooks: {
-      'astro:config:setup': (config) => {
-        config.updateConfig({
-          vite: {
-            plugins: [prpc({ isAstro: true })],
-          },
-        })
       },
     },
   }
