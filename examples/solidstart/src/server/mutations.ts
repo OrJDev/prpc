@@ -29,3 +29,7 @@ export const decrease = mutation$(
     b: z.number(),
   })
 )
+
+export const noInput = mutation$(() => {
+  return 1
+}, 'decrease')

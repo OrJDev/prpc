@@ -1,0 +1,56 @@
+---
+title: 'mutation$'
+description: 'API for the mutation$ function'
+---
+
+**API for the mutation$ function**
+
+Converts the function to be a `server$` function and will add in zod validation if there is a zod object in the 2nd argument. Returns a `useMutation` is from `@tanstack/react-query`.
+
+If you want to modify the response headers / cookies, make sure to check out the [`response$`](/reply-with) docs.
+
+## Examples
+
+```ts
+import { mutation$ } from '@prpc/react-bling'
+import { z } from 'zod'
+
+export const decrease = mutation$(
+  ({ payload }) => {
+    const result = payload.a - payload.b
+    console.log('add', result)
+    return result
+  },
+  'decrease', // this will be used the mutation key
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }) // this will be used as the input type and input validation
+)
+```
+
+### Client Usage
+
+```tsx
+export default function ServerMutationHello() {
+  const { isLoading, data, mutateAsync } = helloMutation()
+  return (
+    <div className='flex flex-col gap-2 items-center'>
+      <button onClick={() => mutateAsync('from astro')}>Click me</button>
+      <div>{isLoading ? 'Loading...' : data}</div>
+    </div>
+  )
+}
+```
+
+## API
+
+### Creation
+
+- First argument is the function to be wrapped with `server$`
+- Second argument is the mutation key for `@tanstack/react-query`
+- Third argument is zod schema (optional)
+
+### Usage
+
+Returns a `useMutation` from `@tanstack/react-query`

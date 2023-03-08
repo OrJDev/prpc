@@ -52,28 +52,28 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
+type Navigate = (url: string, opts: { replace: boolean }) => any
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
-  navigate: (url: string) => any,
-  alwaysCSRRedirect?: boolean
+  navigate: Navigate,
+  handleRedirect: (url: string, navigate: Navigate) => void,
+  isAstro?: boolean
 ) {
-  const response = await queryFn({
-    payload: unwrapValue(input) as any,
-    request$: {} as unknown as Request, // babel will handle this,
-    // @ts-expect-error idc
-    ctx$: {} as any, // babel will handle this
-  })
+  const actualInput = isAstro
+    ? unwrapValue(input)
+    : ({
+        payload: unwrapValue(input) as any,
+        request$: {} as unknown as Request, // babel will handle this,
+        ctx$: {} as any, // babel will handle this
+      } as any)
+  const response = await queryFn(actualInput)
   if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
     } else {
-      if (typeof window !== 'undefined' && !alwaysCSRRedirect) {
-        window.location.href = url
-      } else {
-        navigate(url)
-      }
+      return handleRedirect(url, navigate)
     }
   }
   return response

@@ -4,80 +4,17 @@ Write server code, query / mutate it on the server and validate inputs using zod
 
 Read more at [our docs](https://prpc.vercel.app)
 
-### Install
+pRPC currently has 2 adapters, one for Bling and one for SolidStart.
 
-```sh
-pnpm add @prpc/solid@latest @prpc/vite@latest @tanstack/solid-query@alpha
-```
+## Bling
 
-### Vite Plugin
+[Read More Here Regarding Bling](https://prpc.vercel.app/react/install)
 
-Add the following to your vite config:
+## SolidStart
 
-```ts
-import prpc from '@prpc/vite';
-import solid from 'solid-start/vite';
-...
-export default defineConfig(() => {
-  return {
-    ...
-    plugins: [
-      prpc(), // Important that this plugin runs before the solid one!
-      solid()
-    ]
-    ...
-  }
-})
-```
+[Read More Here Regarding SolidStart](https://prpc.vercel.app/solid/install)
 
-### QueryProvider
-
-```tsx
-// @refresh reload
-import { QueryProvider } from '@prpc/solid'
-import { Suspense } from 'solid-js'
-import {
-  Body,
-  ErrorBoundary,
-  FileRoutes,
-  Head,
-  Html,
-  Link,
-  Meta,
-  Routes,
-  Scripts,
-  Title,
-} from 'solid-start'
-
-export default function Root() {
-  return (
-    <Html lang='en'>
-      <Head>
-        <Title>pRPC Basic</Title>
-        <Meta charset='utf-8' />
-        <Meta name='viewport' content='width=device-width, initial-scale=1' />
-        <Meta name='theme-color' content='#026d56' />
-        <Meta name='description' content='pRPC Basic example' />
-        <Link rel='icon' href='/favicon.ico' />
-      </Head>
-      <Body>
-        <QueryProvider>
-          <Suspense>
-            <ErrorBoundary>
-              <Routes>
-                <FileRoutes />
-              </Routes>
-            </ErrorBoundary>
-          </Suspense>
-        </QueryProvider>
-        <Scripts />
-      </Body>
-    </Html>
-  )
-}
-```
-
-### Further Reading
+### Further Reading - SolidStart
 
 <img width="875" alt="Screenshot 2023-03-03 at 8 29 59" src="https://user-images.githubusercontent.com/91349014/222648058-3e0d5c2a-0c93-4b35-a673-f0955fb94f99.png">
 
