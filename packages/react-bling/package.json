@@ -1,5 +1,5 @@
 {
-  "name": "@prpc/react",
+  "name": "@prpc/react-bling",
   "description": "Package for easily creating server rpc functions in Bling with goodies baked in",
   "version": "0.2.15",
   "scripts": {

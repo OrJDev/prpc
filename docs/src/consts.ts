@@ -39,9 +39,15 @@ export const SIDEBAR: Sidebar = {
     { text: 'Usage', link: 'usage' },
     { text: 'Examples', link: 'examples' },
   ],
+  '@prpc/solid': [
+    { text: 'query$', link: 'solid/query' },
+    { text: 'mutation$', link: 'solid/mutation' },
+  ],
+  '@prpc/react-bling': [
+    { text: 'query$', link: 'react/query' },
+    { text: 'mutation$', link: 'react/mutation' },
+  ],
   API: [
-    { text: 'query$', link: 'query' },
-    { text: 'mutation$', link: 'mutation' },
     { text: 'middleware$', link: 'middleware' },
     { text: 'pipe$', link: 'pipe' },
     {

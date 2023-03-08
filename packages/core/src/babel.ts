@@ -53,7 +53,7 @@ export function createTransformpRPC$(isAstro: boolean) {
               node.source.name === 'callMiddleware$'
           )
           if (!callMiddlewareImport) {
-            const loc = isAstro ? '@prpc/react' : '@prpc/solid'
+            const loc = isAstro ? '@prpc/react-bling' : '@prpc/solid'
             path.node.body.unshift(
               t.importDeclaration(
                 [

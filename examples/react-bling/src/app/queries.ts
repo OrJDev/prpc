@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { query$ } from '@prpc/react'
+import { query$ } from '@prpc/react-bling'
 
 export const helloQuery = query$(
   ({ payload }) => {

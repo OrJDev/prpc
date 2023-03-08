@@ -75,7 +75,7 @@ importers:
       '@astrojs/node': ^5.0.3
       '@astrojs/react': ^1.2.2
       '@babel/generator': ^7.21.1
-      '@prpc/react': workspace:*
+      '@prpc/react-bling': workspace:*
       '@prpc/vite': workspace:*
       '@tanstack/bling': ^0.4.0
       '@tanstack/react-query': ^4.26.1
@@ -92,7 +92,7 @@ importers:
       '@astrojs/node': 5.0.4_astro@2.0.18
       '@astrojs/react': 1.2.2_3xleytyzprlgycb2ded54tx72i
       '@babel/generator': 7.21.1
-      '@prpc/react': link:../../packages/react
+      '@prpc/react-bling': link:../../packages/react-bling
       '@prpc/vite': link:../../packages/vite
       '@tanstack/bling': 0.4.0_vite@4.1.4
       '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
@@ -170,7 +170,7 @@ importers:
       typescript: 4.9.5
       zod: 3.20.6
 
-  packages/react:
+  packages/react-bling:
     specifiers:
       '@prpc/core': workspace:*
       '@tanstack/bling': 0.4.0
@@ -9802,7 +9802,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.1.4
+      vite: 4.1.4_@types+node@18.14.2
 
   /vitest/0.29.2:
     resolution: {integrity: sha512-ydK9IGbAvoY8wkg29DQ4ivcVviCaUi3ivuPKfZEVddMTenFHUfB8EEDXQV8+RasEk1ACFLgMUqAaDuQ/Nk+mQA==}

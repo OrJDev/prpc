@@ -36,7 +36,6 @@ function ServerMutationHello() {
 
 export function App() {
   const [queryClient] = React.useState(() => new QueryClient())
-
   return (
     <html>
       <head>
