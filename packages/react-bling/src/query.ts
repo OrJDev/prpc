@@ -10,7 +10,6 @@ import {
   type ExpectedFn,
   type AsParam,
   type IMiddleware,
-  type MergeRedirect,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
@@ -28,7 +27,7 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: MergeRedirect<UseQueryOptions<InferReturnType<Fn>>>
+    queryOpts?: UseQueryOptions<InferReturnType<Fn>>
   ) => {
     const navigate = (url: string, opts?: { replace: boolean }) => {
       console.log('navigate', url, opts)

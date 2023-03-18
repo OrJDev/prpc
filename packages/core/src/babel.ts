@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type babel from '@babel/core'
 
-export function createTransformpRPC$(isAstro: boolean) {
-  const serverFnName = isAstro ? 'fetch$' : 'server$'
+export type PRPCAdapter = 'solid' | 'react-bling'
+
+export function createTransformpRPC$(adapter: PRPCAdapter) {
   return function transformpRPC$({
     types: t,
     template: temp,
@@ -10,6 +11,7 @@ export function createTransformpRPC$(isAstro: boolean) {
     types: typeof babel.types
     template: typeof babel.template
   }) {
+    const isAstro = adapter.includes('bling')
     return {
       visitor: {
         Program(path: any) {
@@ -22,7 +24,7 @@ export function createTransformpRPC$(isAstro: boolean) {
             if (!serverImport) {
               path.node.body.unshift(
                 t.importDeclaration(
-                  [t.importDefaultSpecifier(t.identifier(serverFnName))],
+                  [t.importDefaultSpecifier(t.identifier('server$'))],
                   t.stringLiteral('solid-start/server')
                 )
               )
@@ -31,15 +33,20 @@ export function createTransformpRPC$(isAstro: boolean) {
             const serverImport = path.node.body.find(
               (node: any) =>
                 node.type === 'ImportDeclaration' &&
-                node.source.value === '@tanstack/bling'
+                node.source.value === '@tanstack/bling' &&
+                node.specifiers.find(
+                  (specifier: any) =>
+                    specifier.type === 'ImportSpecifier' &&
+                    specifier.imported.name === 'server$'
+                )
             )
             if (!serverImport) {
               path.node.body.unshift(
                 t.importDeclaration(
                   [
                     t.importSpecifier(
-                      t.identifier(serverFnName),
-                      t.identifier(serverFnName)
+                      t.identifier('server$'),
+                      t.identifier('server$')
                     ),
                   ],
                   t.stringLiteral('@tanstack/bling')
@@ -53,7 +60,7 @@ export function createTransformpRPC$(isAstro: boolean) {
               node.source.name === 'callMiddleware$'
           )
           if (!callMiddlewareImport) {
-            const loc = isAstro ? '@prpc/react-bling' : '@prpc/solid'
+            const loc = `@prpc/${adapter}`
             path.node.body.unshift(
               t.importDeclaration(
                 [
@@ -76,14 +83,12 @@ export function createTransformpRPC$(isAstro: boolean) {
             const [serverFunction, key, zodSchema, ..._middlewares] =
               path.node.arguments
             const middlewares = _middlewares?.map((m: any) => m.name)
-
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
-
-              const payload = t.identifier('payload')
-              serverFunction.params[0] = payload
             }
+            const payload = t.identifier('payload')
+            serverFunction.params[0] = payload
             path.traverse({
               Identifier(innerPath: any) {
                 if (
@@ -97,7 +102,7 @@ export function createTransformpRPC$(isAstro: boolean) {
               },
             })
 
-            if (zodSchema && !isAstro) {
+            if (zodSchema) {
               const schema = temp(`const schema = %%zod%%`)({
                 zod: zodSchema,
               })
@@ -129,7 +134,7 @@ export function createTransformpRPC$(isAstro: boolean) {
               serverFunction.body,
               true
             )
-            const wrappedArg = t.callExpression(t.identifier(serverFnName), [
+            const wrappedArg = t.callExpression(t.identifier('server$'), [
               originFn,
             ])
 

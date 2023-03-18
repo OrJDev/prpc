@@ -1,0 +1,96 @@
+---
+title: 'hideRequest'
+description: 'API for the hideRequest function'
+---
+
+**API for the hideRequest function**
+
+This function will be used to remove the `request$` object from the context passed to a function.
+
+## Usage
+
+```ts
+import {
+  hideRequest,
+  middleware$,
+  pipe$,
+  query$,
+  redirect$,
+  response$,
+} from '@prpc/solid'
+import { z } from 'zod'
+
+const myMiddleware1 = middleware$(({ request$ }) => {
+  console.log('ua', request$.headers.get('user-agent'))
+  return { test: null }
+})
+
+const middleWare2 = pipe$(myMiddleware1, (ctx) => {
+  return {
+    test: ctx.test,
+    o: 1,
+  }
+})
+
+const middleware3 = pipe$(middleWare2, (ctx) => {
+  return {
+    ...ctx,
+    b: 2,
+  }
+})
+
+export const add = query$(
+  ({ payload, ctx$ }) => {
+    console.log({ ctx$: hideRequest(ctx$) }) // this will print the context without the request$
+    const result = payload.a + payload.b
+    if (result === 10) {
+      return redirect$('/reached-10')
+    }
+    return response$(
+      { result },
+      {
+        headers: {
+          'set-cookie': 'solid-testing=1',
+        },
+      }
+    )
+  },
+  'add',
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+  middleware3
+)
+```
+
+## Parameters
+
+`hideRequest` also takes in a second argument - `fully`, setting this to true will use the `delete` op to remove the request$ from the context, so you can use this a bit differently:
+
+```ts
+export const add = query$(
+  ({ payload, ctx$ }) => {
+    hideRequest(ctx$, true) // using the delete op to remove the request$ object
+    console.log({ ctx$ }) // this will print the context without the request$
+    const result = payload.a + payload.b
+    if (result === 10) {
+      return redirect$('/reached-10')
+    }
+    return response$(
+      { result },
+      {
+        headers: {
+          'set-cookie': 'solid-testing=1',
+        },
+      }
+    )
+  },
+  'add',
+  z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+  middleware3
+)
+```

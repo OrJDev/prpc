@@ -10,7 +10,6 @@ import {
   type InferReturnType,
   type ExpectedFn,
   type AsParam,
-  type MergeRedirect,
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
@@ -26,8 +25,10 @@ export function mutation$<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
-    mutationOpts?: MergeRedirect<
-      UseMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+    mutationOpts?: UseMutationOptions<
+      InferReturnType<Fn>,
+      Error,
+      AsParam<Fn, false>
     >
   ) => {
     const navigate = (url: string, opts?: { replace: boolean }) => {

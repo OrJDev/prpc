@@ -10,9 +10,7 @@ import { add } from '~/server/mutations'
 
 const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const mutationRes = add(() => ({
-    alwaysCSRRedirect: true,
-  }))
+  const mutationRes = add()
   return (
     <div class='flex flex-col gap-3 px-3'>
       <div class='flex items-center gap-1'>

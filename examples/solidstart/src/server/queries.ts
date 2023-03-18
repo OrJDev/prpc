@@ -1,8 +1,15 @@
-import { middleware$, pipe$, query$, redirect$, response$ } from '@prpc/solid'
+import {
+  hideRequest,
+  middleware$,
+  pipe$,
+  query$,
+  redirect$,
+  response$,
+} from '@prpc/solid'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
-  console.log('req', request$)
+  console.log('ua', request$.headers.get('user-agent'))
   return { test: null }
 })
 
@@ -22,7 +29,7 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
 
 export const add = query$(
   ({ payload, ctx$ }) => {
-    console.log({ ctx$ })
+    console.log({ ctx$: hideRequest(ctx$) })
     const result = payload.a + payload.b
     if (result === 10) {
       return redirect$('/reached-10')

@@ -59,12 +59,7 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
   navigate: Navigate,
   handleRedirect: (url: string, navigate: Navigate) => void
 ) {
-  const actualInput = {
-    payload: unwrapValue(input) as any,
-    request$: {} as unknown as Request, // babel will handle this,
-    ctx$: {} as any, // babel will handle this
-  } as any
-  const response = await queryFn(actualInput)
+  const response = await queryFn(unwrapValue(input) as any)
   if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
@@ -114,4 +109,17 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
     currentCtx = await middleware({ request$: request, ...currentCtx })
   }
   return currentCtx
+}
+
+export const hideRequest = <T>(ctx$: T, fully?: boolean) => {
+  if (typeof ctx$ === 'object' && ctx$ !== null && 'request$' in ctx$) {
+    if (fully) {
+      delete (ctx$ as any).request$
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { request$: _$ignore, ...rest } = ctx$ as any
+      return rest
+    }
+  }
+  return ctx$
 }

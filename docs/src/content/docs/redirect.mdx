@@ -33,15 +33,10 @@ export const add = query$(
 )
 
 // client usage
-const addRes = add(
-  () => ({
-    a: num1(),
-    b: 3,
-  }),
-  () => ({
-    alwaysCSRRedirect: true,
-  })
-)
+const addRes = add(() => ({
+  a: num1(),
+  b: 3,
+}))
 ```
 
 ## Usage Mutation

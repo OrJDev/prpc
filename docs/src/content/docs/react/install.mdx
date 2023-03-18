@@ -38,7 +38,9 @@ export default defineConfig({
     mode: 'standalone',
   }),
   integrations: [
-    astroPRPC(), // import - this should come before bling
+    astroPRPC({
+      adapter: 'react-bling',
+    }), //  this should come before the bling plugin
     astroBling(),
     react(),
   ],
