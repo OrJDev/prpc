@@ -37,5 +37,11 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [astroPRPC(), astroBling(), react()],
+  integrations: [
+    astroPRPC({
+      adapter: 'react-bling',
+    }),
+    astroBling(),
+    react(),
+  ],
 })
