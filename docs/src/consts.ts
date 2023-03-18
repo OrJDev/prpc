@@ -42,6 +42,10 @@ export const SIDEBAR: Sidebar = {
     { text: 'Install', link: 'solid/install' },
     { text: 'query$', link: 'solid/query' },
     { text: 'mutation$', link: 'solid/mutation' },
+    {
+      text: 'QueryProvider',
+      link: 'solid/query-provider',
+    },
   ],
   '@prpc/react-bling': [
     { text: 'Install', link: 'react/install' },
@@ -52,18 +56,16 @@ export const SIDEBAR: Sidebar = {
     { text: 'middleware$', link: 'middleware' },
     { text: 'pipe$', link: 'pipe' },
     {
-      text: 'QueryProvider',
-      link: 'query-provider',
-    },
-  ],
-  Helpers: [
-    {
       text: 'response$',
       link: 'response',
     },
     {
       text: 'redirect$',
       link: 'redirect',
+    },
+    {
+      text: 'hideRequest',
+      link: 'hideRequest',
     },
   ],
   References: [
