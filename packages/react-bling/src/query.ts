@@ -30,12 +30,12 @@ export function query$<
     input: AsParam<Fn>,
     queryOpts?: MergeRedirect<UseQueryOptions<InferReturnType<Fn>>>
   ) => {
-    const navigate = (url: string, opts: { replace: boolean }) => {
+    const navigate = (url: string, opts?: { replace: boolean }) => {
       console.log('navigate', url, opts)
     }
     return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () => tryAndWrap(queryFn, input, navigate, handleRedirect, true),
+      queryFn: () => tryAndWrap(queryFn, input, navigate, handleRedirect),
       ...((queryOpts || {}) as any),
     }) as UseQueryResult<InferReturnType<Fn>>
   }

@@ -1,18 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createQuery, type CreateQueryResult } from '@tanstack/solid-query'
+import {
+  createQuery,
+  type FunctionedParams,
+  type QueryKey,
+  type CreateQueryResult,
+  type SolidQueryOptions,
+} from '@tanstack/solid-query'
 import { useNavigate } from 'solid-start'
 import type zod from 'zod'
-import type { FCreateQueryOptions } from './types'
 import {
   type InferReturnType,
   type ExpectedFn,
   type AsParam,
   type IMiddleware,
+  type OmitQueryData,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
 } from '@prpc/core'
 import { handleRedirect } from './redirect'
+
+export type FCreateQueryOptions<
+  TQueryFnData = unknown,
+  TError = Error,
+  TData = TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey
+> = FunctionedParams<
+  OmitQueryData<SolidQueryOptions<TQueryFnData, TError, TData, TQueryKey>>
+>
 
 export function query$<
   ZObj extends zod.ZodSchema | undefined,

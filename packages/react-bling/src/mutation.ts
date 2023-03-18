@@ -30,13 +30,13 @@ export function mutation$<
       UseMutationOptions<InferReturnType<Fn>, Error, AsParam<Fn, false>>
     >
   ) => {
-    const navigate = (url: string, opts: { replace: boolean }) => {
+    const navigate = (url: string, opts?: { replace: boolean }) => {
       console.log('navigate', url, opts)
     }
     return useMutation({
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(queryFn, input, navigate, handleRedirect, true),
+        tryAndWrap(queryFn, input, navigate, handleRedirect),
       ...((mutationOpts || {}) as any),
     }) as UseMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }

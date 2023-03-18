@@ -52,21 +52,18 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
-type Navigate = (url: string, opts: { replace: boolean }) => any
+type Navigate = (url: string, opts?: { replace: boolean }) => any
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
   navigate: Navigate,
-  handleRedirect: (url: string, navigate: Navigate) => void,
-  isAstro?: boolean
+  handleRedirect: (url: string, navigate: Navigate) => void
 ) {
-  const actualInput = isAstro
-    ? unwrapValue(input)
-    : ({
-        payload: unwrapValue(input) as any,
-        request$: {} as unknown as Request, // babel will handle this,
-        ctx$: {} as any, // babel will handle this
-      } as any)
+  const actualInput = {
+    payload: unwrapValue(input) as any,
+    request$: {} as unknown as Request, // babel will handle this,
+    ctx$: {} as any, // babel will handle this
+  } as any
   const response = await queryFn(actualInput)
   if (response instanceof Response) {
     const url = response.headers.get('location')

@@ -1,20 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createMutation,
+  type FunctionedParams,
+  type SolidMutationOptions,
   type CreateMutationResult,
 } from '@tanstack/solid-query'
 import type zod from 'zod'
-import type { FCreateMutationOptions } from './types'
 import {
   type IMiddleware,
   type InferReturnType,
   type ExpectedFn,
   type AsParam,
+  type OmitQueryData,
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
 import { useNavigate } from 'solid-start'
 import { handleRedirect } from './redirect'
+
+export type FCreateMutationOptions<
+  TData = unknown,
+  TError = Error,
+  TVariables = void,
+  TContext = unknown
+> = FunctionedParams<
+  OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
+>
 
 export function mutation$<
   ZObj extends zod.ZodSchema | undefined,
