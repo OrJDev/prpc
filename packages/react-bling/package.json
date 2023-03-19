@@ -1,0 +1,116 @@
+{
+  "name": "@prpc/react-bling",
+  "description": "Package for easily creating server rpc functions in Bling with goodies baked in",
+  "version": "0.2.15",
+  "scripts": {
+    "build": "rm -rf dist && tsup --config ../../tsup.config.js",
+    "clean": "rm -rf ./node_modules dist .turbo .solid",
+    "dev": "rm -rf dist && tsup --config ../../tsup.config.js --watch",
+    "lint": "eslint . --fix --ext .ts,.tsx,.js,.jsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "exports": {
+    "worker": {
+      "solid": "./dist/server.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": "./dist/server.cjs"
+    },
+    "browser": {
+      "solid": {
+        "development": "./dist/dev.jsx",
+        "import": "./dist/index.jsx"
+      },
+      "development": {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/dev.js"
+        },
+        "require": "./dist/dev.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": "./dist/index.cjs"
+    },
+    "deno": {
+      "solid": "./dist/server.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": "./dist/server.cjs"
+    },
+    "node": {
+      "solid": "./dist/server.jsx",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": "./dist/server.cjs"
+    },
+    "solid": {
+      "development": "./dist/dev.jsx",
+      "import": "./dist/index.jsx"
+    },
+    "development": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/dev.js"
+      },
+      "require": "./dist/dev.cjs"
+    },
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "require": "./dist/index.cjs"
+  },
+  "main": "./dist/server.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "browser": {
+    "./dist/server.js": "./dist/index.js",
+    "./dist/server.cjs": "./dist/index.cjs"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.14",
+    "@typescript-eslint/parser": "^5.44.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "typescript": "^4.8.2",
+    "zod": "^3.20.6",
+    "@tanstack/react-query": "^4.26.1",
+    "@tanstack/bling": "^0.5.0"
+  },
+  "dependencies": {
+    "@prpc/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "@tanstack/react-query": "^4.26.1",
+    "zod": "^3.20.6",
+    "@tanstack/bling": "^0.5.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "typesVersions": {},
+  "module": "./dist/server.js"
+}

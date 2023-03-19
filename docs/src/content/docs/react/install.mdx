@@ -1,0 +1,71 @@
+---
+title: 'Install'
+description: 'Installing pRPC'
+---
+
+**Adding pRPC to React Bling**
+
+### Create pRPC App
+
+You can use `create-prpc-app` to create a new pRPC app.
+
+```sh
+npm create prpc-app@latest
+```
+
+Or do it manually
+
+### Install
+
+```sh
+pnpm add @prpc/react-bling@latest @tanstack/react-query@latest @prpc/vite@latest
+```
+
+### Astro Plugin
+
+Add the following to your astro config
+
+```ts
+import { defineConfig } from 'astro/config'
+import react from '@astrojs/react'
+import node from '@astrojs/node'
+import { astroBling } from '@tanstack/bling/astro'
+import { astroPRPC } from '@prpc/vite'
+
+export default defineConfig({
+  output: 'server',
+  adapter: node({
+    mode: 'standalone',
+  }),
+  integrations: [
+    astroPRPC({
+      adapter: 'react-bling',
+    }),
+    astroBling(),
+    react(),
+  ],
+})
+```
+
+### QueryClientProvider
+
+```tsx
+import React from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+export function App() {
+  const [queryClient] = React.useState(() => new QueryClient())
+  return (
+    <html>
+      <head>
+        <title>Hello World</title>
+      </head>
+      <body>
+        <QueryClientProvider client={queryClient}>
+         {...}
+        </QueryClientProvider>
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+```

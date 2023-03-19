@@ -52,6 +52,4 @@ export type UnwrapFnInput<T> = T extends ExpectedInput<infer B> ? B : T
 
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 
-export type MergeRedirect<T> = T & { alwaysCSRRedirect?: boolean }
-
 export type IMiddleware<T = any> = (ctx$: T & { request$: Request }) => any

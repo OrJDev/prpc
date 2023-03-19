@@ -52,28 +52,20 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
+type Navigate = (url: string, opts?: { replace: boolean }) => any
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
-  navigate: (url: string) => any,
-  alwaysCSRRedirect?: boolean
+  navigate: Navigate,
+  handleRedirect: (url: string, navigate: Navigate) => void
 ) {
-  const response = await queryFn({
-    payload: unwrapValue(input) as any,
-    request$: {} as unknown as Request, // babel will handle this,
-    // @ts-expect-error idc
-    ctx$: {} as any, // babel will handle this
-  })
+  const response = await queryFn(unwrapValue(input) as any)
   if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
     } else {
-      if (typeof window !== 'undefined' && !alwaysCSRRedirect) {
-        window.location.href = url
-      } else {
-        navigate(url)
-      }
+      return handleRedirect(url, navigate)
     }
   }
   return response
@@ -117,4 +109,17 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
     currentCtx = await middleware({ request$: request, ...currentCtx })
   }
   return currentCtx
+}
+
+export const hideRequest = <T>(ctx$: T, fully?: boolean) => {
+  if (typeof ctx$ === 'object' && ctx$ !== null && 'request$' in ctx$) {
+    if (fully) {
+      delete (ctx$ as any).request$
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { request$: _$ignore, ...rest } = ctx$ as any
+      return rest
+    }
+  }
+  return ctx$
 }

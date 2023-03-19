@@ -3,7 +3,7 @@
   "description": "Workspace for prpc",
   "version": "0.0.0",
   "scripts": {
-    "build": "turbo run build --filter=@prpc/*",
+    "build": "turbo run build --filter=./packages/*",
     "dev": "turbo run dev --parallel --include-dependencies --no-deps",
     "clean": "turbo run clean --parallel && rm -rf node_modules pnpm-lock.yaml && pnpm install",
     "lint": "turbo run lint",
@@ -47,6 +47,7 @@
     "lint-staged": "^13.0.4",
     "prettier": "^2.8.0",
     "sort-package-json": "^2.1.0",
+    "tslib": "^2.5.0",
     "tsup": "^6.5.0",
     "tsup-preset-solid": "0.1.8",
     "turbo": "1.2.4",

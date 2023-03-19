@@ -36,20 +36,25 @@ export const SIDEBAR: Sidebar = {
   Overview: [
     { text: 'Introduction', link: 'introduction' },
     { text: 'Install', link: 'install' },
-    { text: 'Usage', link: 'usage' },
     { text: 'Examples', link: 'examples' },
   ],
-  API: [
-    { text: 'query$', link: 'query' },
-    { text: 'mutation$', link: 'mutation' },
-    { text: 'middleware$', link: 'middleware' },
-    { text: 'pipe$', link: 'pipe' },
+  '@prpc/solid': [
+    { text: 'Install', link: 'solid/install' },
+    { text: 'query$', link: 'solid/query' },
+    { text: 'mutation$', link: 'solid/mutation' },
     {
       text: 'QueryProvider',
-      link: 'query-provider',
+      link: 'solid/query-provider',
     },
   ],
-  Helpers: [
+  '@prpc/react-bling': [
+    { text: 'Install', link: 'react/install' },
+    { text: 'query$', link: 'react/query' },
+    { text: 'mutation$', link: 'react/mutation' },
+  ],
+  API: [
+    { text: 'middleware$', link: 'middleware' },
+    { text: 'pipe$', link: 'pipe' },
     {
       text: 'response$',
       link: 'response',
@@ -57,6 +62,10 @@ export const SIDEBAR: Sidebar = {
     {
       text: 'redirect$',
       link: 'redirect',
+    },
+    {
+      text: 'hideRequest',
+      link: 'hideRequest',
     },
   ],
   References: [

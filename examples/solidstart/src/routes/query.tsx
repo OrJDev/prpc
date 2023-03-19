@@ -22,7 +22,6 @@ const Query: VoidComponent = () => {
         console.log(error.message)
       },
       retry: false,
-      alwaysCSRRedirect: true,
     })
   )
 

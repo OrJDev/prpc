@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as babel from '@babel/core'
 import type { Plugin } from 'vite'
-import { transformpRPC$ } from '@prpc/core'
+import { createTransformpRPC$, type PRPCAdapter } from '@prpc/core'
 
 export interface PRPCPluginOptions {
   babel?: babel.TransformOptions
+  adapter: PRPCAdapter
 }
 
 export default function prpc(opts?: PRPCPluginOptions): Plugin {
@@ -16,6 +17,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
         (code.includes('query$(') || code.includes('mutation$(')) &&
         id.endsWith('.ts')
       ) {
+        const transformpRPC$ = createTransformpRPC$(opts?.adapter ?? 'solid')
         const transformed = await babel.transformAsync(code, {
           presets: [
             ['@babel/preset-typescript'],
@@ -32,6 +34,21 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
         }
       }
       return undefined
+    },
+  }
+}
+
+export function astroPRPC(opts: PRPCPluginOptions) {
+  return {
+    name: 'prpc',
+    hooks: {
+      'astro:config:setup': (config: any) => {
+        config.updateConfig({
+          vite: {
+            plugins: [prpc(opts)],
+          },
+        })
+      },
     },
   }
 }
