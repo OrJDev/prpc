@@ -10,7 +10,7 @@
   },
   "files": [
     "dist",
-    "template"
+    "templates"
   ],
   "main": "dist/index.js",
   "bin": {
