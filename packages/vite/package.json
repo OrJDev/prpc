@@ -1,6 +1,6 @@
 {
   "name": "@prpc/vite",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "type": "module",
   "files": [
     "dist"
