@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.8
+
+### Patch Changes
+
+- [`afb5339`](https://github.com/OrJDev/prpc/commit/afb5339ec89b82dc58dbf76a3778378853e2b5ee) Thanks [@OrJDev](https://github.com/OrJDev)! - vite: trigger ci
+
 ## 0.3.7
 
 ### Patch Changes
