@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.2
+
+### Patch Changes
+
+- [`4b977e8`](https://github.com/OrJDev/prpc/commit/4b977e8ae67f7677b13cdde0f64a7eef52b4d013) Thanks [@OrJDev](https://github.com/OrJDev)! - bump: vite plugin
+
 ## 0.1.1
 
 ### Patch Changes
