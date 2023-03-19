@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as babel from '@babel/core'
 import type { Plugin } from 'vite'
-import { createTransformpRPC$, type PRPCAdapter } from '@prpc/core'
+import { createTransformpRPC$, type PRPCAdapter } from './babel'
 
 export interface PRPCPluginOptions {
   babel?: babel.TransformOptions
