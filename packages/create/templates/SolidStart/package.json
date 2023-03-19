@@ -28,7 +28,7 @@
     "undici": "5.20.0",
     "zod": "^3.20.6",
     "@prpc/solid": "^0.2.14",
-    "@prpc/vite": "^0.3.6",
+    "@prpc/vite": "^0.3.8",
     "@tanstack/solid-query": "^5.0.0-alpha.2"
   },
   "engines": {
