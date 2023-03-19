@@ -1,7 +1,7 @@
 {
   "name": "@prpc/react-bling",
   "description": "Package for easily creating server rpc functions in Bling with goodies baked in",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "scripts": {
     "build": "rm -rf dist && tsup --config ../../tsup.config.js",
     "clean": "rm -rf ./node_modules dist .turbo .solid",
