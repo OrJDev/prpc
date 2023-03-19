@@ -88,7 +88,7 @@
     "typescript": "^4.8.2",
     "zod": "^3.20.6",
     "@tanstack/react-query": "^4.26.1",
-    "@tanstack/bling": "0.4.0"
+    "@tanstack/bling": "^0.5.0"
   },
   "dependencies": {
     "@prpc/core": "workspace:*"
@@ -98,7 +98,7 @@
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "@tanstack/react-query": "^4.26.1",
     "zod": "^3.20.6",
-    "@tanstack/bling": "0.4.0"
+    "@tanstack/bling": "^0.5.0"
   },
   "peerDependenciesMeta": {
     "zod": {

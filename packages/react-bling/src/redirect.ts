@@ -1,4 +1,4 @@
-import { redirect } from '@tanstack/bling/server'
+import { redirect } from '@tanstack/bling'
 
 export const redirect$ = (
   url: string,

@@ -1,6 +1,14 @@
-import { fetch$ } from '@tanstack/bling'
 import { z } from 'zod'
-import { mutation$ } from '@prpc/react-bling'
+import { query$, mutation$ } from '@prpc/react-bling'
+
+export const helloQuery = query$(
+  ({ payload }) => {
+    console.log('on server', payload)
+    return 1
+  },
+  'helloQuery',
+  z.string()
+)
 
 export const helloMutation = mutation$(
   ({ request$, payload }) => {
@@ -11,8 +19,3 @@ export const helloMutation = mutation$(
   'helloMutation',
   z.string()
 )
-
-export const t = fetch$((input: { name: string }) => {
-  console.log(input)
-  return `hello ${input?.name ?? 'no name'}`
-})
