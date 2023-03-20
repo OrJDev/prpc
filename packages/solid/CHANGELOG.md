@@ -1,5 +1,14 @@
 # @prpc/solid
 
+## 0.2.18
+
+### Patch Changes
+
+- [#36](https://github.com/OrJDev/prpc/pull/36) [`bfa5e77`](https://github.com/OrJDev/prpc/commit/bfa5e778b091de03a96e66873c5399b960562ade) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make @prpc/solid agnostic
+
+- Updated dependencies [[`bfa5e77`](https://github.com/OrJDev/prpc/commit/bfa5e778b091de03a96e66873c5399b960562ade)]:
+  - @prpc/core@0.3.3
+
 ## 0.2.17
 
 ### Patch Changes

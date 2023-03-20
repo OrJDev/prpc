@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.10
+
+### Patch Changes
+
+- [#36](https://github.com/OrJDev/prpc/pull/36) [`bfa5e77`](https://github.com/OrJDev/prpc/commit/bfa5e778b091de03a96e66873c5399b960562ade) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make @prpc/solid agnostic
+
 ## 0.3.9
 
 ### Patch Changes
