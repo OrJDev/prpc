@@ -6,7 +6,6 @@ import {
   type CreateQueryResult,
   type SolidQueryOptions,
 } from '@tanstack/solid-query'
-import { useNavigate } from 'solid-start'
 import type zod from 'zod'
 import {
   type InferReturnType,
@@ -18,7 +17,6 @@ import {
   tryAndWrap,
   unwrapValue,
 } from '@prpc/core'
-import { handleRedirect } from './redirect'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,
@@ -42,10 +40,9 @@ export function query$<
     input: AsParam<Fn>,
     queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
   ) => {
-    const navigate = useNavigate()
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () => tryAndWrap(queryFn, input, navigate, handleRedirect),
+      queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts?.() || {}) as any),
     })) as CreateQueryResult<InferReturnType<Fn>>
   }

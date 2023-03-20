@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 function ServerQueryHello() {
   const { isLoading, data } = helloQuery('testing')
   return (
-    <div className='flex flex-col gap-2 items-center'>
+    <div>
       <div>{isLoading ? 'Loading...' : data}</div>
     </div>
   )
@@ -15,7 +15,7 @@ function ServerQueryHello() {
 function ServerMutationHello() {
   const { isLoading, data, mutateAsync } = helloMutation()
   return (
-    <div className='flex flex-col gap-2 items-center'>
+    <div>
       <button onClick={() => mutateAsync('from astro')}>Click me</button>
       <div>{isLoading ? 'Loading...' : data}</div>
     </div>

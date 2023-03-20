@@ -1,4 +1,4 @@
-import { mutation$, redirect$ } from '@prpc/solid'
+import { mutation$ } from '@prpc/solid'
 import { z } from 'zod'
 
 export const add = mutation$(
@@ -6,9 +6,6 @@ export const add = mutation$(
     // eslint-disable-next-line promise/param-names
     await new Promise((res) => setTimeout(res, 250))
     const result = payload.a + payload.b
-    if (result === 10) {
-      return redirect$('/reached-10')
-    }
     return result
   },
   'add',

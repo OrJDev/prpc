@@ -13,7 +13,6 @@ import {
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
-import { handleRedirect } from './redirect'
 
 export function mutation$<
   ZObj extends zod.ZodSchema | undefined,
@@ -31,13 +30,9 @@ export function mutation$<
       AsParam<Fn, false>
     >
   ) => {
-    const navigate = (url: string, opts?: { replace: boolean }) => {
-      console.log('navigate', url, opts)
-    }
     return useMutation({
       mutationKey: genQueryKey(key, undefined, true),
-      mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(queryFn, input, navigate, handleRedirect),
+      mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
       ...((mutationOpts || {}) as any),
     }) as UseMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }

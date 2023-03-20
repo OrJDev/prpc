@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type babel from '@babel/core'
 
-export type PRPCAdapter = 'solid' | 'react-bling'
+export type PRPCAdapter = 'solid' | 'react-bling' | 'solid-bling'
 
 export function createTransformpRPC$(adapter: PRPCAdapter) {
   return function transformpRPC$({
@@ -60,7 +60,8 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               node.source.name === 'callMiddleware$'
           )
           if (!callMiddlewareImport) {
-            const loc = `@prpc/${adapter}`
+            const loc =
+              adapter === 'solid-bling' ? '@prpc/solid' : `@prpc/${adapter}`
             path.node.body.unshift(
               t.importDeclaration(
                 [
