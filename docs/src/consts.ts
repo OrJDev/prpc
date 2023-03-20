@@ -60,10 +60,6 @@ export const SIDEBAR: Sidebar = {
       link: 'response',
     },
     {
-      text: 'redirect$',
-      link: 'redirect',
-    },
-    {
       text: 'hideRequest',
       link: 'hideRequest',
     },

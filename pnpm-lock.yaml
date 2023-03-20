@@ -108,6 +108,34 @@ importers:
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
 
+  examples/solid-bling:
+    specifiers:
+      '@astrojs/netlify': ^1.2.1
+      '@astrojs/node': ^5.0.3
+      '@astrojs/solid-js': ^1.2.3
+      '@babel/generator': ^7.21.1
+      '@prpc/solid': workspace:*
+      '@prpc/vite': workspace:*
+      '@tanstack/bling': ^0.5.0
+      '@tanstack/solid-query': ^v5.0.0-alpha.2
+      astro: 0.0.0-ssr-manifest-20230306183729
+      concurrently: ^7.6.0
+      solid-js: ^1.4.3
+      zod: ^3.21.4
+    dependencies:
+      '@astrojs/netlify': 1.3.0
+      '@astrojs/node': 5.1.0_o2uykwexbyspl4kddtaamk4jxi
+      '@astrojs/solid-js': 1.2.3_hxhbc2yw4lpu2fwcmetcnzqv4q
+      '@babel/generator': 7.21.3
+      '@prpc/solid': link:../../packages/solid
+      '@prpc/vite': link:../../packages/vite
+      '@tanstack/bling': 0.5.0_vite@4.2.0
+      '@tanstack/solid-query': 5.0.0-alpha.7_solid-js@1.6.15
+      astro: 0.0.0-ssr-manifest-20230306183729
+      concurrently: 7.6.0
+      solid-js: 1.6.15
+      zod: 3.21.4
+
   examples/solidstart:
     specifiers:
       '@prpc/solid': workspace:*
@@ -226,7 +254,6 @@ importers:
       '@types/node': ^18.7.14
       '@typescript-eslint/parser': ^5.44.0
       solid-js: ^1.5.3
-      solid-start: ^0.2.22
       typescript: ^4.8.2
       zod: ^3.20.6
     dependencies:
@@ -236,7 +263,6 @@ importers:
       '@types/node': 18.15.3
       '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
       solid-js: 1.6.15
-      solid-start: 0.2.23_fb6anz3gx3l4ekv4e25thh2cmy
       typescript: 4.9.5
       zod: 3.21.4
 
@@ -535,6 +561,20 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@astrojs/solid-js/1.2.3_hxhbc2yw4lpu2fwcmetcnzqv4q:
+    resolution: {integrity: sha512-YyWQVcIeUMGKTnK3myXmBrG6dfYL5qiQNn8fv50jV0nPgahLeSUTIVxtt5WtqmbFr5kGTwDyk63TZoUvCUWJXA==}
+    engines: {node: ^14.18.0 || >=16.12.0}
+    peerDependencies:
+      solid-js: ^1.4.3
+    dependencies:
+      babel-preset-solid: 1.6.13_@babel+core@7.21.3
+      solid-js: 1.6.15
+      vitefu: 0.2.4_vite@4.2.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - vite
     dev: false
 
   /@astrojs/solid-js/2.1.0_dsitkantby7dzc62rjcsc55bgi:
@@ -2711,6 +2751,10 @@ packages:
   /@tanstack/query-core/5.0.0-alpha.6:
     resolution: {integrity: sha512-1wjON0Df320aVtT3snphND68svg+SYLiwu/u9lTGHSK/v699xoYgY8wqrs5LHbuYBOgRW528tTe/KetvpHRlKQ==}
 
+  /@tanstack/query-core/5.0.0-alpha.7:
+    resolution: {integrity: sha512-f71aMnoHPDg2EvOIOcTovJ/dvgt/5h9YiPrQ2pvLNDK43XzgTvxyNdukSKB5x4Hrsuf8p9tkYdrncGrbrQhRwQ==}
+    dev: false
+
   /@tanstack/react-query/4.27.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-9S49LTFenWbxVHx0iR6qUXP+MKL5kwz/mV9pzfNXvdIM1R0vT+hiecCCL+ox/tD2glAQ51JHHMffQaRuH7wYRA==}
     peerDependencies:
@@ -2735,6 +2779,15 @@ packages:
     dependencies:
       '@tanstack/query-core': 5.0.0-alpha.6
       solid-js: 1.6.15
+
+  /@tanstack/solid-query/5.0.0-alpha.7_solid-js@1.6.15:
+    resolution: {integrity: sha512-/FEqUMPWJiComssy0iFsgqZu0KpmagA5XfoLo3XC7WUm/aCb2p3aqaNBeGcnGJAQcRXqWwC/WzQwYGVmvKXEmg==}
+    peerDependencies:
+      solid-js: ^1.6.2
+    dependencies:
+      '@tanstack/query-core': 5.0.0-alpha.7
+      solid-js: 1.6.15
+    dev: false
 
   /@tsconfig/node10/1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
@@ -8767,79 +8820,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /solid-start/0.2.23_fb6anz3gx3l4ekv4e25thh2cmy:
-    resolution: {integrity: sha512-dKTRFtpjskHFyLq9n6oJxqWHYL7H8w14y4+OgIR+57+lqb1N7289kZLTHrzWxWyzDkIG9V1s2MQtiDfIaBP/MQ==}
-    hasBin: true
-    peerDependencies:
-      '@solidjs/meta': ^0.28.0
-      '@solidjs/router': ^0.7.0
-      solid-js: ^1.6.2
-      solid-start-aws: '*'
-      solid-start-cloudflare-pages: '*'
-      solid-start-cloudflare-workers: '*'
-      solid-start-deno: '*'
-      solid-start-netlify: '*'
-      solid-start-node: '*'
-      solid-start-static: '*'
-      solid-start-vercel: '*'
-      vite: ^4.1.4
-    peerDependenciesMeta:
-      solid-start-aws:
-        optional: true
-      solid-start-cloudflare-pages:
-        optional: true
-      solid-start-cloudflare-workers:
-        optional: true
-      solid-start-deno:
-        optional: true
-      solid-start-netlify:
-        optional: true
-      solid-start-node:
-        optional: true
-      solid-start-static:
-        optional: true
-      solid-start-vercel:
-        optional: true
-    dependencies:
-      '@babel/core': 7.21.3
-      '@babel/generator': 7.21.3
-      '@babel/plugin-syntax-jsx': 7.18.6_@babel+core@7.21.3
-      '@babel/preset-env': 7.20.2_@babel+core@7.21.3
-      '@babel/preset-typescript': 7.21.0_@babel+core@7.21.3
-      '@babel/template': 7.20.7
-      '@solidjs/meta': 0.28.2_solid-js@1.6.15
-      '@solidjs/router': 0.7.1_solid-js@1.6.15
-      '@types/cookie': 0.5.1
-      chokidar: 3.5.3
-      compression: 1.7.4
-      connect: 3.7.0
-      debug: 4.3.4
-      dequal: 2.0.3
-      dotenv: 16.0.3
-      es-module-lexer: 1.2.0
-      esbuild: 0.14.54
-      esbuild-plugin-solid: 0.4.2_w5fckwe5cqrocbqp54bmp7z7oq
-      fast-glob: 3.2.12
-      get-port: 6.1.2
-      parse-multipart-data: 1.5.0
-      picocolors: 1.0.0
-      rollup: 3.19.1
-      rollup-plugin-visualizer: 5.9.0_rollup@3.19.1
-      rollup-route-manifest: 1.0.0_rollup@3.19.1
-      sade: 1.8.1
-      set-cookie-parser: 2.5.1
-      sirv: 2.0.2
-      solid-js: 1.6.15
-      terser: 5.16.6
-      undici: 5.21.0
-      vite: 4.2.0_@types+node@18.15.3
-      vite-plugin-inspect: 0.7.17_rollup@3.19.1+vite@4.2.0
-      vite-plugin-solid: 2.6.1_solid-js@1.6.15+vite@4.2.0
-      wait-on: 6.0.1_debug@4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /solid-start/0.2.23_vyyamxurud55itoa3bqdpoykvq:
     resolution: {integrity: sha512-dKTRFtpjskHFyLq9n6oJxqWHYL7H8w14y4+OgIR+57+lqb1N7289kZLTHrzWxWyzDkIG9V1s2MQtiDfIaBP/MQ==}
     hasBin: true
@@ -9733,6 +9713,7 @@ packages:
     engines: {node: '>=12.18'}
     dependencies:
       busboy: 1.6.0
+    dev: false
 
   /unherit/3.0.1:
     resolution: {integrity: sha512-akOOQ/Yln8a2sgcLj4U0Jmx0R5jpIg2IUyRrWOzmEbjBtGzBdHtSeFKgoEcoH4KYIG/Pb8GQ/BwtYm0GCq1Sqg==}
@@ -10073,7 +10054,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.2.0
+      vite: 4.2.0_@types+node@18.15.3
 
   /vitest/0.29.2:
     resolution: {integrity: sha512-ydK9IGbAvoY8wkg29DQ4ivcVviCaUi3ivuPKfZEVddMTenFHUfB8EEDXQV8+RasEk1ACFLgMUqAaDuQ/Nk+mQA==}

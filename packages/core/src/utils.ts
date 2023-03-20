@@ -52,20 +52,15 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
-type Navigate = (url: string, opts?: { replace: boolean }) => any
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
-  input: AsParam<Fn, false | true>,
-  navigate: Navigate,
-  handleRedirect: (url: string, navigate: Navigate) => void
+  input: AsParam<Fn, false | true>
 ) {
   const response = await queryFn(unwrapValue(input) as any)
   if (response instanceof Response) {
     const url = response.headers.get('location')
     if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
-    } else {
-      return handleRedirect(url, navigate)
     }
   }
   return response

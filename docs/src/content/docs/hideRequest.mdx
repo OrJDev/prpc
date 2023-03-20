@@ -10,14 +10,7 @@ This function will be used to remove the `request$` object from the context pass
 ## Usage
 
 ```ts
-import {
-  hideRequest,
-  middleware$,
-  pipe$,
-  query$,
-  redirect$,
-  response$,
-} from '@prpc/solid'
+import { hideRequest, middleware$, pipe$, query$, response$ } from '@prpc/solid'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
@@ -43,9 +36,6 @@ export const add = query$(
   ({ payload, ctx$ }) => {
     console.log({ ctx$: hideRequest(ctx$) }) // this will print the context without the request$
     const result = payload.a + payload.b
-    if (result === 10) {
-      return redirect$('/reached-10')
-    }
     return response$(
       { result },
       {
@@ -74,9 +64,6 @@ export const add = query$(
     hideRequest(ctx$, true) // using the delete op to remove the request$ object
     console.log({ ctx$ }) // this will print the context without the request$
     const result = payload.a + payload.b
-    if (result === 10) {
-      return redirect$('/reached-10')
-    }
     return response$(
       { result },
       {

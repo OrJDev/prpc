@@ -1,11 +1,4 @@
-import {
-  hideRequest,
-  middleware$,
-  pipe$,
-  query$,
-  redirect$,
-  response$,
-} from '@prpc/solid'
+import { hideRequest, middleware$, pipe$, query$, response$ } from '@prpc/solid'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
@@ -31,9 +24,6 @@ export const add = query$(
   ({ payload, ctx$ }) => {
     console.log({ ctx$: hideRequest(ctx$) })
     const result = payload.a + payload.b
-    if (result === 10) {
-      return redirect$('/reached-10')
-    }
     return response$(
       { result },
       {

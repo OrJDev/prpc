@@ -15,8 +15,6 @@ import {
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
-import { useNavigate } from 'solid-start'
-import { handleRedirect } from './redirect'
 
 export type FCreateMutationOptions<
   TData = unknown,
@@ -43,11 +41,9 @@ export function mutation$<
       AsParam<Fn, false>
     >
   ) => {
-    const navigate = useNavigate()
     return createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
-      mutationFn: (input: AsParam<Fn, false>) =>
-        tryAndWrap(queryFn, input, navigate, handleRedirect),
+      mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
       ...((mutationOpts?.() || {}) as any),
     })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
   }

@@ -10,7 +10,7 @@ Functions that will run before the query function. Useful for authentication, lo
 ## Usage
 
 ```ts
-import { middleware$, query$, redirect$, response$ } from '@prpc/solid'
+import { middleware$, query$, response$ } from '@prpc/solid'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
@@ -22,9 +22,6 @@ export const add = query$(
   ({ payload, ctx$ }) => {
     console.log({ ctx$ }) // ctx$ is inferred to be { test: boolean | null }
     const result = payload.a + payload.b
-    if (result === 10) {
-      return redirect$('/reached-10')
-    }
     return response$(
       { result },
       {
