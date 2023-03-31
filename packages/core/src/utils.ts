@@ -1,10 +1,3 @@
-export const response$ = <T>(value: T, init?: ResponseInit): T => {
-  return new Response(
-    typeof value === 'string' ? value : JSON.stringify(value),
-    init
-  ) as unknown as T
-}
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   AsParam,
@@ -13,6 +6,14 @@ import type {
   InferFinalMiddlware,
   ValueOrAccessor,
 } from './types'
+import type { ZodSchema } from 'zod'
+
+export const response$ = <T>(value: T, init?: ResponseInit): T => {
+  return new Response(
+    typeof value === 'string' ? value : JSON.stringify(value),
+    init
+  ) as unknown as T
+}
 
 const redirectStatusCodes = new Set([204, 301, 302, 303, 307, 308])
 
@@ -117,4 +118,22 @@ export const hideRequest = <T>(ctx$: T, fully?: boolean) => {
     }
   }
   return ctx$
+}
+
+export const validateZod = async <Schema extends ZodSchema>(
+  payload: any,
+  schema: Schema
+) => {
+  const res = await schema.safeParseAsync(payload)
+  if (!res.success) {
+    return response$(
+      {
+        error: res.error.flatten(),
+      },
+      {
+        status: 4000,
+      }
+    )
+  }
+  return res.data
 }

@@ -54,26 +54,25 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               )
             }
           }
-          const callMiddlewareImport = path.node.body.find(
-            (node: any) =>
-              node.type === 'ImportDeclaration' &&
-              node.source.name === 'callMiddleware$'
-          )
-          if (!callMiddlewareImport) {
-            const loc =
-              adapter === 'solid-bling' ? '@prpc/solid' : `@prpc/${adapter}`
-            path.node.body.unshift(
-              t.importDeclaration(
-                [
-                  t.importSpecifier(
-                    t.identifier('callMiddleware$'),
-                    t.identifier('callMiddleware$')
-                  ),
-                ],
-                t.stringLiteral(loc)
-              )
+
+          const importIfNotThere = (name: string) => {
+            const imported = path.node.body.find(
+              (node: any) =>
+                node.type === 'ImportDeclaration' && node.source.name === name
             )
+            if (!imported) {
+              const loc =
+                adapter === 'solid-bling' ? '@prpc/solid' : `@prpc/${adapter}`
+              path.node.body.unshift(
+                t.importDeclaration(
+                  [t.importSpecifier(t.identifier(name), t.identifier(name))],
+                  t.stringLiteral(loc)
+                )
+              )
+            }
           }
+          importIfNotThere('callMiddleware$')
+          importIfNotThere('validateZod')
         },
         CallExpression(path: any) {
           const { callee } = path.node
@@ -104,13 +103,15 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             })
 
             if (zodSchema) {
-              const schema = temp(`const schema = %%zod%%`)({
+              const schema = temp(`const _$$zodSchema = %%zod%%`)({
                 zod: zodSchema,
               })
-              const asyncParse = temp(`await schema.parseAsync(payload)`)()
+              const asyncParse = temp`const _$$validatedZod = await validateZod(payload, _$$zodSchema);
+              if(_$$validatedZod instanceof Response) return _$$validatedZod;
+`
               serverFunction.body.body.unshift(asyncParse)
               serverFunction.body.body.unshift(schema)
-              path.node.arguments[2] = t.identifier('undefined')
+              // path.node.arguments[2] = t.identifier('undefined')
             }
 
             if (middlewares.length) {
