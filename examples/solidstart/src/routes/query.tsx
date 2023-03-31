@@ -19,7 +19,11 @@ const Query: VoidComponent = () => {
     () => ({
       placeholderData: (prev) => prev,
       onError: (error) => {
-        console.log(error.message)
+        if (error.isZodError()) {
+          const fieldErrors = error.cause.fieldErrors
+          console.log(fieldErrors.a)
+          console.log(fieldErrors.b)
+        }
       },
       retry: false,
     })
@@ -34,14 +38,14 @@ const Query: VoidComponent = () => {
       <Suspense fallback='Loading...'>
         <Switch>
           <Match when={addRes.error}>Error: {addRes.error?.message}</Match>
-          <Match when={addRes.data}>Num: {addRes.data?.result}</Match>
+          <Match when={addRes.data}>Result: {addRes.data?.result}</Match>
         </Switch>
       </Suspense>
       <button
         class='border border-gray-300 p-3'
         onClick={() => setNum1((num) => num + 1)}
       >
-        Increment
+        {num1()} - Increment
       </button>
       <pre>{addRes.error?.message ?? 'n error'}</pre>
     </div>

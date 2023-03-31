@@ -10,6 +10,7 @@ import {
   type ExpectedFn,
   type AsParam,
   type IMiddleware,
+  type PRPCClientError,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
@@ -26,12 +27,12 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: UseQueryOptions<InferReturnType<Fn>>
+    queryOpts?: UseQueryOptions<InferReturnType<Fn>, PRPCClientError>
   ) => {
     return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts || {}) as any),
-    }) as UseQueryResult<InferReturnType<Fn>>
+    }) as UseQueryResult<InferReturnType<Fn>, PRPCClientError>
   }
 }

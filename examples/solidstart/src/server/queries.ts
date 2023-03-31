@@ -35,12 +35,22 @@ export const add = query$(
   },
   'add',
   z.object({
-    a: z.number(),
-    b: z.number(),
+    a: z.number().max(5),
+    b: z.number().max(10),
   }),
   middleware3
 )
 
+// async function test(){
+//  const obj = z.object({
+//     a: z.number().max(5),
+//     b: z.number().max(10),
+//   })
+//   const res = await obj.safeParseAsync({a: 1, b: 2})
+//   if(!res.success){
+//     res.error.flatten().fieldErrors;
+//   }
+// }
 export const decrease = query$(
   ({ payload }) => {
     const result = payload.a - payload.b

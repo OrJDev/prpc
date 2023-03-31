@@ -1,10 +1,3 @@
-export const response$ = <T>(value: T, init?: ResponseInit): T => {
-  return new Response(
-    typeof value === 'string' ? value : JSON.stringify(value),
-    init
-  ) as unknown as T
-}
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   AsParam,
@@ -13,6 +6,15 @@ import type {
   InferFinalMiddlware,
   ValueOrAccessor,
 } from './types'
+import type { ZodSchema } from 'zod'
+import { PRPCClientError } from './error'
+
+export const response$ = <T>(value: T, init?: ResponseInit): T => {
+  return new Response(
+    typeof value === 'string' ? value : JSON.stringify(value),
+    init
+  ) as unknown as T
+}
 
 const redirectStatusCodes = new Set([204, 301, 302, 303, 307, 308])
 
@@ -40,7 +42,6 @@ export const optionalData = async (response: Response) => {
     return undefined
   }
 }
-//
 
 export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   if (key) {
@@ -52,18 +53,41 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
+export function figureOutMessageError(err: any) {
+  if (err instanceof Error) {
+    return err.message
+  }
+  if (typeof err === 'string') {
+    return err
+  }
+  if (typeof err === 'object' && err && 'formErrors' in err) {
+    return 'Invalid Data Was Provided'
+  }
+  return 'Unknown Error'
+}
+
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>
 ) {
-  const response = await queryFn(unwrapValue(input) as any)
-  if (response instanceof Response) {
-    const url = response.headers.get('location')
-    if (!isRedirectResponse(response) || !url) {
-      return await optionalData(response)
+  try {
+    const response = await queryFn(unwrapValue(input) as any)
+    if (response instanceof Response) {
+      const url = response.headers.get('location')
+      if (response.headers.get('X-Prpc-Error') === '1') {
+        const error = await optionalData(response)
+        throw new PRPCClientError(
+          figureOutMessageError(error.error),
+          error.error
+        )
+      } else if (!isRedirectResponse(response) || !url) {
+        return await optionalData(response)
+      }
     }
+    return response
+  } catch (e: any) {
+    throw new PRPCClientError(figureOutMessageError(e), e)
   }
-  return response
 }
 
 export const middleware$ = <
@@ -117,4 +141,26 @@ export const hideRequest = <T>(ctx$: T, fully?: boolean) => {
     }
   }
   return ctx$
+}
+
+export const validateZod = async <Schema extends ZodSchema>(
+  payload: any,
+  schema: Schema
+) => {
+  const res = await schema.safeParseAsync(payload)
+  if (!res.success) {
+    return response$(
+      {
+        error: res.error.flatten(),
+      },
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Prpc-Error': '1',
+        },
+      }
+    )
+  }
+  return res.data
 }

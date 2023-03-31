@@ -13,6 +13,7 @@ import {
   type AsParam,
   type IMiddleware,
   type OmitQueryData,
+  type PRPCClientError,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
@@ -20,7 +21,7 @@ import {
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,
-  TError = Error,
+  TError = PRPCClientError,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey
 > = FunctionedParams<
@@ -38,12 +39,18 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: FCreateQueryOptions<InferReturnType<Fn>>
+    queryOpts?: FCreateQueryOptions<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
   ) => {
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts?.() || {}) as any),
-    })) as CreateQueryResult<InferReturnType<Fn>>
+    })) as CreateQueryResult<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
   }
 }
