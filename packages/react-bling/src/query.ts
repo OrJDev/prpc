@@ -27,12 +27,18 @@ export function query$<
 >(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
   return (
     input: AsParam<Fn>,
-    queryOpts?: UseQueryOptions<InferReturnType<Fn>, PRPCClientError>
+    queryOpts?: UseQueryOptions<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
   ) => {
     return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts || {}) as any),
-    }) as UseQueryResult<InferReturnType<Fn>, PRPCClientError>
+    }) as UseQueryResult<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
   }
 }

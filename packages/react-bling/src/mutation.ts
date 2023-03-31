@@ -27,7 +27,7 @@ export function mutation$<
   return (
     mutationOpts?: UseMutationOptions<
       InferReturnType<Fn>,
-      PRPCClientError,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
       AsParam<Fn, false>
     >
   ) => {
@@ -37,7 +37,7 @@ export function mutation$<
       ...((mutationOpts || {}) as any),
     }) as UseMutationResult<
       InferReturnType<Fn>,
-      PRPCClientError,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
       AsParam<Fn, false>
     >
   }
