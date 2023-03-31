@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.11
+
+### Patch Changes
+
+- [`8d2015e`](https://github.com/OrJDev/prpc/commit/8d2015e3cd3534cab4f3b663fc5cb162c7270aa1) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: better zod validation
+
 ## 0.3.10
 
 ### Patch Changes

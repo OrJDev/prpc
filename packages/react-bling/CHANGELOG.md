@@ -1,5 +1,14 @@
 # @prpc/react-bling
 
+## 0.2.18
+
+### Patch Changes
+
+- [`8d2015e`](https://github.com/OrJDev/prpc/commit/8d2015e3cd3534cab4f3b663fc5cb162c7270aa1) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: better zod validation
+
+- Updated dependencies [[`8d2015e`](https://github.com/OrJDev/prpc/commit/8d2015e3cd3534cab4f3b663fc5cb162c7270aa1)]:
+  - @prpc/core@0.3.4
+
 ## 0.2.17
 
 ### Patch Changes
