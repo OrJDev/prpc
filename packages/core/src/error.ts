@@ -18,4 +18,7 @@ export class PRPCClientError<Zschema = any> extends Error {
       ? 'fieldErrors' in this.cause
       : false
   }
+  isError(): this is PRPCClientError & { cause: Error } {
+    return this.cause ? this.cause instanceof Error : false
+  }
 }
