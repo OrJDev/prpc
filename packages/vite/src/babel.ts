@@ -55,14 +55,14 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             }
           }
 
+          const loc =
+            adapter === 'solid-bling' ? '@prpc/solid' : `@prpc/${adapter}`
           const importIfNotThere = (name: string) => {
             const imported = path.node.body.find(
               (node: any) =>
                 node.type === 'ImportDeclaration' && node.source.name === name
             )
             if (!imported) {
-              const loc =
-                adapter === 'solid-bling' ? '@prpc/solid' : `@prpc/${adapter}`
               path.node.body.unshift(
                 t.importDeclaration(
                   [t.importSpecifier(t.identifier(name), t.identifier(name))],
@@ -102,18 +102,6 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               },
             })
 
-            if (zodSchema) {
-              const schema = temp(`const _$$zodSchema = %%zod%%`)({
-                zod: zodSchema,
-              })
-              const asyncParse = temp`const _$$validatedZod = await validateZod(payload, _$$zodSchema);
-              if(_$$validatedZod instanceof Response) return _$$validatedZod;
-`
-              serverFunction.body.body.unshift(asyncParse)
-              serverFunction.body.body.unshift(schema)
-              // path.node.arguments[2] = t.identifier('undefined')
-            }
-
             if (middlewares.length) {
               const callMiddleware = temp(
                 `const ctx$ = await callMiddleware$(server$.request, %%middlewares%%)`
@@ -122,6 +110,22 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               })
 
               serverFunction.body.body.unshift(callMiddleware)
+            }
+
+            if (zodSchema) {
+              const asyncParse = temp(
+                `const _$$validatedZod = await validateZod(payload, %%zodSchema%%);`
+              )({ zodSchema: zodSchema })
+              const ifStatement = t.ifStatement(
+                t.binaryExpression(
+                  'instanceof',
+                  t.identifier('_$$validatedZod'),
+                  t.identifier('Response')
+                ),
+                t.returnStatement(t.identifier('_$$validatedZod'))
+              )
+              serverFunction.body.body.unshift(asyncParse, ifStatement)
+              // path.node.arguments[2] = t.identifier('undefined')
             }
 
             const destructuring = serverFunction.params[0]
