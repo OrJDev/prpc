@@ -12,13 +12,14 @@ import {
   type ExpectedFn,
   type AsParam,
   type OmitQueryData,
+  type PRPCClientError,
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
 
 export type FCreateMutationOptions<
   TData = unknown,
-  TError = Error,
+  TError = PRPCClientError,
   TVariables = void,
   TContext = unknown
 > = FunctionedParams<
@@ -37,7 +38,7 @@ export function mutation$<
   return (
     mutationOpts?: FCreateMutationOptions<
       InferReturnType<Fn>,
-      Error,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
       AsParam<Fn, false>
     >
   ) => {
@@ -45,6 +46,10 @@ export function mutation$<
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
       ...((mutationOpts?.() || {}) as any),
-    })) as CreateMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+    })) as CreateMutationResult<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
+      AsParam<Fn, false>
+    >
   }
 }

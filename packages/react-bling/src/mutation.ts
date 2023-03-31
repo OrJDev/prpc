@@ -10,6 +10,7 @@ import {
   type InferReturnType,
   type ExpectedFn,
   type AsParam,
+  type PRPCClientError,
   genQueryKey,
   tryAndWrap,
 } from '@prpc/core'
@@ -26,7 +27,7 @@ export function mutation$<
   return (
     mutationOpts?: UseMutationOptions<
       InferReturnType<Fn>,
-      Error,
+      PRPCClientError,
       AsParam<Fn, false>
     >
   ) => {
@@ -34,6 +35,10 @@ export function mutation$<
       mutationKey: genQueryKey(key, undefined, true),
       mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
       ...((mutationOpts || {}) as any),
-    }) as UseMutationResult<InferReturnType<Fn>, Error, AsParam<Fn, false>>
+    }) as UseMutationResult<
+      InferReturnType<Fn>,
+      PRPCClientError,
+      AsParam<Fn, false>
+    >
   }
 }

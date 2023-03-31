@@ -7,6 +7,7 @@ import type {
   ValueOrAccessor,
 } from './types'
 import type { ZodSchema } from 'zod'
+import { PRPCClientError } from './error'
 
 export const response$ = <T>(value: T, init?: ResponseInit): T => {
   return new Response(
@@ -41,7 +42,6 @@ export const optionalData = async (response: Response) => {
     return undefined
   }
 }
-//
 
 export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   if (key) {
@@ -53,6 +53,19 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
   return ['prpc.query', input].filter(Boolean)
 }
 
+export function figureOutMessageError(err: any) {
+  if (err instanceof Error) {
+    return err.message
+  }
+  if (typeof err === 'string') {
+    return err
+  }
+  if (typeof err === 'object' && err && 'formErrors' in err) {
+    return 'Invalid Data Was Provided'
+  }
+  return 'Unknown Error'
+}
+
 export async function tryAndWrap<Fn extends ExpectedFn>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>
@@ -60,7 +73,10 @@ export async function tryAndWrap<Fn extends ExpectedFn>(
   const response = await queryFn(unwrapValue(input) as any)
   if (response instanceof Response) {
     const url = response.headers.get('location')
-    if (!isRedirectResponse(response) || !url) {
+    if (response.headers.get('X-Prpc-Error') === '1') {
+      const error = await optionalData(response)
+      throw new PRPCClientError(figureOutMessageError(error.error), error.error)
+    } else if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
     }
   }
@@ -131,7 +147,11 @@ export const validateZod = async <Schema extends ZodSchema>(
         error: res.error.flatten(),
       },
       {
-        status: 4000,
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Prpc-Error': '1',
+        },
       }
     )
   }
