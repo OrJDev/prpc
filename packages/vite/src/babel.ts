@@ -108,8 +108,15 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               )({
                 middlewares: middlewares.map((m: any) => t.identifier(m)),
               })
-
-              serverFunction.body.body.unshift(callMiddleware)
+              const ifStatement = t.ifStatement(
+                t.binaryExpression(
+                  'instanceof',
+                  t.identifier('ctx$'),
+                  t.identifier('Response')
+                ),
+                t.returnStatement(t.identifier('ctx$'))
+              )
+              serverFunction.body.body.unshift(callMiddleware, ifStatement)
             }
 
             if (zodSchema) {

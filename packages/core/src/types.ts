@@ -11,6 +11,12 @@ export type ValueOrAccessor<T = unknown> = T extends undefined
   ? void | undefined
   : T | (() => T)
 
+export type FilterOutResponse<T> = T extends Response
+  ? never
+  : T extends object
+  ? { [K in keyof T]: FilterOutResponse<T[K]> }
+  : T
+
 export type ExpectedInput<T, Ctx = any> = {
   payload: T
   request$: Request
@@ -38,7 +44,7 @@ export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
     : InferReturnType<Mw>
 
 export type ExpectedFn<T = any, Mw extends IMiddleware[] = any[]> = (
-  props: ExpectedInput<T, InferFinalMiddlware<Mw>>
+  props: ExpectedInput<T, FilterOutResponse<InferFinalMiddlware<Mw>>>
 ) => any
 
 export type AsParam<

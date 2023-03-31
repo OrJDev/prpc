@@ -60,6 +60,10 @@ export const SIDEBAR: Sidebar = {
       link: 'response',
     },
     {
+      text: 'error$',
+      link: 'error',
+    },
+    {
       text: 'PRPCClientError',
       link: 'prpc-client-error',
     },

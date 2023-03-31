@@ -2,6 +2,7 @@
 import type {
   AsParam,
   ExpectedFn,
+  FilterOutResponse,
   IMiddleware,
   InferFinalMiddlware,
   ValueOrAccessor,
@@ -54,14 +55,15 @@ export const genQueryKey = (key: string, input?: any, isMutation = false) => {
 }
 
 export function figureOutMessageError(err: any) {
-  if (err instanceof Error) {
-    return err.message
-  }
   if (typeof err === 'string') {
     return err
   }
-  if (typeof err === 'object' && err && 'formErrors' in err) {
-    return 'Invalid Data Was Provided'
+  if (err && typeof err === 'object') {
+    if ('formErrors' in err) {
+      return 'Invalid Data Was Provided'
+    } else if (err instanceof Error || 'message' in err) {
+      return err.message
+    }
   }
   return 'Unknown Error'
 }
@@ -103,7 +105,7 @@ type Flattened<T> = T extends Array<infer U> ? Flattened<U> : T
 
 export const pipe$ = <
   CurrentMw extends IMiddleware<any> | IMiddleware<any>[],
-  Mw extends IMiddleware<InferFinalMiddlware<CurrentMw>>[]
+  Mw extends IMiddleware<FilterOutResponse<InferFinalMiddlware<CurrentMw>>>[]
 >(
   currentMw: CurrentMw,
   ...middlewares: Mw
@@ -123,9 +125,15 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   for (const middleware of middlewares) {
     if (Array.isArray(middleware)) {
       currentCtx = await callMiddleware$(request, middleware, currentCtx)
+      if (currentCtx instanceof Response) {
+        return currentCtx
+      }
       continue
     }
     currentCtx = await middleware({ request$: request, ...currentCtx })
+    if (currentCtx instanceof Response) {
+      return currentCtx
+    }
   }
   return currentCtx
 }
@@ -143,24 +151,30 @@ export const hideRequest = <T>(ctx$: T, fully?: boolean) => {
   return ctx$
 }
 
+export const error$ = (error: any, init?: ResponseInit): Response => {
+  return response$(
+    {
+      error: typeof error === 'string' ? { message: error } : error,
+    },
+    {
+      status: init?.status ?? 400,
+      headers: {
+        ...init?.headers,
+        'Content-Type': 'application/json',
+        'X-Prpc-Error': '1',
+      },
+      ...init,
+    }
+  ) as any
+}
+
 export const validateZod = async <Schema extends ZodSchema>(
   payload: any,
   schema: Schema
 ) => {
   const res = await schema.safeParseAsync(payload)
   if (!res.success) {
-    return response$(
-      {
-        error: res.error.flatten(),
-      },
-      {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Prpc-Error': '1',
-        },
-      }
-    )
+    return error$(res.error.flatten())
   }
   return res.data
 }
