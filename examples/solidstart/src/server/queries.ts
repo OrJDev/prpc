@@ -11,14 +11,15 @@ import { z } from 'zod'
 const myMiddleware1 = middleware$(({ request$ }) => {
   console.log('ua', request$.headers.get('user-agent'))
   const random = Math.random()
+  // change to `tes` to test for error
   const test = random > 0.5 ? 'test' : null
   console.log({ test })
   return { test }
 })
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
-  if (!ctx.test) {
-    return error$('Expected test to be defined')
+  if (!ctx.test || ctx.test === 'tes') {
+    return error$(`Expected test to be "test" but got ${ctx.test}`)
   }
   return {
     test: ctx.test,
