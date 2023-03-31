@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.12
+
+### Patch Changes
+
+- [`60433b1`](https://github.com/OrJDev/prpc/commit/60433b17fa1a6c6808a36e7b07c1c2e02d24b74e) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: error$ function
+
 ## 0.3.11
 
 ### Patch Changes
