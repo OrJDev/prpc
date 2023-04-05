@@ -76,3 +76,11 @@ export const decrease = query$(
     b: z.number(),
   })
 )
+
+export const noInputQuery = query$(
+  ({ ctx$ }) => {
+    return `Hello ${ctx$.test}`
+  },
+  'noInputQuery',
+  myMiddleware1
+)

@@ -80,9 +80,21 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             t.isIdentifier(callee, { name: 'query$' }) ||
             t.isIdentifier(callee, { name: 'mutation$' })
           ) {
-            const [serverFunction, key, zodSchema, ..._middlewares] =
-              path.node.arguments
-            const middlewares = _middlewares?.map((m: any) => m.name)
+            const [serverFunction, key, ...rest] = path.node.arguments
+            const zodSchema = rest?.find((arg: any) => {
+              if (t.isObjectExpression(arg)) {
+                if (
+                  arg.properties.find((prop: any) => prop.key.name === 'shape')
+                ) {
+                  return true
+                }
+              }
+              return false
+            })
+            const middlewares = rest
+              .slice(zodSchema ? 1 : 0)
+              .map((e: any) => e.name)
+              .filter(Boolean)
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)

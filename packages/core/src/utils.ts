@@ -121,21 +121,27 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   middlewares: Mw,
   ctx: any
 ) => {
-  let currentCtx = ctx ?? {}
-  for (const middleware of middlewares) {
-    if (Array.isArray(middleware)) {
-      currentCtx = await callMiddleware$(request, middleware, currentCtx)
+  if (Array.isArray(middlewares)) {
+    let currentCtx = ctx ?? {}
+    for (const middleware of middlewares) {
+      if (Array.isArray(middleware)) {
+        currentCtx = await callMiddleware$(request, middleware, currentCtx)
+        if (currentCtx instanceof Response) {
+          return currentCtx
+        }
+        continue
+      }
+      currentCtx = await middleware({ request$: request, ...currentCtx })
       if (currentCtx instanceof Response) {
         return currentCtx
       }
-      continue
     }
-    currentCtx = await middleware({ request$: request, ...currentCtx })
-    if (currentCtx instanceof Response) {
-      return currentCtx
-    }
+    return currentCtx
   }
-  return currentCtx
+  return await (middlewares as any)({
+    request$: request,
+    ...ctx,
+  })
 }
 
 export const hideRequest = <T>(ctx$: T, fully?: boolean) => {

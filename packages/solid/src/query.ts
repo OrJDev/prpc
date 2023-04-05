@@ -29,6 +29,18 @@ export type FCreateQueryOptions<
 >
 
 export function query$<
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<undefined, Mw>
+>(
+  queryFn: Fn,
+  key: string,
+  ..._middlewares: Mw
+): (
+  input: AsParam<Fn>,
+  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>, PRPCClientError<any>>
+) => CreateQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
+
+export function query$<
   ZObj extends zod.ZodSchema | undefined,
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
@@ -36,7 +48,30 @@ export function query$<
     Mw
   >
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(queryFn: Fn, key: string, _schema?: ZObj, ..._middlewares: Mw) {
+>(
+  queryFn: Fn,
+  key: string,
+  _schema?: ZObj,
+  ..._middlewares: Mw
+): (
+  input: AsParam<Fn>,
+  queryOpts?: FCreateQueryOptions<
+    InferReturnType<Fn>,
+    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+  >
+) => CreateQueryResult<
+  InferReturnType<Fn>,
+  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+>
+
+export function query$<
+  ZObj extends zod.ZodSchema | undefined,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    Mw
+  >
+>(queryFn: Fn, key: string) {
   return (
     input: AsParam<Fn>,
     queryOpts?: FCreateQueryOptions<
@@ -48,9 +83,6 @@ export function query$<
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts?.() || {}) as any),
-    })) as CreateQueryResult<
-      InferReturnType<Fn>,
-      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-    >
+    }))
   }
 }

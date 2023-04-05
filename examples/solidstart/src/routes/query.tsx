@@ -6,28 +6,22 @@ import {
   type VoidComponent,
 } from 'solid-js'
 import { A } from 'solid-start'
-import { add } from '~/server/queries'
+import { noInputQuery } from '~/server/queries'
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
 
-  const addRes = add(
-    () => ({
-      a: num1(),
-      b: 3,
-    }),
-    () => ({
-      placeholderData: (prev) => prev,
-      onError: (error) => {
-        if (error.isZodError()) {
-          const fieldErrors = error.cause.fieldErrors
-          console.log(fieldErrors.a)
-          console.log(fieldErrors.b)
-        }
-      },
-      retry: false,
-    })
-  )
+  const addRes = noInputQuery(undefined, () => ({
+    placeholderData: (prev) => prev,
+    onError: (error) => {
+      if (error.isZodError()) {
+        const fieldErrors = error.cause.fieldErrors
+        console.log(fieldErrors.a)
+        console.log(fieldErrors.b)
+      }
+    },
+    retry: false,
+  }))
 
   return (
     <div class='flex flex-col gap-3 px-3'>
@@ -38,7 +32,7 @@ const Query: VoidComponent = () => {
       <Suspense fallback='Loading...'>
         <Switch>
           <Match when={addRes.error}>Error: {addRes.error?.message}</Match>
-          <Match when={addRes.data}>Result: {addRes.data?.result}</Match>
+          <Match when={addRes.data}>Result: {addRes.data}</Match>
         </Switch>
       </Suspense>
       <button
