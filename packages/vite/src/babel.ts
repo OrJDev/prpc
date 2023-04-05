@@ -119,7 +119,10 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               serverFunction.body.body.unshift(callMiddleware, ifStatement)
             }
 
-            if (zodSchema) {
+            if (
+              zodSchema &&
+              t.isIdentifier(zodSchema, { name: 'undefined' }) === false
+            ) {
               const asyncParse = temp(
                 `const _$$validatedZod = await validateZod(payload, %%zodSchema%%);`
               )({ zodSchema: zodSchema })
