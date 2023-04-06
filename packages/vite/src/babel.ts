@@ -76,10 +76,9 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
         },
         CallExpression(path: any) {
           const { callee } = path.node
-          if (
-            t.isIdentifier(callee, { name: 'query$' }) ||
-            t.isIdentifier(callee, { name: 'mutation$' })
-          ) {
+          const isMutation = t.isIdentifier(callee, { name: 'mutation$' })
+          const isQuery = t.isIdentifier(callee, { name: 'query$' })
+          if (isMutation || isQuery) {
             let serverFunction: any
             let key: any
             let zodSchema: any
@@ -88,8 +87,8 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             if (t.isObjectExpression(arg)) {
               if (t.isObjectExpression(arg)) {
                 serverFunction = (
-                  arg.properties.find(
-                    (prop: any) => prop.key.name === 'queryFn'
+                  arg.properties.find((prop: any) =>
+                    prop.key.name === isQuery ? 'queryFn' : 'mutationFn'
                   ) as any
                 ).value
                 key = (
