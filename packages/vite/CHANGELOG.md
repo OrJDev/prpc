@@ -1,5 +1,15 @@
 # @prpc/vite
 
+## 0.3.14
+
+### Patch Changes
+
+- [`4c85e03`](https://github.com/OrJDev/prpc/commit/4c85e03c77195ad86393d90fa58c358fd107a211) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: clean syntax api
+
+- [`b51482c`](https://github.com/OrJDev/prpc/commit/b51482c70c43d05e1d22ab9eb9cc39ed15b0d868) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: use mutationFn for mutations in babel
+
+- [`796b30f`](https://github.com/OrJDev/prpc/commit/796b30fe09186195da628eb5e839a184219a481e) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: cleaner syntax for object middlewares
+
 ## 0.3.13
 
 ### Patch Changes

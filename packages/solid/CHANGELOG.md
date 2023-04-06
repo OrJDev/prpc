@@ -1,5 +1,16 @@
 # @prpc/solid
 
+## 0.2.22
+
+### Patch Changes
+
+- [`4c85e03`](https://github.com/OrJDev/prpc/commit/4c85e03c77195ad86393d90fa58c358fd107a211) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: clean syntax api
+
+- [`796b30f`](https://github.com/OrJDev/prpc/commit/796b30fe09186195da628eb5e839a184219a481e) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: cleaner syntax for object middlewares
+
+- Updated dependencies [[`4c85e03`](https://github.com/OrJDev/prpc/commit/4c85e03c77195ad86393d90fa58c358fd107a211), [`cbae57f`](https://github.com/OrJDev/prpc/commit/cbae57f9f569aed57844e5ac9ec504c14beecee1), [`796b30f`](https://github.com/OrJDev/prpc/commit/796b30fe09186195da628eb5e839a184219a481e)]:
+  - @prpc/core@0.3.7
+
 ## 0.2.21
 
 ### Patch Changes
