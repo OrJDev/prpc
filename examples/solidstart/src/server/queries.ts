@@ -10,11 +10,7 @@ import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
   console.log('ua', request$.headers.get('user-agent'))
-  const random = Math.random()
-  // change to `tes` to test for error
-  const test = random > 0.5 ? 'test' : null
-  console.log({ test })
-  return { test }
+  return { test: 'test' }
 })
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
@@ -36,8 +32,9 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
 
 export const cleanSyntaxQuery = query$({
   queryFn: async ({ payload, request$, ctx$ }) => {
+    console.log(ctx$)
     ctx$.test
-    ctx$.b
+    ctx$.b.toFixed()
     console.log('called', request$.headers.get('user-agent'))
     return { result: payload.a + payload.b }
   },
