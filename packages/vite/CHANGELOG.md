@@ -1,5 +1,13 @@
 # @prpc/vite
 
+## 0.3.13
+
+### Patch Changes
+
+- [`9c07477`](https://github.com/OrJDev/prpc/commit/9c074777610aa8dfa06099b8930eed52444b5f14) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: allow a single middleware to be passed with no input
+
+- [`5a93a25`](https://github.com/OrJDev/prpc/commit/5a93a2551a6df31e5c2bf87f9c534dbacfabdb48) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: check if zod schema is not defined
+
 ## 0.3.12
 
 ### Patch Changes

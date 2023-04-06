@@ -1,5 +1,14 @@
 # @prpc/solid
 
+## 0.2.21
+
+### Patch Changes
+
+- [`9c07477`](https://github.com/OrJDev/prpc/commit/9c074777610aa8dfa06099b8930eed52444b5f14) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: allow a single middleware to be passed with no input
+
+- Updated dependencies [[`9c07477`](https://github.com/OrJDev/prpc/commit/9c074777610aa8dfa06099b8930eed52444b5f14)]:
+  - @prpc/core@0.3.6
+
 ## 0.2.20
 
 ### Patch Changes

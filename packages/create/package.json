@@ -1,6 +1,6 @@
 {
   "name": "create-prpc-app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "scripts": {
     "build": "rm -rf dist && tsc -p . && tsc-alias -p tsconfig.json",
