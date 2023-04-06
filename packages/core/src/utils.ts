@@ -184,3 +184,21 @@ export const validateZod = async <Schema extends ZodSchema>(
   }
   return res.data
 }
+
+export const getParams = (
+  isMutation: boolean,
+  ...args: any[]
+): {
+  queryFn: ExpectedFn
+  key: string
+} => {
+  if (args.length === 1) {
+    return {
+      queryFn: args[0][isMutation ? 'mutationFn' : 'queryFn'],
+      key: args[0].key,
+    }
+  } else {
+    const [queryFn, key] = args
+    return { queryFn, key }
+  }
+}

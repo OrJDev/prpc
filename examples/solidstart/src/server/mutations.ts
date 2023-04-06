@@ -30,3 +30,15 @@ export const decrease = mutation$(
 export const noInput = mutation$(() => {
   return 1
 }, 'decrease')
+
+export const cleanSyntaxMutation = mutation$({
+  mutationFn: ({ payload }) => {
+    const result = payload.a - payload.b
+    return result
+  },
+  key: 'cleanSyntaxMutation',
+  schema: z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+})

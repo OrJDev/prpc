@@ -80,21 +80,44 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             t.isIdentifier(callee, { name: 'query$' }) ||
             t.isIdentifier(callee, { name: 'mutation$' })
           ) {
-            const [serverFunction, key, ...rest] = path.node.arguments
-            const zodSchema = rest?.find((arg: any) => {
+            let serverFunction: any
+            let key: any
+            let zodSchema: any
+            let middlewares: any
+            const arg = path.node.arguments[0]
+            if (t.isObjectExpression(arg)) {
               if (t.isObjectExpression(arg)) {
-                if (
-                  arg.properties.find((prop: any) => prop.key.name === 'shape')
-                ) {
-                  return true
-                }
+                serverFunction = (
+                  arg.properties.find(
+                    (prop: any) => prop.key.name === 'queryFn'
+                  ) as any
+                ).value
+                key = (
+                  arg.properties.find(
+                    (prop: any) => prop.key.name === 'key'
+                  ) as any
+                ).value
+                zodSchema = (
+                  arg.properties.find(
+                    (prop: any) => prop.key.name === 'schema'
+                  ) as any
+                )?.value
+                middlewares = path.node.arguments
+                  .slice(1)
+                  .map((e: any) => e.name)
               }
-              return false
-            })
-            const middlewares = rest
-              .slice(zodSchema ? 1 : 0)
-              .map((e: any) => e.name)
-              .filter(Boolean)
+            } else {
+              const [_serverFunction, _key, ...rest] = path.node.arguments
+              serverFunction = _serverFunction
+              key = _key
+              zodSchema = rest.find((e: any) => {
+                return !t.isFunctionExpression(e)
+              })
+              middlewares = rest
+                .slice(zodSchema ? 1 : 0)
+                .map((e: any) => e.name)
+                .filter(Boolean)
+            }
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
@@ -114,7 +137,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               },
             })
 
-            if (middlewares.length) {
+            if (middlewares?.length) {
               const callMiddleware = temp(
                 `const ctx$ = await callMiddleware$(server$.request, %%middlewares%%)`
               )({

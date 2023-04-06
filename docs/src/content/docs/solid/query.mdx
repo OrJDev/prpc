@@ -9,6 +9,29 @@ Converts the function to be a `server$` function and will add in zod validation 
 
 If you want to modify the response headers / cookies, make sure to check out the [`response$`](/reply-with) docs.
 
+## Syntax
+
+Currently there are two ways to implement a query
+
+### Syntax 1
+
+```ts
+import { query$, response$ } from '@prpc/solid'
+import { z } from 'zod'
+export const cleanSyntaxQuery = query$({
+  queryFn: async ({ payload }) => {
+    return { result: payload.a + payload.b }
+  },
+  key: 'cleanSyntaxQuery',
+  schema: z.object({
+    a: z.number().max(5),
+    b: z.number().max(10),
+  }),
+})
+```
+
+### Syntax 2
+
 ```ts
 import { query$, response$ } from '@prpc/solid'
 import { z } from 'zod'

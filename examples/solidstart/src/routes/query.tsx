@@ -6,12 +6,12 @@ import {
   type VoidComponent,
 } from 'solid-js'
 import { A } from 'solid-start'
-import { add } from '~/server/queries'
+import { cleanSyntaxQuery } from '~/server/queries'
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
 
-  const addRes = add(
+  const addRes = cleanSyntaxQuery(
     () => ({
       a: num1(),
       b: 3,

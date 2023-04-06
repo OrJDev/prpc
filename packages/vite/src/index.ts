@@ -27,7 +27,6 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
           filename: id,
         })
         if (transformed) {
-          // console.log(transformed.code)
           return {
             code: transformed.code ?? '',
             map: transformed.map,

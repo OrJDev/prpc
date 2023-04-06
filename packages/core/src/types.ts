@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type zod from 'zod'
 
 export type InferReturnType<T> = T extends (...args: any[]) => infer R
   ? R extends Promise<infer R2>
@@ -59,3 +60,23 @@ export type UnwrapFnInput<T> = T extends ExpectedInput<infer B> ? B : T
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 
 export type IMiddleware<T = any> = (ctx$: T & { request$: Request }) => any
+
+export type ObjectParams<
+  ZObj extends zod.ZodSchema | undefined,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    Mw
+  >,
+  isMutation extends boolean = false
+> = {
+  key: string
+  schema?: ZObj
+  middlewares?: Mw
+} & (isMutation extends true
+  ? {
+      mutationFn: Fn
+    }
+  : {
+      queryFn: Fn
+    })

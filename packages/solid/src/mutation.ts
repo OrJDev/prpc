@@ -13,8 +13,10 @@ import {
   type AsParam,
   type OmitQueryData,
   type PRPCClientError,
+  type ObjectParams,
   genQueryKey,
   tryAndWrap,
+  getParams,
 } from '@prpc/core'
 
 export type FCreateMutationOptions<
@@ -24,6 +26,29 @@ export type FCreateMutationOptions<
   TContext = unknown
 > = FunctionedParams<
   OmitQueryData<SolidMutationOptions<TData, TError, TVariables, TContext>>
+>
+
+export function mutation$<
+  ZObj extends zod.ZodSchema | undefined,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    Mw
+  >
+>(
+  params: ObjectParams<ZObj, Mw, Fn, true>,
+  ..._middlewares: Mw
+): (
+  input: AsParam<Fn>,
+  queryOpts?: FCreateMutationOptions<
+    InferReturnType<Fn>,
+    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
+    AsParam<Fn, false>
+  >
+) => CreateMutationResult<
+  InferReturnType<Fn>,
+  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
+  AsParam<Fn, false>
 >
 
 export function mutation$<
@@ -78,7 +103,8 @@ export function mutation$<
     ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
     Mw
   >
->(queryFn: Fn, key: string) {
+>(...args: any[]) {
+  const { key, queryFn } = getParams(true, ...args)
   return (
     mutationOpts?: FCreateMutationOptions<
       InferReturnType<Fn>,

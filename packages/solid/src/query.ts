@@ -14,10 +14,12 @@ import {
   type IMiddleware,
   type OmitQueryData,
   type PRPCClientError,
+  type ObjectParams,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
 } from '@prpc/core'
+import { getParams } from '@prpc/core'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,
@@ -26,6 +28,27 @@ export type FCreateQueryOptions<
   TQueryKey extends QueryKey = QueryKey
 > = FunctionedParams<
   OmitQueryData<SolidQueryOptions<TQueryFnData, TError, TData, TQueryKey>>
+>
+
+export function query$<
+  ZObj extends zod.ZodSchema | undefined,
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    Mw
+  >
+>(
+  params: ObjectParams<ZObj, Mw, Fn>,
+  ..._middlewares: Mw
+): (
+  input: AsParam<Fn>,
+  queryOpts?: FCreateQueryOptions<
+    InferReturnType<Fn>,
+    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+  >
+) => CreateQueryResult<
+  InferReturnType<Fn>,
+  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
 >
 
 export function query$<
@@ -71,7 +94,8 @@ export function query$<
     ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
     Mw
   >
->(queryFn: Fn, key: string) {
+>(...args: any[]) {
+  const { key, queryFn } = getParams(false, ...args)
   return (
     input: AsParam<Fn>,
     queryOpts?: FCreateQueryOptions<
