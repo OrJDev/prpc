@@ -16,20 +16,6 @@ const myMiddleware1 = middleware$(({ request$ }) => {
   console.log({ test })
   return { test }
 })
-export const cleanSyntaxQuery = query$(
-  {
-    queryFn: async ({ payload, request$, ctx$ }) => {
-      console.log('called', request$.headers.get('user-agent'))
-      return { result: payload.a + payload.b }
-    },
-    key: 'cleanSyntaxQuery',
-    schema: z.object({
-      a: z.number().max(5),
-      b: z.number().max(10),
-    }),
-  },
-  myMiddleware1
-)
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
   if (!ctx.test || ctx.test === 'tes') {
@@ -46,6 +32,21 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
     ...ctx,
     b: 2,
   }
+})
+
+export const cleanSyntaxQuery = query$({
+  queryFn: async ({ payload, request$, ctx$ }) => {
+    ctx$.test
+    ctx$.b
+    console.log('called', request$.headers.get('user-agent'))
+    return { result: payload.a + payload.b }
+  },
+  key: 'cleanSyntaxQuery',
+  schema: z.object({
+    a: z.number().max(5),
+    b: z.number().max(10),
+  }),
+  middlewares: [middleware3],
 })
 
 export const add = query$(

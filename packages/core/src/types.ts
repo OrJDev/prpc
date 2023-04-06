@@ -24,28 +24,27 @@ export type ExpectedInput<T, Ctx = any> = {
   ctx$: Ctx
 }
 
-// export type InferFinalMiddlware<Mw extends IMiddleware[]> = Mw extends [
-//   infer Head,
-//   ...infer Tail
-// ]
-//   ? Head extends IMiddleware
-//     ? Tail extends IMiddleware[]
-//       ? InferReturnType<Head> & InferFinalMiddlware<Tail>
-//       : InferReturnType<Head>
-//     : {}
-//   : {}
-
+export type FlattenArray<T> = T extends (infer U)[] ? U : T
 export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
-  Mw extends [
+  (Mw extends [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ...infer _Start,
     infer Last
   ]
     ? InferReturnType<Last>
-    : InferReturnType<Mw>
+    : Mw extends IMiddleware
+    ? InferReturnType<Mw>
+    : Mw extends any[]
+    ? InferReturnType<FlattenArray<[...Mw]>>
+    : InferReturnType<Mw>) & {
+    request$: Request
+  }
 
 export type ExpectedFn<T = any, Mw extends IMiddleware[] = any[]> = (
-  props: ExpectedInput<T, FilterOutResponse<InferFinalMiddlware<Mw>>>
+  props: ExpectedInput<
+    T,
+    FilterOutResponse<InferFinalMiddlware<FlattenArray<Mw>>>
+  >
 ) => any
 
 export type AsParam<

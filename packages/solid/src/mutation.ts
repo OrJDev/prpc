@@ -36,8 +36,7 @@ export function mutation$<
     Mw
   >
 >(
-  params: ObjectParams<ZObj, Mw, Fn, true>,
-  ..._middlewares: Mw
+  params: ObjectParams<ZObj, Mw, Fn, true>
 ): (
   input: AsParam<Fn>,
   queryOpts?: FCreateMutationOptions<

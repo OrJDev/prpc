@@ -40,4 +40,23 @@ export const add = query$(
 )
 ```
 
+### Another Syntax
+
+```ts
+export const cleanSyntaxQuery = query$({
+  queryFn: async ({ payload, request$, ctx$ }) => {
+    ctx$.test
+    ctx$.b
+    console.log('called', request$.headers.get('user-agent'))
+    return { result: payload.a + payload.b }
+  },
+  key: 'cleanSyntaxQuery',
+  schema: z.object({
+    a: z.number().max(5),
+    b: z.number().max(10),
+  }),
+  middlewares: [middleware3],
+})
+```
+
 If you want to pipe a middleware, check out the [pipe](/pipe) function.

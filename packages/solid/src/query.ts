@@ -38,8 +38,7 @@ export function query$<
     Mw
   >
 >(
-  params: ObjectParams<ZObj, Mw, Fn>,
-  ..._middlewares: Mw
+  params: ObjectParams<ZObj, Mw, Fn>
 ): (
   input: AsParam<Fn>,
   queryOpts?: FCreateQueryOptions<
@@ -70,7 +69,6 @@ export function query$<
     ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
     Mw
   >
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(
   queryFn: Fn,
   key: string,

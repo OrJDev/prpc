@@ -83,8 +83,8 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             let key: any
             let zodSchema: any
             let middlewares: any
-            const arg = path.node.arguments[0]
-            if (t.isObjectExpression(arg)) {
+            if (path.node.arguments.length === 1) {
+              const arg = path.node.arguments[0]
               if (t.isObjectExpression(arg)) {
                 serverFunction = (
                   arg.properties.find((prop: any) =>
@@ -101,9 +101,12 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                     (prop: any) => prop.key.name === 'schema'
                   ) as any
                 )?.value
-                middlewares = path.node.arguments
-                  .slice(1)
-                  .map((e: any) => e.name)
+                middlewares =
+                  (
+                    arg.properties.find(
+                      (prop: any) => prop.key.name === 'middlewares'
+                    ) as any
+                  )?.value?.elements.map((e: any) => e.name) ?? []
               }
             } else {
               const [_serverFunction, _key, ...rest] = path.node.arguments
