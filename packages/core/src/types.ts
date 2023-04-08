@@ -43,7 +43,7 @@ export type InferFinalMiddlware<Mw extends IMiddleware[] | IMiddleware> =
 export type ExpectedFn<T = any, Mw extends IMiddleware[] = any[]> = (
   props: ExpectedInput<
     T,
-    FilterOutResponse<Merge<InferFinalMiddlware<FlattenArray<Mw>>>>
+    FilterOutResponse<InferFinalMiddlware<FlattenArray<Mw>>>
   >
 ) => any
 
@@ -79,21 +79,3 @@ export type ObjectParams<
   : {
       queryFn: Fn
     })
-
-type CommonKeys<T extends object> = keyof T
-type PickType<T, K extends AllKeys<T>> = T extends { [k in K]: any }
-  ? T[K]
-  : never
-type AllKeys<T> = T extends any ? keyof T : never
-type Subtract<A, C> = A extends C ? never : A
-type NonCommonKeys<T extends object> = Subtract<AllKeys<T>, CommonKeys<T>>
-
-type Merge<T extends object> = {
-  [k in CommonKeys<T>]: PickTypeOf<T, k>
-} & {
-  [k in NonCommonKeys<T>]: PickTypeOf<T, k>
-}
-
-type PickTypeOf<T, K extends string | number | symbol> = K extends AllKeys<T>
-  ? PickType<T, K>
-  : never

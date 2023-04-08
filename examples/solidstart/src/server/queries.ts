@@ -31,10 +31,7 @@ const middleware3 = pipe$(middleWare2, (ctx) => {
 })
 
 export const cleanSyntaxQuery = query$({
-  queryFn: async ({ payload, request$, ctx$ }) => {
-    console.log(ctx$)
-    ctx$.test
-    ctx$.b.toFixed()
+  queryFn: async ({ payload, request$ }) => {
     console.log('called', request$.headers.get('user-agent'))
     return { result: payload.a + payload.b }
   },
@@ -45,6 +42,36 @@ export const cleanSyntaxQuery = query$({
   }),
   middlewares: [middleware3],
 })
+
+const b = query$(
+  ({ ctx$ }) => {
+    ctx$.test
+  },
+  'b',
+  myMiddleware1
+)
+
+export const authMw = middleware$(async ({ request$ }) => {
+  const session = {} as null | { user: Record<string, string> | null }
+  if (!session || !session.user) {
+    return error$("You can't do that!")
+  }
+  return {
+    session: {
+      ...session,
+      user: session.user,
+    },
+  }
+})
+
+const bb = query$(
+  ({ ctx$ }) => {
+    ctx$.session.user
+  },
+  'bb',
+  z.object({ name: z.string() }),
+  authMw
+)
 
 export const add = query$(
   ({ payload, ctx$ }) => {
