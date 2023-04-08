@@ -15,7 +15,6 @@ pRPC currently has 2 adapters, one for Bling and one for SolidStart.
 [Read More Here Regarding SolidStart](https://prpc.vercel.app/solid/install)
 
 ```ts
-/* eslint-disable solid/reactivity */
 import { query$ } from '@prpc/solid'
 import {
   createSignal,
