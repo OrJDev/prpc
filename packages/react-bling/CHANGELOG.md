@@ -1,5 +1,12 @@
 # @prpc/react-bling
 
+## 0.2.23
+
+### Patch Changes
+
+- Updated dependencies [[`89fb0c2`](https://github.com/OrJDev/prpc/commit/89fb0c2196db184c7d1e51358370e83117e2b1cb)]:
+  - @prpc/core@0.3.9
+
 ## 0.2.22
 
 ### Patch Changes
