@@ -23,7 +23,7 @@ const middleWare2 = pipe$(myMiddleware1, (ctx) => {
   }
 })
 
-const middleware3 = pipe$(middleWare2, (ctx) => {
+export const middleware3 = pipe$(middleWare2, (ctx) => {
   return {
     ...ctx,
     b: 2,
@@ -43,15 +43,7 @@ export const cleanSyntaxQuery = query$({
   middlewares: [middleware3],
 })
 
-const b = query$(
-  ({ ctx$ }) => {
-    ctx$.test
-  },
-  'b',
-  myMiddleware1
-)
-
-export const authMw = middleware$(async ({ request$ }) => {
+export const authMw = middleware$(async () => {
   const session = {} as null | { user: Record<string, string> | null }
   if (!session || !session.user) {
     return error$("You can't do that!")
@@ -62,22 +54,6 @@ export const authMw = middleware$(async ({ request$ }) => {
       user: session.user,
     },
   }
-})
-
-const bb = query$(
-  ({ ctx$ }) => {
-    ctx$.session.user
-  },
-  'bb',
-  authMw
-)
-
-const bb2 = query$({
-  queryFn: ({ ctx$ }) => {
-    ctx$.session.user
-  },
-  key: 'bb2',
-  middlewares: [authMw],
 })
 
 export const add = query$(
