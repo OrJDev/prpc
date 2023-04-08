@@ -1,5 +1,14 @@
 # @prpc/solid
 
+## 0.2.24
+
+### Patch Changes
+
+- [`89fb0c2`](https://github.com/OrJDev/prpc/commit/89fb0c2196db184c7d1e51358370e83117e2b1cb) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: having to pass input when having no input
+
+- Updated dependencies [[`89fb0c2`](https://github.com/OrJDev/prpc/commit/89fb0c2196db184c7d1e51358370e83117e2b1cb)]:
+  - @prpc/core@0.3.9
+
 ## 0.2.23
 
 ### Patch Changes
