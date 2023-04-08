@@ -1,7 +1,7 @@
 {
   "name": "@prpc/core",
   "description": "Package for easily creating server rpc functions in solid-start with goodies baked in",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "scripts": {
     "build": "tsup --config ./tsup.config.js",
     "clean": "rm -rf ./node_modules dist .turbo .solid",
