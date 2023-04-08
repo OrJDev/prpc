@@ -68,7 +68,7 @@ export function figureOutMessageError(err: any) {
   return 'Unknown Error'
 }
 
-export async function tryAndWrap<Fn extends ExpectedFn>(
+export async function tryAndWrap<Fn extends ExpectedFn<any>>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>
 ) {
@@ -190,7 +190,7 @@ export const getParams = (
   isMutation: boolean,
   ...args: any[]
 ): {
-  queryFn: ExpectedFn
+  queryFn: ExpectedFn<any>
   key: string
 } => {
   if (args.length === 1) {

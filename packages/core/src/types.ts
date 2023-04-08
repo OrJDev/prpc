@@ -18,7 +18,7 @@ export type FilterOutResponse<T> = T extends Response
   ? { [K in keyof T]: FilterOutResponse<T[K]> }
   : T
 
-export type ExpectedInput<T, Ctx = any> = {
+export type ExpectedInput<T = void | undefined, Ctx = any> = {
   payload: T
   request$: Request
   ctx$: Ctx
@@ -61,10 +61,14 @@ export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 export type IMiddleware<T = any> = (ctx$: T & { request$: Request }) => any
 
 export type ObjectParams<
-  ZObj extends zod.ZodSchema | undefined,
+  ZObj extends zod.ZodSchema | undefined | void,
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
-    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void,
     Mw
   >,
   isMutation extends boolean = false

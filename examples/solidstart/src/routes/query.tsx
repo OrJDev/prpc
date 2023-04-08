@@ -6,7 +6,7 @@ import {
   type VoidComponent,
 } from 'solid-js'
 import { A } from 'solid-start'
-import { cleanSyntaxQuery } from '~/server/queries'
+import { cleanSyntaxQuery, noInputQuery } from '~/server/queries'
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)

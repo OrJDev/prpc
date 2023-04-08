@@ -29,12 +29,16 @@ export type FCreateMutationOptions<
 >
 
 export function mutation$<
-  ZObj extends zod.ZodSchema | undefined,
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
-    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
     Mw
-  >
+  >,
+  ZObj extends zod.ZodSchema | void | undefined = void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn, true>
 ): (

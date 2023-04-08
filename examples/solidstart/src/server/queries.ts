@@ -69,9 +69,16 @@ const bb = query$(
     ctx$.session.user
   },
   'bb',
-  z.object({ name: z.string() }),
   authMw
 )
+
+const bb2 = query$({
+  queryFn: ({ ctx$ }) => {
+    ctx$.session.user
+  },
+  key: 'bb2',
+  middlewares: [authMw],
+})
 
 export const add = query$(
   ({ payload, ctx$ }) => {

@@ -31,12 +31,16 @@ export type FCreateQueryOptions<
 >
 
 export function query$<
-  ZObj extends zod.ZodSchema | undefined,
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
-    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
     Mw
-  >
+  >,
+  ZObj extends zod.ZodSchema | void | undefined = void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn>
 ): (
@@ -63,12 +67,9 @@ export function query$<
 ) => CreateQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
 
 export function query$<
-  ZObj extends zod.ZodSchema | undefined,
+  ZObj extends zod.ZodSchema | void | undefined,
   Mw extends IMiddleware[],
-  Fn extends ExpectedFn<
-    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
-    Mw
-  >
+  Fn extends ExpectedFn<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : void, Mw>
 >(
   queryFn: Fn,
   key: string,
