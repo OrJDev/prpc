@@ -1,5 +1,11 @@
 # @prpc/core
 
+## 0.3.8
+
+### Patch Changes
+
+- [`2d31238`](https://github.com/OrJDev/prpc/commit/2d31238a718eebae5af0076844a02c32730a81d1) Thanks [@OrJDev](https://github.com/OrJDev)! - minor type fixes
+
 ## 0.3.7
 
 ### Patch Changes
