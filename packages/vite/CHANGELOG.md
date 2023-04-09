@@ -1,5 +1,13 @@
 # @prpc/vite
 
+## 0.3.16
+
+### Patch Changes
+
+- [`f0b57ad`](https://github.com/OrJDev/prpc/commit/f0b57ad8682fee8685f35682390097c1a5fe1c8c) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make reuseable$ work with mutation$ and different files
+
+- [`8206bc4`](https://github.com/OrJDev/prpc/commit/8206bc46e87f86d9061b6a3a49fc5092de20c8a0) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: reuseable$ function
+
 ## 0.3.15
 
 ### Patch Changes
