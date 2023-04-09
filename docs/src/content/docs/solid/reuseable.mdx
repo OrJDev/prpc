@@ -1,0 +1,31 @@
+---
+title: 'reuseable$'
+description: 'API for the reuseable$ function'
+---
+
+**API for the reuseable$ function**
+
+This function will be used to create a **reuseable** procedures, it will take up middlewares and then will use this middlewares for all of the created queries / mutations under it.
+
+## Usage
+
+```ts
+import { middleware$, reuseable$ } from '@prpc/solid'
+
+const reuseMw = middleware$(() => {
+  return {
+    reuse: 'reuse' as const,
+  }
+})
+
+const myProcedure = reuseable$(reuseMw)
+
+export const testReuseQuery = myProcedure.query$({
+  queryFn: ({ ctx$ }) => {
+    return `Hello ${ctx$.reuse}`
+  },
+  key: 'testReuseQuery',
+})
+```
+
+> Warning: Currently you cannot declare reuseable procedures from different files, you have to declare both the queries that are built on top of the procedures and the reuseable procedure at the same file

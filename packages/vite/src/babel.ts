@@ -74,15 +74,17 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
           importIfNotThere('callMiddleware$')
           importIfNotThere('validateZod')
         },
-        CallExpression(path: any) {
+        CallExpression(path: babel.NodePath<babel.types.CallExpression>) {
           const { callee } = path.node
+          const isReuseableQuery =
+            t.isMemberExpression(callee) &&
+            t.isIdentifier(callee.property, { name: 'query$' })
           const isMutation = t.isIdentifier(callee, { name: 'mutation$' })
-          const isQuery = t.isIdentifier(callee, { name: 'query$' })
+          const isQuery =
+            t.isIdentifier(callee, { name: 'query$' }) || isReuseableQuery
+
           if (isMutation || isQuery) {
-            let serverFunction: any
-            let key: any
-            let zodSchema: any
-            let middlewares: any
+            let serverFunction, key, zodSchema, middlewares
             if (path.node.arguments.length === 1) {
               const arg = path.node.arguments[0]
               if (t.isObjectExpression(arg)) {
@@ -101,24 +103,44 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                     (prop: any) => prop.key.name === 'schema'
                   ) as any
                 )?.value
-                middlewares =
-                  (
-                    arg.properties.find(
-                      (prop: any) => prop.key.name === 'middlewares'
-                    ) as any
-                  )?.value?.elements.map((e: any) => e.name) ?? []
+                if (!isReuseableQuery) {
+                  middlewares =
+                    (
+                      arg.properties.find(
+                        (prop: any) => prop.key.name === 'middlewares'
+                      ) as any
+                    )?.value?.elements.map((e: any) => e.name) ?? []
+                }
               }
             } else {
               const [_serverFunction, _key, ...rest] = path.node.arguments
               serverFunction = _serverFunction
               key = _key
               zodSchema = rest.find((e: any) => {
-                return !t.isFunctionExpression(e)
+                const isZodSchema = e?.properties?.find(
+                  (prop: any) => prop.key.name === '_def'
+                )
+                return isZodSchema
               })
               middlewares = rest
                 .slice(zodSchema ? 1 : 0)
                 .map((e: any) => e.name)
                 .filter(Boolean)
+            }
+            const name = isReuseableQuery
+              ? (callee.object as any).name
+              : undefined
+            if (isReuseableQuery) {
+              const scope = path.scope.getBinding(name)?.scope
+              const queryBinding = scope?.bindings[name]
+              const init = queryBinding
+                ? (queryBinding.path.node as any).init
+                : null
+              if (init) {
+                middlewares = init.arguments
+                  .map((e: any) => e.name)
+                  .filter(Boolean)
+              }
             }
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
@@ -140,11 +162,18 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             })
 
             if (middlewares?.length) {
-              const callMiddleware = temp(
-                `const ctx$ = await callMiddleware$(server$.request, %%middlewares%%)`
-              )({
-                middlewares: middlewares.map((m: any) => t.identifier(m)),
-              })
+              let callMiddleware
+              if (isReuseableQuery) {
+                callMiddleware = temp(
+                  `const ctx$ = await ${name}.callMw(server$.request)`
+                )()
+              } else {
+                callMiddleware = temp(
+                  `const ctx$ = await callMiddleware$(server$.request, %%middlewares%%)`
+                )({
+                  middlewares: middlewares.map((m: any) => t.identifier(m)),
+                })
+              }
               const ifStatement = t.ifStatement(
                 t.binaryExpression(
                   'instanceof',
@@ -172,7 +201,6 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 t.returnStatement(t.identifier('_$$validatedZod'))
               )
               serverFunction.body.body.unshift(asyncParse, ifStatement)
-              // path.node.arguments[2] = t.identifier('undefined')
             }
 
             const destructuring = serverFunction.params[0]
@@ -191,7 +219,15 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               originFn,
             ])
 
-            const newCallExpr = t.callExpression(callee, [wrappedArg, key])
+            const newArg = t.objectExpression([
+              t.objectProperty(
+                t.identifier(isQuery ? 'queryFn' : 'mutationFn'),
+                wrappedArg
+              ),
+              t.objectProperty(t.identifier('key'), key),
+            ])
+
+            const newCallExpr = t.callExpression(callee, [newArg])
             path.replaceWith(newCallExpr)
             path.skip()
           }

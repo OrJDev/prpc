@@ -20,7 +20,6 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
     opts?.filter?.include || DEFAULT_INCLUDE,
     opts?.filter?.exclude || DEFAULT_EXCLUDE
   )
-
   return {
     enforce: 'pre',
     name: 'prpc',

@@ -119,7 +119,7 @@ export const pipe$ = <
 export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   request: Request,
   middlewares: Mw,
-  ctx: any
+  ctx?: any
 ) => {
   let currentCtx = ctx ?? {}
   if (Array.isArray(middlewares)) {

@@ -2,33 +2,12 @@ import {
   error$,
   hideRequest,
   middleware$,
-  pipe$,
   query$,
   response$,
+  reuseable$,
 } from '@prpc/solid'
 import { z } from 'zod'
-
-const myMiddleware1 = middleware$(({ request$ }) => {
-  console.log('ua', request$.headers.get('user-agent'))
-  return { test: 'test' }
-})
-
-const middleWare2 = pipe$(myMiddleware1, (ctx) => {
-  if (!ctx.test || ctx.test === 'tes') {
-    return error$(`Expected test to be "test" but got ${ctx.test}`)
-  }
-  return {
-    test: ctx.test,
-    o: 1,
-  }
-})
-
-export const middleware3 = pipe$(middleWare2, (ctx) => {
-  return {
-    ...ctx,
-    b: 2,
-  }
-})
+import { middleware3, myMiddleware1 } from './middleware'
 
 export const cleanSyntaxQuery = query$({
   queryFn: async ({ payload, request$ }) => {
@@ -106,3 +85,18 @@ export const noInputQuery = query$(
   'noInputQuery',
   myMiddleware1
 )
+
+const reuseMw = middleware$(() => {
+  return {
+    reuse: 'reuse' as const,
+  }
+})
+
+export const myProcedure = reuseable$(reuseMw)
+
+export const testReuseQuery = myProcedure.query$({
+  queryFn: ({ ctx$ }) => {
+    return `Hello ${ctx$.reuse}`
+  },
+  key: 'testReuseQuery',
+})

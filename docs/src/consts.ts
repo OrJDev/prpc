@@ -42,6 +42,7 @@ export const SIDEBAR: Sidebar = {
     { text: 'Install', link: 'solid/install' },
     { text: 'query$', link: 'solid/query' },
     { text: 'mutation$', link: 'solid/mutation' },
+    { text: 'reuseable$', link: 'solid/reuseable' },
     {
       text: 'QueryProvider',
       link: 'solid/query-provider',
