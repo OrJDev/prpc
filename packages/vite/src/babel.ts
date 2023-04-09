@@ -95,7 +95,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               if (t.isObjectExpression(arg)) {
                 serverFunction = (
                   arg.properties.find((prop: any) =>
-                    prop.key.name === isQuery ? 'queryFn' : 'mutationFn'
+                    prop.key.name === (isQuery ? 'queryFn' : 'mutationFn')
                   ) as any
                 ).value
                 key = (
