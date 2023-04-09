@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.15
+
+### Patch Changes
+
+- [`d9ea0a5`](https://github.com/OrJDev/prpc/commit/d9ea0a5d0a3357caf3f16d0ea4000b09b5b45aeb) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: compile tsx files
+
 ## 0.3.14
 
 ### Patch Changes

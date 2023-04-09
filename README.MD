@@ -14,6 +14,67 @@ pRPC currently has 2 adapters, one for Bling and one for SolidStart.
 
 [Read More Here Regarding SolidStart](https://prpc.vercel.app/solid/install)
 
+```ts
+import { query$ } from '@prpc/solid'
+import {
+  createSignal,
+  Match,
+  Suspense,
+  Switch,
+  type VoidComponent,
+} from 'solid-js'
+import { z } from 'zod'
+
+const queryOnServer = query$({
+  queryFn: async ({ payload, request$ }) => {
+    console.log('on server', request$.headers.get('user-agent'))
+    return { result: payload.num / 2 }
+  },
+  key: 'queryOnServer',
+  schema: z.object({
+    num: z.number().max(5),
+  }),
+})
+
+const Query: VoidComponent = () => {
+  const [num, setNum1] = createSignal(1)
+
+  const queryRes = queryOnServer(
+    () => ({ num: num() }),
+    () => ({
+      placeholderData: (prev) => prev,
+      onError: (error) => {
+        if (error.isZodError()) {
+          const fieldErrors = error.cause.fieldErrors
+          console.log(fieldErrors.num)
+        }
+      },
+      retry: false,
+    })
+  )
+
+  return (
+    <div class='flex flex-col gap-3 px-3'>
+      <Suspense fallback='Loading...'>
+        <Switch>
+          <Match when={queryRes.error}>Error: {queryRes.error?.message}</Match>
+          <Match when={queryRes.data}>Result: {queryRes.data?.result}</Match>
+        </Switch>
+      </Suspense>
+      <button
+        class='border border-gray-300 p-3'
+        onClick={() => setNum1((num) => num + 1)}
+      >
+        {num()} - Increment
+      </button>
+      {queryRes.error?.message && <pre>{queryRes.error?.message}</pre>}
+    </div>
+  )
+}
+
+export default Query
+```
+
 ### Further Reading - SolidStart
 
 <img width="875" alt="Screenshot 2023-03-03 at 8 29 59" src="https://user-images.githubusercontent.com/91349014/222648058-3e0d5c2a-0c93-4b35-a673-f0955fb94f99.png">
