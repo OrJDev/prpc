@@ -12,6 +12,14 @@ This function will be used to create a **reuseable** procedures, it will take up
 ```ts
 import { middleware$, reuseable$ } from '@prpc/solid'
 
+const reuseMw = middleware$(() => {
+  return {
+    reuse: 'reuse' as const,
+  }
+})
+
+export const myProcedure = reuseable$(reuseMw)
+
 export const testReuseQuery = myProcedure.query$({
   queryFn: ({ ctx$ }) => {
     return `Hello ${ctx$.reuse}`
