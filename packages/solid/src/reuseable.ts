@@ -29,6 +29,18 @@ export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
         ...params,
         middlewares: mw,
       }),
-    mutation: mutation$,
+    mutation$: <
+      Fn extends ExpectedFn<
+        ZObj extends void | undefined
+          ? void | undefined
+          : ZObj extends zod.ZodSchema
+          ? zod.infer<ZObj>
+          : void | undefined,
+        Mw
+      >,
+      ZObj extends zod.ZodSchema | void | undefined = void | undefined
+    >(
+      params: Omit<ObjectParams<ZObj, Mw, Fn, true>, 'middlewares'>
+    ) => mutation$({ ...params, middlewares: mw }),
   }
 }

@@ -79,7 +79,12 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
           const isReuseableQuery =
             t.isMemberExpression(callee) &&
             t.isIdentifier(callee.property, { name: 'query$' })
-          const isMutation = t.isIdentifier(callee, { name: 'mutation$' })
+          const isReuseableMutation =
+            t.isMemberExpression(callee) &&
+            t.isIdentifier(callee.property, { name: 'mutation$' })
+
+          const isMutation =
+            t.isIdentifier(callee, { name: 'mutation$' }) || isReuseableMutation
           const isQuery =
             t.isIdentifier(callee, { name: 'query$' }) || isReuseableQuery
 
@@ -103,7 +108,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                     (prop: any) => prop.key.name === 'schema'
                   ) as any
                 )?.value
-                if (!isReuseableQuery) {
+                if (!isReuseableQuery && !isReuseableMutation) {
                   middlewares =
                     (
                       arg.properties.find(
@@ -127,21 +132,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 .map((e: any) => e.name)
                 .filter(Boolean)
             }
-            const name = isReuseableQuery
-              ? (callee.object as any).name
-              : undefined
-            if (isReuseableQuery) {
-              const scope = path.scope.getBinding(name)?.scope
-              const queryBinding = scope?.bindings[name]
-              const init = queryBinding
-                ? (queryBinding.path.node as any).init
-                : null
-              if (init) {
-                middlewares = init.arguments
-                  .map((e: any) => e.name)
-                  .filter(Boolean)
-              }
-            }
+
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
@@ -161,9 +152,14 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               },
             })
 
-            if (middlewares?.length) {
+            if (
+              middlewares?.length ||
+              isReuseableQuery ||
+              isReuseableMutation
+            ) {
               let callMiddleware
-              if (isReuseableQuery) {
+              if (isReuseableQuery || isReuseableMutation) {
+                const name = (callee.object as any).name
                 callMiddleware = temp(
                   `const ctx$ = await ${name}.callMw(server$.request)`
                 )()

@@ -6,11 +6,11 @@ import {
   type VoidComponent,
 } from 'solid-js'
 import { A } from 'solid-start'
-import { add } from '~/server/mutations'
+import { testReuseMutation } from '~/server/mutations'
 
 const Mutation: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
-  const mutationRes = add()
+  const mutationRes = testReuseMutation()
   return (
     <div class='flex flex-col gap-3 px-3'>
       <div class='flex items-center gap-1'>

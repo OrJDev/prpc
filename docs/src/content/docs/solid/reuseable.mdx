@@ -12,13 +12,32 @@ This function will be used to create a **reuseable** procedures, it will take up
 ```ts
 import { middleware$, reuseable$ } from '@prpc/solid'
 
+export const testReuseQuery = myProcedure.query$({
+  queryFn: ({ ctx$ }) => {
+    return `Hello ${ctx$.reuse}`
+  },
+  key: 'testReuseQuery',
+})
+```
+
+This can also be done from different files
+
+```ts
+// file1.ts
+import { middleware$, reuseable$ } from '@prpc/solid'
+
 const reuseMw = middleware$(() => {
   return {
     reuse: 'reuse' as const,
   }
 })
 
-const myProcedure = reuseable$(reuseMw)
+export const myProcedure = reuseable$(reuseMw)
+```
+
+```ts
+// file2.ts
+import { myProcedure } from './file1'
 
 export const testReuseQuery = myProcedure.query$({
   queryFn: ({ ctx$ }) => {
@@ -28,4 +47,19 @@ export const testReuseQuery = myProcedure.query$({
 })
 ```
 
-> Warning: Currently you cannot declare reuseable procedures from different files, you have to declare both the queries that are built on top of the procedures and the reuseable procedure at the same file
+```ts
+// file3.ts
+import { myProcedure } from './file1'
+import { z } from 'zod'
+
+export const testReuseMutation = myProcedure.mutation$({
+  mutationFn: ({ payload, ctx$ }) => {
+    return `${payload.a - payload.b}: ${ctx$.reuse}`
+  },
+  key: 'testReuseMutation',
+  schema: z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+})
+```

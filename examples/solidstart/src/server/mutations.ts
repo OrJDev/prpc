@@ -1,5 +1,6 @@
 import { mutation$ } from '@prpc/solid'
 import { z } from 'zod'
+import { myProcedure } from './middleware'
 
 export const add = mutation$(
   async ({ payload }) => {
@@ -37,6 +38,17 @@ export const cleanSyntaxMutation = mutation$({
     return result
   },
   key: 'cleanSyntaxMutation',
+  schema: z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+})
+
+export const testReuseMutation = myProcedure.mutation$({
+  mutationFn: ({ payload, ctx$ }) => {
+    return `${payload.a - payload.b}: ${ctx$.reuse}`
+  },
+  key: 'testReuseMutation',
   schema: z.object({
     a: z.number(),
     b: z.number(),

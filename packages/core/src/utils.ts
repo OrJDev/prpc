@@ -121,7 +121,7 @@ export const callMiddleware$ = async <Mw extends IMiddleware<any>[]>(
   middlewares: Mw,
   ctx?: any
 ) => {
-  let currentCtx = ctx ?? {}
+  let currentCtx = ctx ? { ...ctx, request$: request } : { request$: request }
   if (Array.isArray(middlewares)) {
     for (const middleware of middlewares) {
       if (Array.isArray(middleware)) {

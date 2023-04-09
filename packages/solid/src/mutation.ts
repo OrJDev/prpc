@@ -42,8 +42,7 @@ export function mutation$<
 >(
   params: ObjectParams<ZObj, Mw, Fn, true>
 ): (
-  input: AsParam<Fn>,
-  queryOpts?: FCreateMutationOptions<
+  mutationOpts?: FCreateMutationOptions<
     InferReturnType<Fn>,
     PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
     AsParam<Fn, false>
