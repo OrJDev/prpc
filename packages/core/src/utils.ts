@@ -70,7 +70,8 @@ export function figureOutMessageError(err: any) {
 
 export async function tryAndWrap<Fn extends ExpectedFn<any>>(
   queryFn: Fn,
-  input: AsParam<Fn, false | true>
+  input: AsParam<Fn, false | true>,
+  handleRedirect?: (url: string, response: Response) => any
 ) {
   try {
     const response = await queryFn(unwrapValue(input) as any)
@@ -84,6 +85,8 @@ export async function tryAndWrap<Fn extends ExpectedFn<any>>(
         )
       } else if (!isRedirectResponse(response) || !url) {
         return await optionalData(response)
+      } else {
+        handleRedirect?.(url, response)
       }
     }
     return response
@@ -186,20 +189,22 @@ export const validateZod = async <Schema extends ZodSchema>(
   return res.data
 }
 
-export const getParams = (
+export const getParams = <T = Record<any, any>>(
   isMutation: boolean,
   ...args: any[]
 ): {
   queryFn: ExpectedFn<any>
   key: string
+  cfg: T
 } => {
   if (args.length === 1) {
     return {
       queryFn: args[0][isMutation ? 'mutationFn' : 'queryFn'],
       key: args[0].key,
+      cfg: args[0].cfg,
     }
   } else {
     const [queryFn, key] = args
-    return { queryFn, key }
+    return { queryFn, key, cfg: {} as T }
   }
 }

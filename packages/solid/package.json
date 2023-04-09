@@ -94,6 +94,7 @@
   "peerDependencies": {
     "solid-js": "^1.5.3",
     "@tanstack/solid-query": "^v5.0.0-alpha.2",
+    "solid-start": "^0.2.1",
     "zod": "^3.20.6"
   },
   "peerDependenciesMeta": {

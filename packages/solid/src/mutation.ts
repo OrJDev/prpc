@@ -19,6 +19,11 @@ import {
   getParams,
 } from '@prpc/core'
 
+// interface MutationConfig {
+//   navigate?: ReturnType<typeof useNavigate>
+//   pageEvent?: ReturnType<typeof useServerContext>
+// }
+
 export type FCreateMutationOptions<
   TData = unknown,
   TError = PRPCClientError,

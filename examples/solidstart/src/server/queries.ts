@@ -4,10 +4,9 @@ import {
   middleware$,
   query$,
   response$,
-  reuseable$,
 } from '@prpc/solid'
 import { z } from 'zod'
-import { middleware3, myMiddleware1 } from './middleware'
+import { middleware3, myMiddleware1, myProcedure } from './middleware'
 
 export const cleanSyntaxQuery = query$({
   queryFn: async ({ payload, request$ }) => {
@@ -85,14 +84,6 @@ export const noInputQuery = query$(
   'noInputQuery',
   myMiddleware1
 )
-
-const reuseMw = middleware$(() => {
-  return {
-    reuse: 'reuse' as const,
-  }
-})
-
-export const myProcedure = reuseable$(reuseMw)
 
 export const testReuseQuery = myProcedure.query$({
   queryFn: ({ ctx$ }) => {

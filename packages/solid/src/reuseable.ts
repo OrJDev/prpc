@@ -10,7 +10,6 @@ import type zod from 'zod'
 
 export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
   return {
-    mw,
     callMw: async (req: Request) => await callMiddleware$(req, mw),
     query$: <
       Fn extends ExpectedFn<
@@ -41,6 +40,10 @@ export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
       ZObj extends zod.ZodSchema | void | undefined = void | undefined
     >(
       params: Omit<ObjectParams<ZObj, Mw, Fn, true>, 'middlewares'>
-    ) => mutation$({ ...params, middlewares: mw }),
+    ) =>
+      mutation$({
+        ...params,
+        middlewares: mw,
+      }),
   }
 }
