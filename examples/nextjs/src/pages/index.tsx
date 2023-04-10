@@ -4,6 +4,7 @@
 // import { query$ } from "@prpc/react";
 import { mutation$, query$ } from "@prpc/react";
 import { type NextPage } from "next";
+import { z } from "zod";
 
 const myQuery = query$({
   queryFn: () => {
@@ -14,10 +15,15 @@ const myQuery = query$({
 });
 
 const myMutation = mutation$({
-  mutationFn: () => {
-    console.log("mutationFn called on server");
-    return 1;
+  mutationFn: ({ payload }) => {
+    return {
+      result: payload.a + payload.b,
+    };
   },
+  schema: z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
   key: "testMut",
 });
 
@@ -34,14 +40,17 @@ const Home: NextPage = () => {
       <button
         className="rounded-lg bg-[#ff00ff] p-4 text-2xl text-white"
         onClick={() => {
-          mut.mutate();
+          mut.mutate({
+            a: 1,
+            b: 2,
+          });
         }}
       >
         mutate
       </button>
       {mut.data ? (
         <div className="text-5xl text-white">
-          mutation: thaler returned: {mut.data}
+          mutation: thaler returned: {mut.data.result}
         </div>
       ) : null}
     </main>

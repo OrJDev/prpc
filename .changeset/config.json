@@ -7,5 +7,11 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["dev-solidstart", "docs", "dev-react-bling", "dev-solid-bling"]
+  "ignore": [
+    "dev-solidstart",
+    "docs",
+    "dev-react-bling",
+    "dev-solid-bling",
+    "my-t3-app"
+  ]
 }
