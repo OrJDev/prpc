@@ -43,7 +43,7 @@ export function mutation$<
       : void | undefined,
     Mw
   >,
-  ZObj extends zod.ZodSchema | void | undefined
+  ZObj extends zod.ZodSchema | void | undefined = void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn, true>
 ): (
