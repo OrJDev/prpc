@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.6
+
+### Patch Changes
+
+- [`c943220`](https://github.com/OrJDev/prpc/commit/c94322078fbec489feca07c36ea3b21ff98ee05b) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: nextjs adapter using thaler
+
 ## 0.1.5
 
 ### Patch Changes
