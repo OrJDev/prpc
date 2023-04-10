@@ -72,7 +72,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             }
           }
 
-          const loc = figureOutAdapter(adapter)
+          const loc = `@prpc/${figureOutAdapter(adapter)}`
           const importIfNotThere = (name: string) => {
             const imported = path.node.body.find(
               (node: any) =>
@@ -163,6 +163,13 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 ) {
                   if (innerPath.parentPath.isObjectProperty()) {
                     innerPath.parentPath.remove()
+                    if (
+                      innerPath.parentPath.parentPath.isVariableDeclarator() &&
+                      innerPath.parentPath.parentPath.node.id.properties
+                        .length === 0
+                    ) {
+                      innerPath.parentPath.parentPath.remove()
+                    }
                   } else {
                     innerPath.node.name = payload.name
                   }

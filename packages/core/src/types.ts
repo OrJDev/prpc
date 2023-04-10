@@ -71,7 +71,7 @@ export type ObjectParams<
       ? void | undefined
       : ZObj extends zod.ZodSchema
       ? zod.infer<ZObj>
-      : void,
+      : void | undefined,
     Mw
   >,
   isMutation extends boolean = false

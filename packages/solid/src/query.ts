@@ -40,7 +40,7 @@ export function query$<
       : void | undefined,
     Mw
   >,
-  ZObj extends zod.ZodSchema | void | undefined = void | undefined
+  ZObj extends zod.ZodSchema | void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn>
 ): (

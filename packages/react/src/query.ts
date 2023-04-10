@@ -12,6 +12,7 @@ import {
   type IMiddleware,
   type ObjectParams,
   type PRPCClientError,
+  type WithVoid,
   genQueryKey,
   tryAndWrap,
   unwrapValue,
@@ -28,11 +29,17 @@ export function query$<
       : void | undefined,
     Mw
   >,
-  ZObj extends zod.ZodSchema | void | undefined = void | undefined
+  ZObj extends zod.ZodSchema | void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn>
 ): (
-  input: AsParam<Fn>,
+  input: WithVoid<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined
+  >,
   queryOpts?: UseQueryOptions<
     InferReturnType<Fn>,
     PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
@@ -50,7 +57,7 @@ export function query$<
   key: string,
   ..._middlewares: Mw
 ): (
-  input: AsParam<Fn>,
+  input: void | undefined,
   queryOpts?: UseQueryOptions<InferReturnType<Fn>, PRPCClientError<any>>
 ) => UseQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
 
@@ -64,7 +71,13 @@ export function query$<
   _schema?: ZObj,
   ..._middlewares: Mw
 ): (
-  input: AsParam<Fn>,
+  input: WithVoid<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined
+  >,
   queryOpts?: UseQueryOptions<
     InferReturnType<Fn>,
     PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
@@ -84,7 +97,7 @@ export function query$<
 >(...args: any[]) {
   const { key, queryFn } = getParams(false, ...args)
   return (
-    input: AsParam<Fn>,
+    input: AsParam<Fn, false>,
     queryOpts?: UseQueryOptions<
       InferReturnType<Fn>,
       PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
