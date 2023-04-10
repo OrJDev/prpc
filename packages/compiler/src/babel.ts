@@ -154,7 +154,22 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
             }
-            const payload = t.identifier('payload')
+            const payload = t.identifier('_$$payload')
+            path.traverse({
+              Identifier(innerPath: any) {
+                if (
+                  innerPath.node.name === 'payload' &&
+                  innerPath.scope?.path?.listKey !== 'params'
+                ) {
+                  if (innerPath.parentPath.isObjectProperty()) {
+                    innerPath.parentPath.remove()
+                  } else {
+                    innerPath.node.name = payload.name
+                  }
+                }
+              },
+            })
+
             serverFunction.params[0] = payload
             path.traverse({
               Identifier(innerPath: any) {
@@ -203,7 +218,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               t.isIdentifier(zodSchema, { name: 'undefined' }) === false
             ) {
               const asyncParse = temp(
-                `const _$$validatedZod = await validateZod(payload, %%zodSchema%%);`
+                `const _$$validatedZod = await validateZod(_$$payload, %%zodSchema%%);`
               )({ zodSchema: zodSchema })
               const ifStatement = t.ifStatement(
                 t.binaryExpression(
@@ -222,20 +237,6 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 (p: any) => p.key.name !== 'request$' && p.key.name !== 'ctx$'
               )
             }
-
-            path.traverse({
-              Identifier(innerPath: any) {
-                if (
-                  innerPath.node.name === 'payload' &&
-                  innerPath.scope?.path?.listKey !== 'params'
-                ) {
-                  // if it is a declartion of a variable, remove its declaration
-                  if (innerPath.parentPath.isVariableDeclarator()) {
-                    innerPath.parentPath.remove()
-                  }
-                }
-              },
-            })
 
             const originFn = t.arrowFunctionExpression(
               serverFunction.params,
