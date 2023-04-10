@@ -1,5 +1,17 @@
 # @prpc/vite
 
+## 0.3.17
+
+### Patch Changes
+
+- [`f36923d`](https://github.com/OrJDev/prpc/commit/f36923d5c56f663dc76b30dfa9f40520985ec0c3) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make everything working
+
+- [`08688ac`](https://github.com/OrJDev/prpc/commit/08688acdbb580c792704ae29f665a59cae226130) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: remove payload decl from nextjs
+
+- [`d29f052`](https://github.com/OrJDev/prpc/commit/d29f052a41e5f0ae0786c3846b05656eaf58167b) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: remove payload var
+
+- [`e239064`](https://github.com/OrJDev/prpc/commit/e239064d474b88c9e0457894d4a9de72d32063e8) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: flat args and more
+
 ## 0.3.16
 
 ### Patch Changes
