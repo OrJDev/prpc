@@ -3,7 +3,7 @@ title: 'Install'
 description: 'Installing pRPC'
 ---
 
-**Adding pRPC to React Bling**
+**Adding pRPC to React**
 
 ### Create pRPC App
 
@@ -17,11 +17,46 @@ Or do it manually
 
 ### Install
 
+If you are using thaler, install the following packages
+
 ```sh
-pnpm add @prpc/react-bling@latest @tanstack/react-query@latest @prpc/vite@latest
+pnpm add @prpc/react@latest @tanstack/react-query@latest @prpc/unplugin@latest
 ```
 
-### Astro Plugin
+If you are using vite / bling, install the following packages
+
+```sh
+pnpm add @prpc/react@latest @tanstack/react-query@latest @prpc/vite@latest
+```
+
+### Unplugin (Thaler)
+
+After installing the unplugin, add the following to your `next.config.mjs`
+
+```ts
+import thaler from "unplugin-thaler";
+import prpc from "@prpc/unplugin";
+
+{
+  ...myConfig,
+   webpack: (config, { isServer }) => {
+    config.plugins.push(
+      prpc.webpack({
+        adapter: "react-thaler",
+      })
+    );
+    config.plugins.push(
+      thaler.webpack({
+        origin: "http://localhost:3000/api",
+        mode: isServer ? "server" : "client",
+      })
+    );
+    return config;
+  },
+}
+```
+
+### Astro Plugin (Bling)
 
 Add the following to your astro config
 

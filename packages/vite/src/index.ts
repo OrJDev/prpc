@@ -1,17 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as babel from '@babel/core'
 import type { Plugin } from 'vite'
-import { createTransformpRPC$, type PRPCAdapter } from './babel'
-import { createFilter, type FilterPattern } from '@rollup/pluginutils'
+import { createFilter } from '@rollup/pluginutils'
+import { compilepRRPC, type PRPCPluginOptions } from '@prpc/compiler'
 
-export interface PRPCPluginOptions {
-  babel?: babel.TransformOptions
-  adapter: PRPCAdapter
-  filter?: {
-    include?: FilterPattern
-    exclude?: FilterPattern
-  }
-}
 const DEFAULT_INCLUDE = 'src/**/*.{jsx,tsx,ts,js,mjs,cjs}'
 const DEFAULT_EXCLUDE = 'node_modules/**/*.{jsx,tsx,ts,js,mjs,cjs}'
 
@@ -32,26 +23,7 @@ export default function prpc(opts?: PRPCPluginOptions): Plugin {
           id.endsWith('.ts')) ||
         id.endsWith('.tsx')
       ) {
-        const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
-        const transformpRPC$ = createTransformpRPC$(opts?.adapter ?? 'solid')
-        const transformed = await babel.transformAsync(code, {
-          presets: [
-            ['@babel/preset-typescript'],
-            ...(opts?.babel?.presets ?? []),
-          ],
-          parserOpts: {
-            plugins,
-          },
-          plugins: [[transformpRPC$], ...(opts?.babel?.plugins ?? [])],
-          filename: id,
-        })
-        if (transformed) {
-          // console.log(transformed.code)
-          return {
-            code: transformed.code ?? '',
-            map: transformed.map,
-          }
-        }
+        return await compilepRRPC(code, id, opts)
       }
       return undefined
     },

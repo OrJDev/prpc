@@ -9,10 +9,33 @@ Converts the function to be a `server$` function and will add in zod validation 
 
 If you want to modify the response headers / cookies, make sure to check out the [`response$`](/reply-with) docs.
 
-## Examples
+## Syntax
+
+Currenly there are two ways to implement a mutation:
+
+### Syntax 1
 
 ```ts
-import { mutation$ } from '@prpc/react-bling'
+import { mutation$ } from '@prpc/react'
+import { z } from 'zod'
+
+export const cleanSyntaxMutation = mutation$({
+  mutationFn: ({ payload }) => {
+    const result = payload.a - payload.b
+    return result
+  },
+  key: 'cleanSyntaxMutation',
+  schema: z.object({
+    a: z.number(),
+    b: z.number(),
+  }),
+})
+```
+
+### Syntax 2
+
+```ts
+import { mutation$ } from '@prpc/react'
 import { z } from 'zod'
 
 export const decrease = mutation$(

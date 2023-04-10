@@ -48,10 +48,15 @@ export const SIDEBAR: Sidebar = {
       link: 'solid/query-provider',
     },
   ],
-  '@prpc/react-bling': [
+  '@prpc/react': [
     { text: 'Install', link: 'react/install' },
     { text: 'query$', link: 'react/query' },
     { text: 'mutation$', link: 'react/mutation' },
+    { text: 'reuseable$', link: 'react/reuseable' },
+    {
+      text: 'QueryProvider',
+      link: 'react/query-provider',
+    },
   ],
   API: [
     { text: 'middleware$', link: 'middleware' },

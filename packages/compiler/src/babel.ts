@@ -1,7 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type babel from '@babel/core'
+import type { PRPCPluginOptions } from '.'
+import * as babel from '@babel/core'
 
-export type PRPCAdapter = 'solid' | 'react-bling' | 'solid-bling'
+export type PRPCAdapter =
+  | 'solid'
+  | 'react-bling'
+  | 'solid-bling'
+  | 'react-thaler'
+
+const figureOutAdapter = (adapter?: PRPCAdapter) => {
+  if (!adapter) {
+    return 'solid'
+  }
+  if (adapter.includes('react')) return 'react'
+  if (adapter.includes('solid')) return 'solid'
+  return adapter
+}
 
 export function createTransformpRPC$(adapter: PRPCAdapter) {
   return function transformpRPC$({
@@ -12,10 +26,11 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
     template: typeof babel.template
   }) {
     const isAstro = adapter.includes('bling')
+    const isThaler = adapter.includes('thaler')
     return {
       visitor: {
         Program(path: any) {
-          if (!isAstro) {
+          if (!isAstro && !isThaler) {
             const serverImport = path.node.body.find(
               (node: any) =>
                 node.type === 'ImportDeclaration' &&
@@ -30,14 +45,16 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               )
             }
           } else {
+            const from = isThaler ? 'thaler' : '@tanstack/bling'
+            const shouldImport = isThaler ? 'fn$' : 'server$'
             const serverImport = path.node.body.find(
               (node: any) =>
                 node.type === 'ImportDeclaration' &&
-                node.source.value === '@tanstack/bling' &&
+                node.source.value === from &&
                 node.specifiers.find(
                   (specifier: any) =>
                     specifier.type === 'ImportSpecifier' &&
-                    specifier.imported.name === 'server$'
+                    specifier.imported.name === shouldImport
                 )
             )
             if (!serverImport) {
@@ -45,18 +62,17 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 t.importDeclaration(
                   [
                     t.importSpecifier(
-                      t.identifier('server$'),
-                      t.identifier('server$')
+                      t.identifier(shouldImport),
+                      t.identifier(shouldImport)
                     ),
                   ],
-                  t.stringLiteral('@tanstack/bling')
+                  t.stringLiteral(from)
                 )
               )
             }
           }
 
-          const loc =
-            adapter === 'solid-bling' ? '@prpc/solid' : `@prpc/${adapter}`
+          const loc = figureOutAdapter(adapter)
           const importIfNotThere = (name: string) => {
             const imported = path.node.body.find(
               (node: any) =>
@@ -94,8 +110,9 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               const arg = path.node.arguments[0]
               if (t.isObjectExpression(arg)) {
                 serverFunction = (
-                  arg.properties.find((prop: any) =>
-                    prop.key.name === (isQuery ? 'queryFn' : 'mutationFn')
+                  arg.properties.find(
+                    (prop: any) =>
+                      prop.key.name === (isQuery ? 'queryFn' : 'mutationFn')
                   ) as any
                 ).value
                 key = (
@@ -211,9 +228,10 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               serverFunction.body,
               true
             )
-            const wrappedArg = t.callExpression(t.identifier('server$'), [
-              originFn,
-            ])
+            const wrappedArg = t.callExpression(
+              t.identifier(adapter === 'react-thaler' ? 'fn$' : 'server$'),
+              [originFn]
+            )
 
             const newArg = t.objectExpression([
               t.objectProperty(
@@ -231,4 +249,29 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
       },
     }
   }
+}
+
+export async function compilepRRPC(
+  code: string,
+  id: string,
+  opts?: PRPCPluginOptions
+) {
+  const plugins: babel.ParserOptions['plugins'] = ['typescript', 'jsx']
+  const transformpRPC$ = createTransformpRPC$(opts?.adapter ?? 'solid')
+  const transformed = await babel.transformAsync(code, {
+    presets: [['@babel/preset-typescript'], ...(opts?.babel?.presets ?? [])],
+    parserOpts: {
+      plugins,
+    },
+    plugins: [[transformpRPC$], ...(opts?.babel?.plugins ?? [])],
+    filename: id,
+  })
+  if (transformed) {
+    // console.log(transformed.code)
+    return {
+      code: transformed.code ?? '',
+      map: transformed.map,
+    }
+  }
+  return null
 }

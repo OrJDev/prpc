@@ -54,7 +54,10 @@ export type AsParam<
   ? ValueOrAccessor<UnwrapFnInput<Parameters<Fn>[0]>>
   : UnwrapFnInput<Parameters<Fn>[0]>
 
-export type UnwrapFnInput<T> = T extends ExpectedInput<infer B> ? B : T
+export type WithVoid<T> = T extends undefined ? void | undefined : T
+export type UnwrapFnInput<T> = WithVoid<
+  T extends ExpectedInput<infer B> ? B : T
+>
 
 export type OmitQueryData<T> = Omit<T, 'queryKey' | 'queryFn'>
 
