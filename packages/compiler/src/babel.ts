@@ -255,15 +255,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               [originFn]
             )
 
-            const newArg = t.objectExpression([
-              t.objectProperty(
-                t.identifier(isQuery ? 'queryFn' : 'mutationFn'),
-                wrappedArg
-              ),
-              t.objectProperty(t.identifier('key'), key),
-            ])
-
-            const newCallExpr = t.callExpression(callee, [newArg])
+            const newCallExpr = t.callExpression(callee, [wrappedArg, key])
             path.replaceWith(newCallExpr)
             path.skip()
           }
@@ -290,6 +282,7 @@ export async function compilepRRPC(
   })
   if (transformed) {
     // console.log(transformed.code)
+
     return {
       code: transformed.code ?? '',
       map: transformed.map,

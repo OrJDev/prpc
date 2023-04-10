@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   callMiddleware$,
+  getParams,
   type ExpectedFn,
   type IMiddleware,
   type ObjectParams,
@@ -22,12 +24,15 @@ export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
       >,
       ZObj extends zod.ZodSchema | void | undefined = void | undefined
     >(
-      params: Omit<ObjectParams<ZObj, Mw, Fn>, 'middlewares'>
-    ) =>
-      query$({
-        ...params,
-        middlewares: mw,
-      }),
+      params: Omit<ObjectParams<ZObj, Mw, Fn>, 'middlewares'>,
+      ...rest: any[]
+    ) => {
+      const { queryFn, key } =
+        typeof params === 'object'
+          ? params
+          : getParams(false, [params, ...rest])
+      return (query$ as any)(queryFn, key, ...mw)
+    },
     mutation$: <
       Fn extends ExpectedFn<
         ZObj extends void | undefined
@@ -39,11 +44,20 @@ export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
       >,
       ZObj extends zod.ZodSchema | void | undefined = void | undefined
     >(
-      params: Omit<ObjectParams<ZObj, Mw, Fn, true>, 'middlewares'>
-    ) =>
-      mutation$({
-        ...params,
-        middlewares: mw,
-      }),
+      params: Omit<ObjectParams<ZObj, Mw, Fn, true>, 'middlewares'>,
+      ...rest: any[]
+    ) => {
+      let queryFn
+      let key
+      if (typeof params === 'object') {
+        queryFn = params.mutationFn
+        key = params.key
+      } else {
+        const temp = getParams(true, [params, ...rest])
+        queryFn = temp.queryFn
+        key = temp.key
+      }
+      return (mutation$ as any)(queryFn, key, ...mw)
+    },
   }
 }

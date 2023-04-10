@@ -197,6 +197,7 @@ export const getParams = <T = Record<any, any>>(
   key: string
   cfg: T
 } => {
+  args = args.flat().filter(Boolean)
   if (args.length === 1) {
     return {
       queryFn: args[0][isMutation ? 'mutationFn' : 'queryFn'],
