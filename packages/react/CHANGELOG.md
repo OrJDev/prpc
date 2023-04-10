@@ -1,5 +1,11 @@
 # @prpc/react
 
+## 0.2.26
+
+### Patch Changes
+
+- [`3642813`](https://github.com/OrJDev/prpc/commit/3642813f3fbfad63bd975734a775c081d486d8ea) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: type fixes
+
 ## 0.2.25
 
 ### Patch Changes
