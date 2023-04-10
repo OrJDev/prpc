@@ -16,7 +16,7 @@
     "unplugin-thaler": "^0.5.1",
     "zod": "^3.21.4",
     "@prpc/react": "^0.2.25",
-    "@prpc/unplugin": "^0.3.16",
+    "@prpc/unplugin": "^0.3.17",
     "@tanstack/react-query": "^4.29.1"
   },
   "devDependencies": {
