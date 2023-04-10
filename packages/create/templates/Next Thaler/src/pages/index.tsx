@@ -22,13 +22,15 @@ const myMutation = mutation$({
 });
 
 const Home: NextPage = () => {
-  const res = myQuery();
+  const { data, isLoading } = myQuery();
   const mut = myMutation();
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      {res.data ? (
+      {isLoading ? (
+        <p className="text-lg font-bold text-white">loading query</p>
+      ) : data ? (
         <div className="text-5xl text-white">
-          query: thaler returned: {res.data}
+          query: thaler returned: {data}
         </div>
       ) : null}
       <button
