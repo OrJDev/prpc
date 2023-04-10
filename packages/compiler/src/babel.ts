@@ -154,7 +154,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
             }
-            const payload = t.identifier('pyload')
+            const payload = t.identifier('payload')
             serverFunction.params[0] = payload
             path.traverse({
               Identifier(innerPath: any) {
@@ -203,7 +203,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               t.isIdentifier(zodSchema, { name: 'undefined' }) === false
             ) {
               const asyncParse = temp(
-                `const _$$validatedZod = await validateZod(pyload, %%zodSchema%%);`
+                `const _$$validatedZod = await validateZod(payload, %%zodSchema%%);`
               )({ zodSchema: zodSchema })
               const ifStatement = t.ifStatement(
                 t.binaryExpression(
