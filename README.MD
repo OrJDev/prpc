@@ -12,6 +12,7 @@ import { type NextPage } from 'next'
 import { z } from 'zod'
 
 const myQuery = query$({
+  // this function will always run on the server with no additional code
   queryFn: ({ payload }) => {
     console.log('queryFn called on server ', payload)
     return payload.num / 2
