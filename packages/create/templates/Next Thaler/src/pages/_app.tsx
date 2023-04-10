@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <QueryProvider queryClient={queryClient as any}>
+    <QueryProvider queryClient={queryClient}>
       <Component {...pageProps} />
     </QueryProvider>
   );
