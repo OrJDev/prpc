@@ -1,5 +1,15 @@
 # create-prpc-app
 
+## 0.1.7
+
+### Patch Changes
+
+- [`9aa6504`](https://github.com/OrJDev/prpc/commit/9aa65040dca46b55daf809c8e8d8ff787d2fc3af) Thanks [@OrJDev](https://github.com/OrJDev)! - impl: loading state for next thaler
+
+- [`75e53f6`](https://github.com/OrJDev/prpc/commit/75e53f6a59ada67dbe4c530512d6ddaa563fab48) Thanks [@OrJDev](https://github.com/OrJDev)! - minor fix
+
+- [`351ba49`](https://github.com/OrJDev/prpc/commit/351ba4918e836635558811bdda74437148287862) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: bump @prpc/react
+
 ## 0.1.6
 
 ### Patch Changes

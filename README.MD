@@ -14,7 +14,7 @@ import { z } from 'zod'
 const myQuery = query$({
   queryFn: ({ payload }) => {
     console.log('queryFn called on server ', payload)
-    return 1
+    return payload.num / 2
   },
   key: 'testQuery',
   schema: z.object({
