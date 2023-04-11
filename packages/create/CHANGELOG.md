@@ -1,5 +1,13 @@
 # create-prpc-app
 
+## 0.1.8
+
+### Patch Changes
+
+- [`19aac01`](https://github.com/OrJDev/prpc/commit/19aac01e73b012ca888ca556a706d1f63da671c2) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make all features work in nextjs
+
+- [`62e5a2d`](https://github.com/OrJDev/prpc/commit/62e5a2d209c2f7cbc45bb8c3386d62656fa4015d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: set headers on api handler for thaler
+
 ## 0.1.7
 
 ### Patch Changes
