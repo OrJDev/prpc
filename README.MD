@@ -13,9 +13,11 @@ import { z } from 'zod'
 
 const myQuery = query$({
   // this function will always run on the server with no additional code
-  queryFn: ({ payload }) => {
+  queryFn: ({ payload, request$ }) => {
+    const ua = request$.headers.get('user-agent')
+    console.log('user-agent', ua)
     console.log('queryFn called on server ', payload)
-    return payload.num / 2
+    return 'Hello world'
   },
   key: 'testQuery',
   schema: z.object({

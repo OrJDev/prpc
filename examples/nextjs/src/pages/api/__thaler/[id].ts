@@ -8,7 +8,13 @@ export default async function handler(
 ) {
   const result = await handleRequest(nextApiRequestToNodeRequest(req));
   if (result) {
+    const asJson = await result.clone().json();
+    if (asJson instanceof Response) {
+      console.log("here");
+    }
     return res.status(result.status).send(await result.text());
   }
-  return res.status(404).send("Not found");
+  return res.status(404).send({
+    error: "Not found",
+  });
 }

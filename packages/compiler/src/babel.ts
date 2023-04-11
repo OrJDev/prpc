@@ -76,7 +76,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
           const importIfNotThere = (name: string) => {
             const imported = path.node.body.find(
               (node: any) =>
-                node.type === 'ImportDeclaration' && node.source.name === name
+                node.type === 'ImportDeclaration' && node.source.name === loc
             )
             if (!imported) {
               path.node.body.unshift(
@@ -150,46 +150,60 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 .filter(Boolean)
             }
 
+            const cleanOutParams = (
+              name: string,
+              id: ReturnType<typeof t.identifier>
+            ) => {
+              path.traverse({
+                Identifier(innerPath: any) {
+                  if (
+                    innerPath.node.name === name &&
+                    innerPath.scope?.path?.listKey !== 'params'
+                  ) {
+                    if (innerPath.parentPath.isObjectProperty()) {
+                      innerPath.parentPath.remove()
+                      if (
+                        innerPath.parentPath.parentPath.isVariableDeclarator() &&
+                        innerPath.parentPath.parentPath.node.id.properties
+                          .length === 0
+                      ) {
+                        innerPath.parentPath.parentPath.remove()
+                      }
+                    } else {
+                      innerPath.node.name = id.name
+                    }
+                  }
+                },
+              })
+            }
+
+            const payload = t.identifier('_$$payload')
+            cleanOutParams('payload', payload)
+
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
               serverFunction.params.push(blingCtx$)
+            } else if (isThaler) {
+              const request = t.identifier('request$')
+              serverFunction.params.push(request)
+              cleanOutParams('request$', request)
             }
-            const payload = t.identifier('_$$payload')
-            path.traverse({
-              Identifier(innerPath: any) {
-                if (
-                  innerPath.node.name === 'payload' &&
-                  innerPath.scope?.path?.listKey !== 'params'
-                ) {
-                  if (innerPath.parentPath.isObjectProperty()) {
-                    innerPath.parentPath.remove()
-                    if (
-                      innerPath.parentPath.parentPath.isVariableDeclarator() &&
-                      innerPath.parentPath.parentPath.node.id.properties
-                        .length === 0
-                    ) {
-                      innerPath.parentPath.parentPath.remove()
-                    }
-                  } else {
-                    innerPath.node.name = payload.name
-                  }
-                }
-              },
-            })
 
             serverFunction.params[0] = payload
-            path.traverse({
-              Identifier(innerPath: any) {
-                if (
-                  innerPath.node.name === 'request$' &&
-                  innerPath.scope?.path?.listKey !== 'params'
-                ) {
-                  innerPath.node.name = isAstro
-                    ? 'blingCtx$.request'
-                    : 'server$.request'
-                }
-              },
-            })
+            if (!isThaler) {
+              path.traverse({
+                Identifier(innerPath: any) {
+                  if (
+                    innerPath.node.name === 'request$' &&
+                    innerPath.scope?.path?.listKey !== 'params'
+                  ) {
+                    innerPath.node.name = isAstro
+                      ? 'blingCtx$.request'
+                      : 'server$.request'
+                  }
+                },
+              })
+            }
 
             if (
               middlewares?.length ||
@@ -237,24 +251,21 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               )
               serverFunction.body.body.unshift(asyncParse, ifStatement)
             }
-
             const destructuring = serverFunction.params[0]
             if (t.isObjectPattern(destructuring)) {
               destructuring.properties = destructuring.properties.filter(
                 (p: any) => p.key.name !== 'request$' && p.key.name !== 'ctx$'
               )
             }
-
             const originFn = t.arrowFunctionExpression(
               serverFunction.params,
               serverFunction.body,
               true
             )
             const wrappedArg = t.callExpression(
-              t.identifier(adapter === 'react-thaler' ? 'fn$' : 'server$'),
+              t.identifier(isThaler ? 'fn$' : 'server$'),
               [originFn]
             )
-
             const newCallExpr = t.callExpression(callee, [wrappedArg, key])
             path.replaceWith(newCallExpr)
             path.skip()

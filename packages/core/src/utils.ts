@@ -209,3 +209,13 @@ export const getParams = <T = Record<any, any>>(
     return { queryFn, key, cfg: {} as T }
   }
 }
+
+export const consistentResponse = <Fn extends ExpectedFn<unknown>>(fn: Fn) => {
+  return async (...args: Parameters<Fn>) => {
+    const res = await (fn as any)(...args)
+    if (res instanceof Response) {
+      return res
+    }
+    return response$(res)
+  }
+}
