@@ -8,7 +8,16 @@ export default async function handler(
 ) {
   const result = await handleRequest(nextApiRequestToNodeRequest(req));
   if (result) {
-    return res.status(result.status).send(await result.text());
+    if (result instanceof Response) {
+      result.headers.forEach((value, key) => {
+        res.setHeader(key, value);
+      });
+    }
+    return res
+      .status(result instanceof Response ? result.status : 200)
+      .send(result instanceof Response ? await result.text() : result);
   }
-  return res.status(404).send("Not found");
+  return res.status(404).send({
+    error: "Not found",
+  });
 }
