@@ -46,7 +46,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             }
           } else {
             const from = isThaler ? 'thaler' : '@tanstack/bling'
-            const shouldImport = isThaler ? 'fn$' : 'server$'
+            const shouldImport = isThaler ? 'post$' : 'server$'
             const serverImport = path.node.body.find(
               (node: any) =>
                 node.type === 'ImportDeclaration' &&
@@ -152,7 +152,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
 
             const cleanOutParams = (
               name: string,
-              id: ReturnType<typeof t.identifier>
+              id: string | ReturnType<typeof t.identifier>
             ) => {
               path.traverse({
                 Identifier(innerPath: any) {
@@ -170,15 +170,13 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                         innerPath.parentPath.parentPath.remove()
                       }
                     } else {
-                      innerPath.node.name = id.name
+                      innerPath.node.name =
+                        typeof id === 'string' ? id : id.name
                     }
                   }
                 },
               })
             }
-
-            const payload = t.identifier('_$$payload')
-            cleanOutParams('payload', payload)
 
             if (isAstro) {
               const blingCtx$ = t.identifier('blingCtx$')
@@ -189,7 +187,12 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               cleanOutParams('request$', request)
             }
 
-            serverFunction.params[0] = payload
+            const payload = t.objectProperty(
+              t.identifier('payload'),
+              t.identifier('_$$payload')
+            )
+            cleanOutParams('payload', '_$$payload')
+            serverFunction.params[0] = t.objectPattern([payload])
             if (!isThaler) {
               path.traverse({
                 Identifier(innerPath: any) {
@@ -210,15 +213,19 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               isReuseableQuery ||
               isReuseableMutation
             ) {
+              if (isThaler) {
+                cleanOutParams('ctx$', 'ctx$')
+              }
+              const req = isThaler ? 'request$' : 'server$.request'
               let callMiddleware
               if (isReuseableQuery || isReuseableMutation) {
                 const name = (callee.object as any).name
                 callMiddleware = temp(
-                  `const ctx$ = await ${name}.callMw(server$.request)`
+                  `const ctx$ = await ${name}.callMw(${req})`
                 )()
               } else {
                 callMiddleware = temp(
-                  `const ctx$ = await callMiddleware$(server$.request, %%middlewares%%)`
+                  `const ctx$ = await callMiddleware$(${req}, %%middlewares%%)`
                 )({
                   middlewares: middlewares.map((m: any) => t.identifier(m)),
                 })
@@ -249,7 +256,12 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
                 ),
                 t.returnStatement(t.identifier('_$$validatedZod'))
               )
-              serverFunction.body.body.unshift(asyncParse, ifStatement)
+              const setPayload = temp(`_$$payload = _$$validatedZod`)()
+              serverFunction.body.body.unshift(
+                asyncParse,
+                ifStatement,
+                setPayload
+              )
             }
             const destructuring = serverFunction.params[0]
             if (t.isObjectPattern(destructuring)) {
@@ -263,7 +275,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               true
             )
             const wrappedArg = t.callExpression(
-              t.identifier(isThaler ? 'fn$' : 'server$'),
+              t.identifier(isThaler ? 'post$' : 'server$'),
               [originFn]
             )
             const newCallExpr = t.callExpression(callee, [wrappedArg, key])

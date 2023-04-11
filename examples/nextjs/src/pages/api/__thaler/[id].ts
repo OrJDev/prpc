@@ -6,13 +6,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const result = await handleRequest(nextApiRequestToNodeRequest(req));
+  const newReq = nextApiRequestToNodeRequest(req);
+  const result = await handleRequest(newReq);
   if (result) {
-    const asJson = await result.clone().json();
-    if (asJson instanceof Response) {
-      console.log("here");
+    if (result instanceof Response) {
+      result.headers.forEach((value, key) => {
+        res.setHeader(key, value);
+      });
     }
-    return res.status(result.status).send(await result.text());
+    return res
+      .status(result instanceof Response ? result.status : 200)
+      .send(result instanceof Response ? await result.text() : result);
   }
   return res.status(404).send({
     error: "Not found",

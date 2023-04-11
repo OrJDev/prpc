@@ -1,50 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-// import { query$ } from "@prpc/react";
-import { mutation$, query$ } from "@prpc/react";
+import { middleware$, query$, response$ } from "@prpc/react";
 import { type NextPage } from "next";
+import { z } from "zod";
 
-const myQuery = query$({
-  queryFn: () => {
-    console.log("queryFn called on server");
-    return 1;
-  },
-  key: "testQuery",
+const testMw = middleware$(async ({ request$ }) => {
+  const ua = request$.headers.get("user-agent");
+  console.log("middleware called on server ", ua);
+  return {
+    ua,
+  };
 });
 
-const myMutation = mutation$({
-  mutationFn: () => {
-    console.log("mutationFn called on server");
-    return 1;
+const myQuery = query$({
+  queryFn: ({ request$, ctx$, payload }) => {
+    console.log(
+      "queryFn called on server ",
+      ctx$.ua === request$.headers.get("user-agent"),
+      payload
+    );
+    return response$(payload.num / 2);
   },
-  key: "testMut",
+  key: "testQuery",
+  middlewares: [testMw],
+  schema: z.object({
+    num: z.number(),
+  }),
 });
 
 const Home: NextPage = () => {
-  const { data, isLoading } = myQuery();
-  const mut = myMutation();
+  const { data, isLoading } = myQuery({
+    num: 2,
+  });
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       {isLoading ? (
-        <p className="text-lg font-bold text-white">loading query</p>
+        <p className="text-xl font-bold text-white">Loading...</p>
       ) : data ? (
-        <div className="text-5xl text-white">
-          query: thaler returned: {data}
-        </div>
-      ) : null}
-      <button
-        className="rounded-lg bg-[#ff00ff] p-4 text-2xl text-white"
-        onClick={() => {
-          mut.mutate();
-        }}
-      >
-        mutate
-      </button>
-      {mut.data ? (
-        <div className="text-5xl text-white">
-          mutation: thaler returned: {mut.data}
-        </div>
+        <div className="text-5xl text-white">query: {data}</div>
       ) : null}
     </main>
   );

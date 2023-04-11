@@ -38,9 +38,9 @@ export const unwrapValue = <V extends ValueOrAccessor<any>>(
 
 export const optionalData = async (response: Response) => {
   try {
-    return await response.json()
+    return await response.clone().json()
   } catch {
-    return undefined
+    return await response.clone().text()
   }
 }
 
@@ -74,7 +74,10 @@ export async function tryAndWrap<Fn extends ExpectedFn<any>>(
   handleRedirect?: (url: string, response: Response) => any
 ) {
   try {
-    const response = await queryFn(unwrapValue(input) as any)
+    const value = unwrapValue(input)
+    const response = await queryFn({
+      payload: JSON.stringify(value),
+    } as any)
     if (response instanceof Response) {
       const url = response.headers.get('location')
       if (response.headers.get('X-Prpc-Error') === '1') {
@@ -162,18 +165,16 @@ export const hideRequest = <T>(ctx$: T, fully?: boolean) => {
 }
 
 export const error$ = (error: any, init?: ResponseInit): Response => {
-  return response$(
-    {
+  const headers = new Headers(init?.headers)
+  headers.set('Content-Type', 'application/json')
+  headers.set('X-Prpc-Error', '1')
+  return new Response(
+    JSON.stringify({
       error: typeof error === 'string' ? { message: error } : error,
-    },
+    }),
     {
       status: init?.status ?? 400,
-      headers: {
-        ...init?.headers,
-        'Content-Type': 'application/json',
-        'X-Prpc-Error': '1',
-      },
-      ...init,
+      headers,
     }
   ) as any
 }
@@ -182,7 +183,9 @@ export const validateZod = async <Schema extends ZodSchema>(
   payload: any,
   schema: Schema
 ) => {
-  const res = await schema.safeParseAsync(payload)
+  const res = await schema.safeParseAsync(
+    typeof payload === 'object' ? payload : JSON.parse(payload)
+  )
   if (!res.success) {
     return error$(res.error.flatten())
   }
