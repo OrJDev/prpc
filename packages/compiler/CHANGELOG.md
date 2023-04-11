@@ -1,5 +1,13 @@
 # @prpc/vite
 
+## 0.3.18
+
+### Patch Changes
+
+- [`3cf140d`](https://github.com/OrJDev/prpc/commit/3cf140d854390b7d2986205cfb765e424f4eec7f) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: request$ for thaler (nextjs)
+
+- [`19aac01`](https://github.com/OrJDev/prpc/commit/19aac01e73b012ca888ca556a706d1f63da671c2) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make all features work in nextjs
+
 ## 0.3.17
 
 ### Patch Changes

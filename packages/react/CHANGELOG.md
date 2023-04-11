@@ -1,5 +1,12 @@
 # @prpc/react
 
+## 0.2.27
+
+### Patch Changes
+
+- Updated dependencies [[`19aac01`](https://github.com/OrJDev/prpc/commit/19aac01e73b012ca888ca556a706d1f63da671c2)]:
+  - @prpc/core@0.3.12
+
 ## 0.2.26
 
 ### Patch Changes
