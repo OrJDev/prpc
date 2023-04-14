@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.10
+
+### Patch Changes
+
+- [`e296581`](https://github.com/OrJDev/prpc/commit/e296581f2c4264c3e84c6b44cd780a4c4df3f8e8) Thanks [@OrJDev](https://github.com/OrJDev)! - nextjs: prefetch data
+
 ## 0.1.9
 
 ### Patch Changes
