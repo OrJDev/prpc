@@ -47,7 +47,7 @@ export const SIDEBAR: Sidebar = {
       link: 'react/withprpc',
     },
     {
-      text: 'SSR Prefetch',
+      text: 'SSR / SSG Prefetch',
       link: 'react/gssp',
     },
   ],
