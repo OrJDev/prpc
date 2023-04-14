@@ -1,5 +1,11 @@
 # @prpc/core
 
+## 0.3.13
+
+### Patch Changes
+
+- [`19ed6e9`](https://github.com/OrJDev/prpc/commit/19ed6e9237256e1ba9ffbc81cd6a0dd0ffe08c0d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make prpc/react work with nextjs's gssp
+
 ## 0.3.12
 
 ### Patch Changes

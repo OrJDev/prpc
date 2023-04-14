@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.9
+
+### Patch Changes
+
+- [`e4ffae3`](https://github.com/OrJDev/prpc/commit/e4ffae3ca912f99b9afa55fa9faa10f9c9d90dd9) Thanks [@OrJDev](https://github.com/OrJDev)! - bump: prpc/raect to latest
+
 ## 0.1.8
 
 ### Patch Changes
