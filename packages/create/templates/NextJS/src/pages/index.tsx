@@ -1,8 +1,9 @@
 import { middleware$, query$, response$ } from "@prpc/react";
-import { type NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { z } from "zod";
+import { queryClient } from "./_app";
 
-const testMw = middleware$(async ({ request$ }) => {
+const testMw = middleware$(({ request$ }) => {
   const ua = request$.headers.get("user-agent");
   console.log("middleware called on server ", ua);
   return {
@@ -26,18 +27,25 @@ const myQuery = query$({
   }),
 });
 
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    props: await myQuery.fullyDehydrate(queryClient, {
+      num: 2,
+    }),
+  };
+};
+
 const Home: NextPage = () => {
-  const { data, isLoading } = myQuery({
+  const { data } = myQuery({
     num: 2,
   });
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      {isLoading ? (
-        <p className="text-xl font-bold text-white">Loading...</p>
-      ) : data ? (
+      {data ? (
         <div className="text-5xl text-white">query: {data}</div>
-      ) : null}
+      ) : (
+        <p className="text-xl font-bold text-white">Something went wrong</p>
+      )}
     </main>
   );
 };
