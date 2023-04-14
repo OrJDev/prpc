@@ -1,7 +1,8 @@
 export * from './mutation'
 export * from './query'
 export * from '@prpc/core'
-export { default as QueryProvider } from './QueryProvider'
+export { default as QueryProvider, Hydrate } from './QueryProvider'
+export * from './withPRPC'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function nextApiRequestToNodeRequest(req: any) {

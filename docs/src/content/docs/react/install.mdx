@@ -17,19 +17,11 @@ Or do it manually
 
 ### Install
 
-If you are using thaler, install the following packages
-
 ```sh
-pnpm add @prpc/react@latest @tanstack/react-query@latest @prpc/unplugin@latest
+pnpm add @prpc/react@latest @tanstack/react-query@latest @prpc/unplugin@latest thaler@latest
 ```
 
-If you are using vite / bling, install the following packages
-
-```sh
-pnpm add @prpc/react@latest @tanstack/react-query@latest @prpc/vite@latest
-```
-
-### Unplugin (Thaler)
+### Unplugin
 
 After installing the unplugin, add the following to your `next.config.mjs`
 
@@ -86,51 +78,22 @@ export default async function handler(
 
 Read more about thaler here: https://github.com/lxsmnsyc/thaler
 
-### Astro Plugin (Bling)
+### withPRPC
 
-Add the following to your astro config
-
-```ts
-import { defineConfig } from 'astro/config'
-import react from '@astrojs/react'
-import node from '@astrojs/node'
-import { astroBling } from '@tanstack/bling/astro'
-import { astroPRPC } from '@prpc/vite'
-
-export default defineConfig({
-  output: 'server',
-  adapter: node({
-    mode: 'standalone',
-  }),
-  integrations: [
-    astroPRPC({
-      adapter: 'react-bling',
-    }),
-    astroBling(),
-    react(),
-  ],
-})
-```
-
-### QueryClientProvider
+Go to `pages/_app.tsx` and add the following `withPRPC` HOC
 
 ```tsx
-import React from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-export function App() {
-  const [queryClient] = React.useState(() => new QueryClient())
-  return (
-    <html>
-      <head>
-        <title>Hello World</title>
-      </head>
-      <body>
-        <QueryClientProvider client={queryClient}>
-         {...}
-        </QueryClientProvider>
-        <Scripts />
-      </body>
-    </html>
-  )
+import { type AppType } from 'next/dist/shared/lib/utils'
+import '~/styles/globals.css'
+
+import { withPRPC } from '@prpc/react'
+import { QueryClient } from '@tanstack/react-query'
+
+export const queryClient = new QueryClient()
+
+const MyApp: AppType = ({ Component, pageProps }) => {
+  return <Component {...pageProps} />
 }
+
+export default withPRPC(queryClient, MyApp)
 ```

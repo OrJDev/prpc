@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  type QueryClient,
   useQuery,
   type UseQueryOptions,
   type UseQueryResult,
+  useQueryClient,
+  dehydrate,
+  type DehydratedState,
 } from '@tanstack/react-query'
 import type zod from 'zod'
 import {
@@ -32,34 +36,61 @@ export function query$<
   ZObj extends zod.ZodSchema | void | undefined = void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn>
-): (
-  input: WithVoid<
-    ZObj extends void | undefined
-      ? void | undefined
-      : ZObj extends zod.ZodSchema
-      ? zod.infer<ZObj>
-      : void | undefined
-  >,
-  queryOpts?: UseQueryOptions<
+): {
+  (
+    input: WithVoid<
+      ZObj extends void | undefined
+        ? void | undefined
+        : ZObj extends zod.ZodSchema
+        ? zod.infer<ZObj>
+        : void | undefined
+    >,
+    queryOpts?: UseQueryOptions<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
+  ): UseQueryResult<
     InferReturnType<Fn>,
     PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
   >
-) => UseQueryResult<
-  InferReturnType<Fn>,
-  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
->
+  prefetch: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<InferReturnType<Fn>>
+  fullyDehydrate: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<{ prpcState: DehydratedState }>
+}
 
 export function query$<
+  ZObj extends zod.ZodSchema | void | undefined,
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<undefined, Mw>
 >(
   queryFn: Fn,
   key: string,
   ..._middlewares: Mw
-): (
-  input: void | undefined,
-  queryOpts?: UseQueryOptions<InferReturnType<Fn>, PRPCClientError<any>>
-) => UseQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
+): {
+  (
+    input: WithVoid<
+      ZObj extends void | undefined
+        ? void | undefined
+        : ZObj extends zod.ZodSchema
+        ? zod.infer<ZObj>
+        : void | undefined
+    >,
+    queryOpts?: UseQueryOptions<InferReturnType<Fn>, PRPCClientError<any>>
+  ): UseQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
+  prefetch: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<InferReturnType<Fn>>
+  fullyDehydrate: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<{ prpcState: DehydratedState }>
+}
 
 export function query$<
   ZObj extends zod.ZodSchema | void | undefined,
@@ -70,22 +101,32 @@ export function query$<
   key: string,
   _schema?: ZObj,
   ..._middlewares: Mw
-): (
-  input: WithVoid<
-    ZObj extends void | undefined
-      ? void | undefined
-      : ZObj extends zod.ZodSchema
-      ? zod.infer<ZObj>
-      : void | undefined
-  >,
-  queryOpts?: UseQueryOptions<
+): {
+  (
+    input: WithVoid<
+      ZObj extends void | undefined
+        ? void | undefined
+        : ZObj extends zod.ZodSchema
+        ? zod.infer<ZObj>
+        : void | undefined
+    >,
+    queryOpts?: UseQueryOptions<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
+  ): UseQueryResult<
     InferReturnType<Fn>,
     PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
   >
-) => UseQueryResult<
-  InferReturnType<Fn>,
-  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
->
+  prefetch: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<InferReturnType<Fn>>
+  fullyDehydrate: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<{ prpcState: DehydratedState }>
+}
 
 export function query$<
   ZObj extends zod.ZodSchema | undefined,
@@ -96,14 +137,40 @@ export function query$<
   >
 >(...args: any[]) {
   const { key, queryFn } = getParams(false, ...args)
-  return (
+
+  const prefetch = (queryClient: QueryClient, input: AsParam<Fn, false>) => {
+    return queryClient.prefetchQuery({
+      queryKey: genQueryKey(key, unwrapValue(input)),
+      queryFn: () => tryAndWrap(queryFn, input),
+    })
+  }
+
+  const fullyDehydrate = async (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => {
+    await queryClient.prefetchQuery({
+      queryKey: genQueryKey(key, unwrapValue(input)),
+      queryFn: () => tryAndWrap(queryFn, input),
+    })
+    return { prpcState: dehydrate(queryClient) }
+  }
+
+  const fn = (
     input: AsParam<Fn, false>,
     queryOpts?: UseQueryOptions<
       InferReturnType<Fn>,
       PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
     >
-  ) =>
-    useQuery({
+  ) => {
+    const queryClient = useQueryClient()
+    if (
+      typeof window === 'undefined' &&
+      !queryClient.getQueryCache().find(genQueryKey(key, unwrapValue(input)))
+    ) {
+      void prefetch(queryClient, input)
+    }
+    return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () => tryAndWrap(queryFn, input),
       ...((queryOpts || {}) as any),
@@ -111,4 +178,16 @@ export function query$<
       InferReturnType<Fn>,
       PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
     >
+  }
+
+  return new Proxy(fn, {
+    get: (target, prop) => {
+      if (prop === 'prefetch') {
+        return prefetch
+      } else if (prop === 'fullyDehydrate') {
+        return fullyDehydrate
+      }
+      return target
+    },
+  })
 }

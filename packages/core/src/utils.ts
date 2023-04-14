@@ -44,12 +44,16 @@ export const optionalData = async (response: Response) => {
   }
 }
 
-export const genQueryKey = (key: string, input?: any, isMutation = false) => {
+export const genQueryKey = (
+  key: string,
+  input?: any,
+  isMutation = false
+): unknown[] => {
   if (key) {
     return [key, input].filter(Boolean)
   }
   if (isMutation) {
-    return undefined
+    return [undefined]
   }
   return ['prpc.query', input].filter(Boolean)
 }

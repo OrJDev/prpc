@@ -36,7 +36,20 @@ export const SIDEBAR: Sidebar = {
   Overview: [
     { text: 'Introduction', link: 'introduction' },
     { text: 'Install', link: 'install' },
-    { text: 'Examples', link: 'examples' },
+  ],
+  '@prpc/react': [
+    { text: 'Install', link: 'react/install' },
+    { text: 'query$', link: 'react/query' },
+    { text: 'mutation$', link: 'react/mutation' },
+    { text: 'reuseable$', link: 'react/reuseable' },
+    {
+      text: 'withPRPC',
+      link: 'react/withprpc',
+    },
+    {
+      text: 'SSR Prefetch',
+      link: 'react/gssp',
+    },
   ],
   '@prpc/solid': [
     { text: 'Install', link: 'solid/install' },
@@ -48,16 +61,7 @@ export const SIDEBAR: Sidebar = {
       link: 'solid/query-provider',
     },
   ],
-  '@prpc/react': [
-    { text: 'Install', link: 'react/install' },
-    { text: 'query$', link: 'react/query' },
-    { text: 'mutation$', link: 'react/mutation' },
-    { text: 'reuseable$', link: 'react/reuseable' },
-    {
-      text: 'QueryProvider',
-      link: 'react/query-provider',
-    },
-  ],
+
   API: [
     { text: 'middleware$', link: 'middleware' },
     { text: 'pipe$', link: 'pipe' },
