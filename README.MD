@@ -4,7 +4,41 @@ Write server code, query / mutate it on the server and validate inputs using zod
 
 Read more at [our docs](https://prpc.vercel.app)
 
-pRPC currently has 3 adapters, one for NextJS, one for Bling and one for SolidStart.
+pRPC currently has 3 adapters, one for NextJS, one for Bling and one for SolidStart, it has a [trpc](https://github.com/trpc/trpc] API, except it using `server$` under the hood which allows colocation (server code in frontend files)
+
+### Query Example
+
+```ts
+import { middleware$, query$, response$, error$ } from '@prpc/react'
+import { z } from 'zod'
+
+const testMw = middleware$(async ({ request$ }) => {
+  const ua = request$.headers.get('user-agent')
+  console.log('middleware called on server ', ua)
+  if (ua?.includes('bot')) {
+    return error$('Bots are not allowed')
+  }
+  return {
+    ua,
+  }
+})
+
+const myQuery = query$({
+  queryFn: ({ request$, ctx$, payload }) => {
+    console.log(
+      'queryFn called on server ',
+      ctx$.ua === request$.headers.get('user-agent'),
+      payload
+    )
+    return response$(payload.num / 2)
+  },
+  key: 'testQuery',
+  middlewares: [testMw],
+  schema: z.object({
+    num: z.number(),
+  }),
+})
+```
 
 ## NextJS
 
@@ -17,6 +51,8 @@ pRPC currently has 3 adapters, one for NextJS, one for Bling and one for SolidSt
 ## Bling
 
 [Read More Here Regarding Bling](https://prpc.vercel.app/react/install)
+
+### Full Page Colocation Example - NextJS
 
 How would this look like (NextJS example):
 
