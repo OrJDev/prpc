@@ -18,7 +18,7 @@ import { query$, response$ } from '@prpc/react'
 import { z } from 'zod'
 export const cleanSyntaxQuery = query$({
   queryFn: async ({ payload }) => {
-    return { result: payload.a + payload.b }
+    return response$({ result: payload.a + payload.b })
   },
   key: 'cleanSyntaxQuery',
   schema: z.object({
@@ -52,21 +52,21 @@ export const add = query$(
 )
 ```
 
-### SSR Prefetch
+### Using NextJS - SSR Prefetch
 
-If you want to prefetch a query on SSR, check out the `gssp` docs [here](/next/gssp).
+If you want to prefetch a query on SSR, check out the `gssp` docs [here](/nextjs/gssp).
 
 ## Examples
 
 ```ts
-import { query$ } from '@prpc/react'
+import { query$, response$ } from '@prpc/react'
 import { z } from 'zod'
 
 export const decrease = query$(
   ({ payload }) => {
     const result = payload.a - payload.b
     console.log('add', result)
-    return result
+    return response$(result)
   },
   'decrease', // this will be used as the query key (along with the input)
   z.object({
