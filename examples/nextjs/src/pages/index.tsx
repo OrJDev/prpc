@@ -30,7 +30,7 @@ const myQuery = query$({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
-    props: await myQuery.fullyDehydrate(queryClient, {
+    props: await myQuery.fullyDehydrate(queryClient as any, {
       num: 2,
     }),
   };

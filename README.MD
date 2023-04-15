@@ -6,14 +6,31 @@ Read more at [our docs](https://prpc.vercel.app)
 
 pRPC currently has 3 adapters, one for NextJS, one for Bling and one for SolidStart.
 
+## NextJS
+
+[Read More Here Regarding NextJS](https://prpc.vercel.app/nextjs/install)
+
+## SolidStart
+
+[Read More Here Regarding SolidStart](https://prpc.vercel.app/solid/install)
+
+## Bling
+
+[Read More Here Regarding Bling](https://prpc.vercel.app/react/install)
+
+How would this look like (NextJS example):
+
 ```tsx
-import { middleware$, query$, response$ } from '@prpc/react'
+import { middleware$, query$, response$, error$ } from '@prpc/react'
 import { type NextPage } from 'next'
 import { z } from 'zod'
 
 const testMw = middleware$(async ({ request$ }) => {
   const ua = request$.headers.get('user-agent')
   console.log('middleware called on server ', ua)
+  if (ua?.includes('bot')) {
+    return error$('Bots are not allowed')
+  }
   return {
     ua,
   }
@@ -53,15 +70,3 @@ const Home: NextPage = () => {
 
 export default Home
 ```
-
-## NextJS
-
-[Read More Here Regarding NextJS](https://prpc.vercel.app/nextjs/install)
-
-## SolidStart
-
-[Read More Here Regarding SolidStart](https://prpc.vercel.app/solid/install)
-
-## Bling
-
-[Read More Here Regarding Bling](https://prpc.vercel.app/react/install)

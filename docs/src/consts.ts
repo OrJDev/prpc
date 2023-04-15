@@ -37,13 +37,13 @@ export const SIDEBAR: Sidebar = {
     { text: 'Introduction', link: 'introduction' },
     { text: 'Install', link: 'install' },
   ],
-  '@prpc/react': [
+  React: [
     { text: 'Install', link: 'react/install' },
     { text: 'query$', link: 'react/query' },
     { text: 'mutation$', link: 'react/mutation' },
     { text: 'reuseable$', link: 'react/reuseable' },
   ],
-  'Next.JS': [
+  NextJS: [
     {
       text: 'install',
       link: 'nextjs/install',
@@ -57,7 +57,7 @@ export const SIDEBAR: Sidebar = {
       link: 'nextjs/gssp',
     },
   ],
-  '@prpc/solid': [
+  Solid: [
     { text: 'Install', link: 'solid/install' },
     { text: 'query$', link: 'solid/query' },
     { text: 'mutation$', link: 'solid/mutation' },
