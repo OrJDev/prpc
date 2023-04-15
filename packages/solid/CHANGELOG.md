@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.30
+
+### Patch Changes
+
+- [`99e4c15`](https://github.com/OrJDev/prpc/commit/99e4c15f0fda199fe6a387948b2507a3b1492eff) Thanks [@OrJDev](https://github.com/OrJDev)! - docs: add docs regarding bling & nextjs
+
 ## 0.2.29
 
 ### Patch Changes
