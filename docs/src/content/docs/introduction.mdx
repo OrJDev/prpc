@@ -5,20 +5,23 @@ description: 'Docs intro'
 
 **Welcome to pRPC!**
 
-pRPC is an open source [`Thaler`](https://github.com/lxsmnsyc/thaler), [`NextJS`](https://github.com/vercel/next.js) & [`SolidStart`](https://github.com/solidjs/solid-start) utility library to make working with `server$` easier.
+pRPC is an open source [`NextJS`](/nextjs/install), [`Bling`](/react/install) & [`SolidStart`](/solid/install) utility library to make working with `server$` easier.
 
 ### About
 
-Using pRPC you will be able to write server code in frontend files in both NextJS & SolidStart and connect your functions with tanstack `query` & `mutation` by default. For instance:
+Using pRPC you will be able to write server code in frontend files in Bling, NextJS & SolidStart and connect your functions with tanstack `query` & `mutation` by default. For instance:
 
 ```tsx
-import { middleware$, query$, response$ } from '@prpc/react'
+import { middleware$, query$, response$, error$ } from '@prpc/react'
 import { type NextPage } from 'next'
 import { z } from 'zod'
 
 const testMw = middleware$(async ({ request$ }) => {
   const ua = request$.headers.get('user-agent')
   console.log('middleware called on server ', ua)
+  if (ua?.includes('bot')) {
+    return error$('Bots are not allowed')
+  }
   return {
     ua,
   }
@@ -61,5 +64,6 @@ export default Home
 
 ### Getting Started
 
-- [React / NextJS](/react/install)
+- [NextJS](/nextjs/install)
+- [React](/react/install)
 - [SolidStart](/solid/install)

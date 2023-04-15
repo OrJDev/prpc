@@ -10,7 +10,7 @@ This will modify the return type of an existing middleware, in a type safe way.
 ## Usage
 
 ```ts
-import { middleware$, pipe$, query$, response$ } from '@prpc/solid'
+import { middleware$, pipe$, query$, response$, error$ } from '@prpc/solid'
 import { z } from 'zod'
 
 const myMiddleware1 = middleware$(({ request$ }) => {
@@ -20,7 +20,7 @@ const myMiddleware1 = middleware$(({ request$ }) => {
 
 const middleWare2 = pipe$(myMiddleware1, (ctx) => {
   if (ctx.test === null) {
-    throw new Error('test is null')
+    return error$('test is null')
   }
   return {
     test: ctx.test,
