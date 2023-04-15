@@ -1,5 +1,13 @@
 # create-prpc-app
 
+## 0.1.11
+
+### Patch Changes
+
+- [`131f4bd`](https://github.com/OrJDev/prpc/commit/131f4bd1eb3b01ba813c8defb1f0546f8d305b72) Thanks [@OrJDev](https://github.com/OrJDev)! - bump / correct docs
+
+- [`99e4c15`](https://github.com/OrJDev/prpc/commit/99e4c15f0fda199fe6a387948b2507a3b1492eff) Thanks [@OrJDev](https://github.com/OrJDev)! - docs: add docs regarding bling & nextjs
+
 ## 0.1.10
 
 ### Patch Changes
