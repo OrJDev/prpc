@@ -4,7 +4,7 @@ Write server code, query / mutate it on the server and validate inputs using zod
 
 Read more at [our docs](https://prpc.vercel.app)
 
-pRPC currently has 3 adapters, one for NextJS, one for Bling and one for SolidStart, it has a [trpc](https://github.com/trpc/trpc] API, except it using `server$` under the hood which allows colocation (server code in frontend files)
+pRPC currently has 3 adapters, one for NextJS, one for Bling and one for SolidStart, it has a [trpc](https://github.com/trpc/trpc) API, except it using `server$` under the hood which allows colocation (server code in frontend files)
 
 ### Query Example
 
