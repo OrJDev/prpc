@@ -2,8 +2,9 @@ import { QueryProvider } from '@prpc/solid'
 import { QueryClient } from '@tanstack/solid-query'
 import { Suspense, useContext } from 'solid-js'
 import { HydrationScript, NoHydration } from 'solid-js/web'
-import { helloMutation, helloQuery } from './fns'
 import { manifestContext } from './manifest'
+import { helloQuery } from './server/queries'
+import { helloMutation } from './server/mutations'
 
 function ServerQueryHello() {
   const helloRes = helloQuery('testing')

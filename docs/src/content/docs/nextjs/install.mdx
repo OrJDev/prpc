@@ -1,0 +1,99 @@
+---
+title: 'Install'
+description: 'Installing pRPC'
+---
+
+**Adding pRPC to React**
+
+### Create pRPC App
+
+You can use `create-prpc-app` to create a new pRPC app.
+
+```sh
+npm create prpc-app@latest
+```
+
+Or do it manually
+
+### Install
+
+```sh
+pnpm add @prpc/react@latest @tanstack/react-query@latest @prpc/unplugin@latest thaler@latest
+```
+
+### Unplugin
+
+After installing the unplugin, add the following to your `next.config.mjs`
+
+```ts
+import thaler from "unplugin-thaler";
+import prpc from "@prpc/unplugin";
+
+{
+  ...myConfig,
+   webpack: (config, { isServer }) => {
+    config.plugins.push(
+      prpc.webpack({
+        adapter: "react-thaler",
+      })
+    );
+    config.plugins.push(
+      thaler.webpack({
+        origin: "http://localhost:3000/api",
+        mode: isServer ? "server" : "client",
+      })
+    );
+    return config;
+  },
+}
+```
+
+After setting up the next config, make sure to create this api handler at `pages/api/__thaler/[id].ts`
+
+```ts
+import { type NextApiResponse, type NextApiRequest } from 'next'
+import { handleRequest } from 'thaler/server'
+import { nextApiRequestToNodeRequest } from '@prpc/react'
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const result = await handleRequest(nextApiRequestToNodeRequest(req))
+  if (result) {
+    if (result instanceof Response) {
+      result.headers.forEach((value, key) => {
+        res.setHeader(key, value)
+      })
+    }
+    return res
+      .status(result instanceof Response ? result.status : 200)
+      .send(result instanceof Response ? await result.text() : result)
+  }
+  return res.status(404).send({
+    error: 'Not found',
+  })
+}
+```
+
+Read more about thaler here: https://github.com/lxsmnsyc/thaler
+
+### withPRPC
+
+Go to `pages/_app.tsx` and add the following `withPRPC` HOC
+
+```tsx
+import { type AppType } from 'next/dist/shared/lib/utils'
+import '~/styles/globals.css'
+
+import { withPRPC } from '@prpc/react'
+import { QueryClient } from '@tanstack/react-query'
+
+export const queryClient = new QueryClient()
+
+const MyApp: AppType = ({ Component, pageProps }) => {
+  return <Component {...pageProps} />
+}
+
+export default withPRPC(queryClient, MyApp)
+```

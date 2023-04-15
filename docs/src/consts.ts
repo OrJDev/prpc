@@ -42,13 +42,19 @@ export const SIDEBAR: Sidebar = {
     { text: 'query$', link: 'react/query' },
     { text: 'mutation$', link: 'react/mutation' },
     { text: 'reuseable$', link: 'react/reuseable' },
+  ],
+  'Next.JS': [
+    {
+      text: 'install',
+      link: 'nextjs/install',
+    },
     {
       text: 'withPRPC',
-      link: 'react/withprpc',
+      link: 'nextjs/withprpc',
     },
     {
       text: 'SSR / SSG Prefetch',
-      link: 'react/gssp',
+      link: 'nextjs/gssp',
     },
   ],
   '@prpc/solid': [

@@ -56,7 +56,7 @@ export default Home
 
 ## NextJS
 
-[Read More Here Regarding NextJS](https://prpc.vercel.app/react/install)
+[Read More Here Regarding NextJS](https://prpc.vercel.app/nextjs/install)
 
 ## SolidStart
 

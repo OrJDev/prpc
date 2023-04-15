@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { helloMutation, helloQuery } from './fns'
 import { manifestContext } from './manifest'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { helloQuery } from './server/queries'
+import { helloMutation } from './server/mutations'
 
 function ServerQueryHello() {
   const { isLoading, data } = helloQuery('testing')
