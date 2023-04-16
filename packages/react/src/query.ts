@@ -59,8 +59,10 @@ export function query$<
   ) => Promise<InferReturnType<Fn>>
   fullyDehydrate: (
     queryClient: QueryClient,
-    input: AsParam<Fn, false>
+    input: AsParam<Fn, false>,
+    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
   ) => Promise<{ prpcState: DehydratedState }>
+  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
 }
 
 export function query$<
@@ -88,8 +90,10 @@ export function query$<
   ) => Promise<InferReturnType<Fn>>
   fullyDehydrate: (
     queryClient: QueryClient,
-    input: AsParam<Fn, false>
+    input: AsParam<Fn, false>,
+    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
   ) => Promise<{ prpcState: DehydratedState }>
+  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
 }
 
 export function query$<
@@ -124,8 +128,10 @@ export function query$<
   ) => Promise<InferReturnType<Fn>>
   fullyDehydrate: (
     queryClient: QueryClient,
-    input: AsParam<Fn, false>
+    input: AsParam<Fn, false>,
+    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
   ) => Promise<{ prpcState: DehydratedState }>
+  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
 }
 
 export function query$<
@@ -147,11 +153,12 @@ export function query$<
 
   const fullyDehydrate = async (
     queryClient: QueryClient,
-    input: AsParam<Fn, false>
+    input: AsParam<Fn, false>,
+    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
   ) => {
     await queryClient.prefetchQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () => tryAndWrap(queryFn, input),
+      queryFn: () => tryAndWrap(fn ?? (queryFn as any), input),
     })
     return { prpcState: dehydrate(queryClient) }
   }
@@ -193,6 +200,8 @@ export function query$<
         return prefetch
       } else if (prop === 'fullyDehydrate') {
         return fullyDehydrate
+      } else if (prop === 'callRaw') {
+        return queryFn
       }
       return target
     },

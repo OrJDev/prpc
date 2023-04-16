@@ -1,13 +1,12 @@
 import { type AppType } from "next/dist/shared/lib/utils";
 import "~/styles/globals.css";
 
-import { withPRPC } from "@prpc/react";
-import { QueryClient } from "@tanstack/react-query";
+import { withPRPC, createPrpcQueryClient } from "@prpc/react";
 
-export const queryClient = new QueryClient();
+export const queryClient = createPrpcQueryClient();
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;
 };
 
-export default withPRPC(queryClient as any, MyApp);
+export default withPRPC(queryClient, MyApp);

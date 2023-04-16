@@ -56,6 +56,10 @@ export const SIDEBAR: Sidebar = {
       text: 'SSR / SSG Prefetch',
       link: 'nextjs/gssp',
     },
+    {
+      text: 'handle$',
+      link: 'nextjs/handle',
+    },
   ],
   Solid: [
     { text: 'Install', link: 'solid/install' },
