@@ -166,6 +166,7 @@ export function query$<
     const queryClient = useQueryClient()
     if (
       typeof window === 'undefined' &&
+      queryOpts?.enabled !== false &&
       !queryClient.getQueryCache().find(genQueryKey(key, unwrapValue(input)))
     ) {
       void prefetch(queryClient, input)
