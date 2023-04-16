@@ -1,5 +1,15 @@
 # @prpc/react
 
+## 0.2.29
+
+### Patch Changes
+
+- [`1717db5`](https://github.com/OrJDev/prpc/commit/1717db5dc0abcfd3b1b49941cd799bf9d651e449) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: opts override
+
+- [`b935a1d`](https://github.com/OrJDev/prpc/commit/b935a1deeace4b80e4f4111b0d40561218252591) Thanks [@OrJDev](https://github.com/OrJDev)! - assure query status refetch
+
+- [`1636cc4`](https://github.com/OrJDev/prpc/commit/1636cc43563a5cdbf664780aca34d02441b4efe9) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: don't fetch data on client if fetched on server
+
 ## 0.2.28
 
 ### Patch Changes
