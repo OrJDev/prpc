@@ -179,7 +179,6 @@ export function query$<
             ...queryOpts,
           }
         : queryOpts),
-      ...((queryOpts || {}) as any),
     }) as UseQueryResult<
       InferReturnType<Fn>,
       PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
