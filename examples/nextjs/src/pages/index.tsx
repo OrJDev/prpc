@@ -39,9 +39,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Home: NextPage = () => {
-  const { data } = myQuery({
-    num: 2,
-  });
+  const { data } = myQuery(
+    {
+      num: "d",
+    },
+    {
+      retry: false,
+      onError: (err) => {
+        console.log("err", err.cause);
+        console.log(err.isZodError());
+      },
+    }
+  );
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="text-5xl text-white">

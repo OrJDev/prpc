@@ -77,29 +77,27 @@ export async function tryAndWrap<Fn extends ExpectedFn<any>>(
   input: AsParam<Fn, false | true>,
   handleRedirect?: (url: string, response: Response) => any
 ) {
+  const value = unwrapValue(input)
+  let response: any
   try {
-    const value = unwrapValue(input)
-    const response = await queryFn({
+    response = await queryFn({
       payload: JSON.stringify(value),
     } as any)
-    if (response instanceof Response) {
-      const url = response.headers.get('location')
-      if (response.headers.get('X-Prpc-Error') === '1') {
-        const error = await optionalData(response)
-        throw new PRPCClientError(
-          figureOutMessageError(error.error),
-          error.error
-        )
-      } else if (!isRedirectResponse(response) || !url) {
-        return await optionalData(response)
-      } else {
-        handleRedirect?.(url, response)
-      }
-    }
-    return response
   } catch (e: any) {
     throw new PRPCClientError(figureOutMessageError(e), e)
   }
+  if (response instanceof Response) {
+    const url = response.headers.get('location')
+    if (response.headers.get('X-Prpc-Error') === '1') {
+      const error = await optionalData(response)
+      throw new PRPCClientError(figureOutMessageError(error.error), error.error)
+    } else if (!isRedirectResponse(response) || !url) {
+      return await optionalData(response)
+    } else {
+      handleRedirect?.(url, response)
+    }
+  }
+  return response
 }
 
 export const middleware$ = <
