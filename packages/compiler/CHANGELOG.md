@@ -1,5 +1,11 @@
 # @prpc/vite
 
+## 0.3.19
+
+### Patch Changes
+
+- [`b312783`](https://github.com/OrJDev/prpc/commit/b3127837cde991ed9e87ff653f5ce5dc9edf10a2) Thanks [@OrJDev](https://github.com/OrJDev)! - bump: bump thaler to latest version
+
 ## 0.3.18
 
 ### Patch Changes
