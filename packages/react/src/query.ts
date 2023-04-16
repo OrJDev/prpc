@@ -164,16 +164,17 @@ export function query$<
     >
   ) => {
     const queryClient = useQueryClient()
-    const queryExist = queryClient
-      .getQueryCache()
-      .find(genQueryKey(key, unwrapValue(input)))
-    if (typeof window === 'undefined' && !queryExist) {
+    if (
+      typeof window === 'undefined' &&
+      !queryClient.getQueryCache().find(genQueryKey(key, unwrapValue(input)))
+    ) {
       void prefetch(queryClient, input)
     }
     return useQuery({
       queryKey: genQueryKey(key, unwrapValue(input)),
       queryFn: () => tryAndWrap(queryFn, input),
-      ...(queryExist?.state.status === 'error'
+      ...(queryClient.getQueryCache().find(genQueryKey(key, unwrapValue(input)))
+        ?.state.status === 'error'
         ? {
             retryOnMount: false,
             ...queryOpts,
