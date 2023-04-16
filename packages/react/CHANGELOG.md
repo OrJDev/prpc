@@ -1,5 +1,13 @@
 # @prpc/react
 
+## 0.2.30
+
+### Patch Changes
+
+- [`260af60`](https://github.com/OrJDev/prpc/commit/260af60593ac4b927503fd179d52a8884e9cf9e5) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: only prefetch when enabled
+
+- [`2f74302`](https://github.com/OrJDev/prpc/commit/2f74302a654a634c1fb2b32f1dea0ee9afbcb638) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: handle$ utility function for @prpc/react
+
 ## 0.2.29
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # create-prpc-app
 
+## 0.1.14
+
+### Patch Changes
+
+- [`faca227`](https://github.com/OrJDev/prpc/commit/faca22708bad5c762bea38bd7591bb751889714e) Thanks [@OrJDev](https://github.com/OrJDev)! - nextjs: bump unplugin
+
+- [`d349fbc`](https://github.com/OrJDev/prpc/commit/d349fbc86b0d199b38307b523dfe637dea877fcd) Thanks [@OrJDev](https://github.com/OrJDev)! - nextjs template: use the new handle$ function
+
 ## 0.1.13
 
 ### Patch Changes
