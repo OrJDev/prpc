@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.13
+
+### Patch Changes
+
+- [`15b3531`](https://github.com/OrJDev/prpc/commit/15b3531c07bb631669ace2b7cf8b92eb7fb93407) Thanks [@OrJDev](https://github.com/OrJDev)! - bump react
+
 ## 0.1.12
 
 ### Patch Changes
