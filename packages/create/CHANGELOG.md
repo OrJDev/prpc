@@ -1,5 +1,13 @@
 # create-prpc-app
 
+## 0.1.15
+
+### Patch Changes
+
+- [`b5b6198`](https://github.com/OrJDev/prpc/commit/b5b619872ccf038e8619edd152743212a9cf6ff7) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: bump @prpc/react to its latest version
+
+- [`6427498`](https://github.com/OrJDev/prpc/commit/6427498e1594d7107aaa2c80c9072e37fd90b08c) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: correct the lint issues of the nextjs template
+
 ## 0.1.14
 
 ### Patch Changes

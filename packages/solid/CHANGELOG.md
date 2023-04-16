@@ -1,5 +1,12 @@
 # @prpc/solid
 
+## 0.2.31
+
+### Patch Changes
+
+- Updated dependencies [[`a638dc2`](https://github.com/OrJDev/prpc/commit/a638dc29255ecc2ccba7b97de031248adc012abe)]:
+  - @prpc/core@0.3.14
+
 ## 0.2.30
 
 ### Patch Changes
