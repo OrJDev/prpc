@@ -1,6 +1,5 @@
 import { handle$ } from "@prpc/react";
 import { middleware$, query$, response$ } from "@prpc/react";
-import { QueryClient } from "@tanstack/react-query";
 import { GetServerSideProps, type NextPage } from "next";
 import { z } from "zod";
 import { queryClient } from "./_app";

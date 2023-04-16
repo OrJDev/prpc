@@ -1,23 +1,20 @@
+import { handle$ } from "@prpc/react";
 import { middleware$, query$, response$ } from "@prpc/react";
-import type { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps, type NextPage } from "next";
 import { z } from "zod";
 import { queryClient } from "./_app";
 
-const testMw = middleware$(({ request$ }) => {
+const testMw = middleware$(async ({ request$ }) => {
   const ua = request$.headers.get("user-agent");
-  console.log("middleware called on server ", ua);
+  console.log({ ua });
   return {
     ua,
   };
 });
 
 const myQuery = query$({
-  queryFn: ({ request$, ctx$, payload }) => {
-    console.log(
-      "queryFn called on server ",
-      ctx$.ua === request$.headers.get("user-agent"),
-      payload
-    );
+  queryFn: async ({ payload }) => {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     return response$(payload.num / 2);
   },
   key: "testQuery",
@@ -27,11 +24,17 @@ const myQuery = query$({
   }),
 });
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: await myQuery.fullyDehydrate(queryClient, {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const dehydarated = await handle$({
+    queryFn: myQuery,
+    ctx,
+    payload: {
       num: 2,
-    }),
+    },
+    queryClient,
+  });
+  return {
+    props: dehydarated,
   };
 };
 
@@ -41,11 +44,9 @@ const Home: NextPage = () => {
   });
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      {data ? (
-        <div className="text-5xl text-white">query: {data}</div>
-      ) : (
-        <p className="text-xl font-bold text-white">Something went wrong</p>
-      )}
+      <div className="text-5xl text-white">
+        query: {JSON.stringify(data, null, 2)}
+      </div>
     </main>
   );
 };
