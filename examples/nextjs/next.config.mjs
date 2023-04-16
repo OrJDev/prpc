@@ -25,12 +25,13 @@ const config = {
     config.plugins.push(
       prpc.webpack({
         adapter: "react-thaler",
+        log: false,
       })
     );
     config.plugins.push(
       thaler.webpack({
-        origin: "http://localhost:3000/api",
         mode: isServer ? "server" : "client",
+        prefix: "api/__thaler",
       })
     );
     return config;

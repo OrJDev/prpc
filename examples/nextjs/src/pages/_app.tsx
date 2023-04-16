@@ -10,4 +10,4 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;
 };
 
-export default withPRPC(queryClient, MyApp);
+export default withPRPC(queryClient as any, MyApp);

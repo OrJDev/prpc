@@ -11,6 +11,7 @@ export interface PRPCPluginOptions {
     include?: FilterPattern
     exclude?: FilterPattern
   }
+  log?: boolean
 }
 
 export * from './babel'

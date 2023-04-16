@@ -178,13 +178,13 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               })
             }
 
-            if (isAstro) {
-              const blingCtx$ = t.identifier('blingCtx$')
-              serverFunction.params.push(blingCtx$)
-            } else if (isThaler) {
-              const request = t.identifier('request$')
-              serverFunction.params.push(request)
-              cleanOutParams('request$', request)
+            if (isAstro || isThaler) {
+              const req = t.objectProperty(
+                t.identifier('request'),
+                t.identifier('_$$request')
+              )
+              cleanOutParams('request$', '_$$request')
+              serverFunction.params[1] = t.objectPattern([req])
             }
 
             const payload = t.objectProperty(
@@ -193,16 +193,15 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
             )
             cleanOutParams('payload', '_$$payload')
             serverFunction.params[0] = t.objectPattern([payload])
-            if (!isThaler) {
+
+            if (!isThaler && !isAstro) {
               path.traverse({
                 Identifier(innerPath: any) {
                   if (
                     innerPath.node.name === 'request$' &&
                     innerPath.scope?.path?.listKey !== 'params'
                   ) {
-                    innerPath.node.name = isAstro
-                      ? 'blingCtx$.request'
-                      : 'server$.request'
+                    innerPath.node.name = 'server$.request'
                   }
                 },
               })
@@ -216,7 +215,7 @@ export function createTransformpRPC$(adapter: PRPCAdapter) {
               if (isThaler) {
                 cleanOutParams('ctx$', 'ctx$')
               }
-              const req = isThaler ? 'request$' : 'server$.request'
+              const req = isThaler || isAstro ? '_$$request' : 'server$.request'
               let callMiddleware
               if (isReuseableQuery || isReuseableMutation) {
                 const name = (callee.object as any).name
