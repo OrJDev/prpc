@@ -1,5 +1,11 @@
 # @prpc/core
 
+## 0.3.14
+
+### Patch Changes
+
+- [`a638dc2`](https://github.com/OrJDev/prpc/commit/a638dc29255ecc2ccba7b97de031248adc012abe) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: make .isZodError work again
+
 ## 0.3.13
 
 ### Patch Changes
