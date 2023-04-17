@@ -1,6 +1,6 @@
 # pRPC
 
-Write server code, query / mutate it on the server and validate inputs using zod with only few lines of code. Supporting NextJS, SolidStart and Bling.
+Write server code in frontend files with built in colocation, middlewares, schema validation and more, everything is type safed and works with NextJS, Bling and SolidStart
 
 Read more at [our docs](https://prpc.vercel.app)
 
