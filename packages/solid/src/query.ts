@@ -30,6 +30,28 @@ export type FCreateQueryOptions<
   OmitQueryData<SolidQueryOptions<TQueryFnData, TError, TData, TQueryKey>>
 >
 
+export type ExpectedQueryReturn<
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
+    Mw
+  >,
+  ZObj extends zod.ZodSchema | void | undefined = void | undefined
+> = (
+  input: AsParam<Fn>,
+  queryOpts?: FCreateQueryOptions<
+    InferReturnType<Fn>,
+    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+  >
+) => CreateQueryResult<
+  InferReturnType<Fn>,
+  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+>
+
 export function query$<
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
@@ -41,50 +63,34 @@ export function query$<
     Mw
   >,
   ZObj extends zod.ZodSchema | void | undefined = void | undefined
->(
-  params: ObjectParams<ZObj, Mw, Fn>
-): (
-  input: AsParam<Fn>,
-  queryOpts?: FCreateQueryOptions<
-    InferReturnType<Fn>,
-    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-  >
-) => CreateQueryResult<
-  InferReturnType<Fn>,
-  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
->
+>(params: ObjectParams<ZObj, Mw, Fn>): ExpectedQueryReturn<Mw, Fn, ZObj>
 
 export function query$<
   Mw extends IMiddleware[],
-  Fn extends ExpectedFn<undefined, Mw>
+  Fn extends ExpectedFn<void | undefined, Mw>
 >(
   queryFn: Fn,
   key: string,
   ..._middlewares: Mw
-): (
-  input: AsParam<Fn>,
-  queryOpts?: FCreateQueryOptions<InferReturnType<Fn>, PRPCClientError<any>>
-) => CreateQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
+): ExpectedQueryReturn<Mw, Fn, undefined>
 
 export function query$<
   ZObj extends zod.ZodSchema | void | undefined,
   Mw extends IMiddleware[],
-  Fn extends ExpectedFn<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : void, Mw>
+  Fn extends ExpectedFn<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
+    Mw
+  >
 >(
   queryFn: Fn,
   key: string,
   _schema?: ZObj,
   ..._middlewares: Mw
-): (
-  input: AsParam<Fn>,
-  queryOpts?: FCreateQueryOptions<
-    InferReturnType<Fn>,
-    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-  >
-) => CreateQueryResult<
-  InferReturnType<Fn>,
-  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
->
+): ExpectedQueryReturn<Mw, Fn, ZObj>
 
 export function query$<
   ZObj extends zod.ZodSchema | undefined,

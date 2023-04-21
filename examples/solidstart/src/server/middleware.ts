@@ -1,6 +1,7 @@
 import { error$, middleware$, pipe$, reuseable$ } from '@prpc/solid'
 
 const reuseMw = middleware$(() => {
+  console.log(`reuseMw called on ${typeof window}`)
   return {
     reuse: 'reuse' as const,
   }

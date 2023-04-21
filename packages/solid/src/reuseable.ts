@@ -6,8 +6,8 @@ import {
   type IMiddleware,
   type ObjectParams,
 } from '@prpc/core'
-import { mutation$ } from './mutation'
-import { query$ } from './query'
+import { type ExpectedMutationReturn, mutation$ } from './mutation'
+import { type ExpectedQueryReturn, query$ } from './query'
 import type zod from 'zod'
 
 export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
@@ -26,7 +26,7 @@ export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
     >(
       params: Omit<ObjectParams<ZObj, Mw, Fn>, 'middlewares'>,
       ...rest: any[]
-    ) => {
+    ): ExpectedQueryReturn<Mw, Fn, ZObj> => {
       const { queryFn, key } =
         typeof params === 'object'
           ? params
@@ -46,7 +46,7 @@ export function reuseable$<Mw extends IMiddleware[]>(...mw: Mw) {
     >(
       params: Omit<ObjectParams<ZObj, Mw, Fn, true>, 'middlewares'>,
       ...rest: any[]
-    ) => {
+    ): ExpectedMutationReturn<Mw, Fn, ZObj> => {
       let queryFn
       let key
       if (typeof params === 'object') {
