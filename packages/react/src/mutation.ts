@@ -17,6 +17,28 @@ import {
   getParams,
 } from '@prpc/core'
 
+export type ExpectedMutationReturn<
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
+    Mw
+  >,
+  ZObj extends zod.ZodSchema | void | undefined = void | undefined
+> = (
+  mutationOpts?: UseMutationOptions<
+    InferReturnType<Fn>,
+    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
+    AsParam<Fn, false>
+  >
+) => UseMutationResult<
+  InferReturnType<Fn>,
+  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
+  AsParam<Fn, false>
+>
 export function mutation$<
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
@@ -30,43 +52,23 @@ export function mutation$<
   ZObj extends zod.ZodSchema | void | undefined = void | undefined
 >(
   params: ObjectParams<ZObj, Mw, Fn, true>
-): (
-  mutationOpts?: UseMutationOptions<
-    InferReturnType<Fn>,
-    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
-    AsParam<Fn, false>
-  >
-) => UseMutationResult<
-  InferReturnType<Fn>,
-  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
-  AsParam<Fn, false>
->
+): ExpectedMutationReturn<Mw, Fn, ZObj>
 
 export function mutation$<
   Mw extends IMiddleware[],
-  Fn extends ExpectedFn<undefined, Mw>
+  Fn extends ExpectedFn<void | undefined, Mw>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(
-  queryFn: Fn,
-  key: string,
-  ..._middlewares: Mw
-): (
-  mutationOpts?: UseMutationOptions<
-    InferReturnType<Fn>,
-    PRPCClientError<any>,
-    AsParam<Fn, false>
-  >
-) => UseMutationResult<
-  InferReturnType<Fn>,
-  PRPCClientError<any>,
-  AsParam<Fn, false>
->
+>(queryFn: Fn, key: string, ..._middlewares: Mw): ExpectedMutationReturn<Mw, Fn>
 
 export function mutation$<
   ZObj extends zod.ZodSchema | undefined,
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
-    ZObj extends zod.ZodSchema ? zod.infer<ZObj> : undefined,
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
     Mw
   >
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -75,17 +77,7 @@ export function mutation$<
   key: string,
   _schema?: ZObj,
   ..._middlewares: Mw
-): (
-  mutationOpts?: UseMutationOptions<
-    InferReturnType<Fn>,
-    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
-    AsParam<Fn, false>
-  >
-) => UseMutationResult<
-  InferReturnType<Fn>,
-  PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>,
-  AsParam<Fn, false>
->
+): ExpectedMutationReturn<Mw, Fn, ZObj>
 
 export function mutation$<
   ZObj extends zod.ZodSchema | undefined,

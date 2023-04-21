@@ -23,6 +23,45 @@ import {
   getParams,
 } from '@prpc/core'
 
+export type ExpectedQueryReturn<
+  Mw extends IMiddleware[],
+  Fn extends ExpectedFn<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
+    Mw
+  >,
+  ZObj extends zod.ZodSchema | void | undefined = void | undefined
+> = {
+  (
+    input: WithVoid<
+      ZObj extends void | undefined
+        ? void | undefined
+        : ZObj extends zod.ZodSchema
+        ? zod.infer<ZObj>
+        : void | undefined
+    >,
+    queryOpts?: UseQueryOptions<
+      InferReturnType<Fn>,
+      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+    >
+  ): UseQueryResult<
+    InferReturnType<Fn>,
+    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
+  >
+  prefetch: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>
+  ) => Promise<InferReturnType<Fn>>
+  fullyDehydrate: (
+    queryClient: QueryClient,
+    input: AsParam<Fn, false>,
+    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
+  ) => Promise<{ prpcState: DehydratedState }>
+  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
+}
 export function query$<
   Mw extends IMiddleware[],
   Fn extends ExpectedFn<
@@ -34,36 +73,7 @@ export function query$<
     Mw
   >,
   ZObj extends zod.ZodSchema | void | undefined = void | undefined
->(
-  params: ObjectParams<ZObj, Mw, Fn>
-): {
-  (
-    input: WithVoid<
-      ZObj extends void | undefined
-        ? void | undefined
-        : ZObj extends zod.ZodSchema
-        ? zod.infer<ZObj>
-        : void | undefined
-    >,
-    queryOpts?: UseQueryOptions<
-      InferReturnType<Fn>,
-      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-    >
-  ): UseQueryResult<
-    InferReturnType<Fn>,
-    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-  >
-  prefetch: (
-    queryClient: QueryClient,
-    input: AsParam<Fn, false>
-  ) => Promise<InferReturnType<Fn>>
-  fullyDehydrate: (
-    queryClient: QueryClient,
-    input: AsParam<Fn, false>,
-    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
-  ) => Promise<{ prpcState: DehydratedState }>
-  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
-}
+>(params: ObjectParams<ZObj, Mw, Fn>): ExpectedQueryReturn<Mw, Fn, ZObj>
 
 export function query$<
   ZObj extends zod.ZodSchema | void | undefined,
@@ -73,66 +83,25 @@ export function query$<
   queryFn: Fn,
   key: string,
   ..._middlewares: Mw
-): {
-  (
-    input: WithVoid<
-      ZObj extends void | undefined
-        ? void | undefined
-        : ZObj extends zod.ZodSchema
-        ? zod.infer<ZObj>
-        : void | undefined
-    >,
-    queryOpts?: UseQueryOptions<InferReturnType<Fn>, PRPCClientError<any>>
-  ): UseQueryResult<InferReturnType<Fn>, PRPCClientError<any>>
-  prefetch: (
-    queryClient: QueryClient,
-    input: AsParam<Fn, false>
-  ) => Promise<InferReturnType<Fn>>
-  fullyDehydrate: (
-    queryClient: QueryClient,
-    input: AsParam<Fn, false>,
-    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
-  ) => Promise<{ prpcState: DehydratedState }>
-  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
-}
+): ExpectedQueryReturn<Mw, Fn, ZObj>
 
 export function query$<
   ZObj extends zod.ZodSchema | void | undefined,
   Mw extends IMiddleware[],
-  Fn extends ExpectedFn<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : void, Mw>
+  Fn extends ExpectedFn<
+    ZObj extends void | undefined
+      ? void | undefined
+      : ZObj extends zod.ZodSchema
+      ? zod.infer<ZObj>
+      : void | undefined,
+    Mw
+  >
 >(
   queryFn: Fn,
   key: string,
   _schema?: ZObj,
   ..._middlewares: Mw
-): {
-  (
-    input: WithVoid<
-      ZObj extends void | undefined
-        ? void | undefined
-        : ZObj extends zod.ZodSchema
-        ? zod.infer<ZObj>
-        : void | undefined
-    >,
-    queryOpts?: UseQueryOptions<
-      InferReturnType<Fn>,
-      PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-    >
-  ): UseQueryResult<
-    InferReturnType<Fn>,
-    PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
-  >
-  prefetch: (
-    queryClient: QueryClient,
-    input: AsParam<Fn, false>
-  ) => Promise<InferReturnType<Fn>>
-  fullyDehydrate: (
-    queryClient: QueryClient,
-    input: AsParam<Fn, false>,
-    fn?: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
-  ) => Promise<{ prpcState: DehydratedState }>
-  callRaw: (input: AsParam<Fn, false>) => Promise<InferReturnType<Fn>>
-}
+): ExpectedQueryReturn<Mw, Fn, ZObj>
 
 export function query$<
   ZObj extends zod.ZodSchema | undefined,
