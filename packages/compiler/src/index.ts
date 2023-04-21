@@ -6,7 +6,7 @@ export { compilepRRPC } from './babel'
 
 export interface PRPCPluginOptions {
   babel?: babel.TransformOptions
-  adapter: PRPCAdapter
+  adapter?: PRPCAdapter
   filter?: {
     include?: FilterPattern
     exclude?: FilterPattern
