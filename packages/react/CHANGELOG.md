@@ -1,5 +1,11 @@
 # @prpc/react
 
+## 0.2.32
+
+### Patch Changes
+
+- [`1fc2455`](https://github.com/OrJDev/prpc/commit/1fc2455f4696492c999fab50188d9f5b34d33946) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: return type of mutation$
+
 ## 0.2.31
 
 ### Patch Changes
