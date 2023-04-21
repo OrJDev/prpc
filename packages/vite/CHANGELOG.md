@@ -1,5 +1,12 @@
 # @prpc/vite
 
+## 0.3.21
+
+### Patch Changes
+
+- Updated dependencies [[`260236a`](https://github.com/OrJDev/prpc/commit/260236a838183b0dbc245d72c759bcacddfffb23), [`801e67a`](https://github.com/OrJDev/prpc/commit/801e67aa5158430198be86fc3a020f2d1b3b0126)]:
+  - @prpc/compiler@0.3.20
+
 ## 0.3.20
 
 ### Patch Changes
