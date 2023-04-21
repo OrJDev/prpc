@@ -303,8 +303,9 @@ export async function compilepRRPC(
     filename: id,
   })
   if (transformed) {
-    // console.log(transformed.code)
-
+    if (opts?.log) {
+      console.log(transformed.code)
+    }
     return {
       code: transformed.code ?? '',
       map: transformed.map,

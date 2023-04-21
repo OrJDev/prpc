@@ -18,22 +18,14 @@ const prpcPlugin = createUnplugin((options: PRPCPluginOptions) => {
     vite: {
       enforce: 'pre',
       async transform(code, id) {
-        const result = await compilepRRPC(code, id, options)
-        if (options.log) {
-          console.log(result?.code)
-        }
-        return result
+        return await compilepRRPC(code, id, options)
       },
     },
     transformInclude(id) {
       return filter(id)
     },
     async transform(code, id) {
-      const result = await compilepRRPC(code, id, options)
-      if (options.log) {
-        console.log(result?.code)
-      }
-      return result
+      return await compilepRRPC(code, id, options)
     },
   }
 })
