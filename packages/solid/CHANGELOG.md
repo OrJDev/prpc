@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.32
+
+### Patch Changes
+
+- [`8274e09`](https://github.com/OrJDev/prpc/commit/8274e0950000e2af2c4e329df7a36996be0d0b5f) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: return type of reuseable$
+
 ## 0.2.31
 
 ### Patch Changes
