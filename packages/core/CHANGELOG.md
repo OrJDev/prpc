@@ -1,5 +1,11 @@
 # @prpc/core
 
+## 0.3.15
+
+### Patch Changes
+
+- [`0fd19d8`](https://github.com/OrJDev/prpc/commit/0fd19d863cf1952d3ea74b65345fdd871d5994cb) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: set headers on server side rendering
+
 ## 0.3.14
 
 ### Patch Changes
