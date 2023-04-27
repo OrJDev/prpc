@@ -20,6 +20,8 @@ import {
   unwrapValue,
 } from '@prpc/core'
 import { getParams } from '@prpc/core'
+import { useRequest } from 'solid-start/server'
+import { genHandleResponse } from '.'
 
 export type FCreateQueryOptions<
   TQueryFnData = unknown,
@@ -108,9 +110,10 @@ export function query$<
       PRPCClientError<ZObj extends zod.ZodSchema ? zod.infer<ZObj> : any>
     >
   ) => {
+    const event = useRequest()
     return createQuery(() => ({
       queryKey: genQueryKey(key, unwrapValue(input)),
-      queryFn: () => tryAndWrap(queryFn, input),
+      queryFn: () => tryAndWrap(queryFn, input, genHandleResponse(event)),
       ...((queryOpts?.() || {}) as any),
     }))
   }

@@ -75,7 +75,7 @@ export function figureOutMessageError(err: any) {
 export async function tryAndWrap<Fn extends ExpectedFn<any>>(
   queryFn: Fn,
   input: AsParam<Fn, false | true>,
-  handleRedirect?: (url: string, response: Response) => any
+  handleResponse?: (response: Response) => any
 ) {
   const value = unwrapValue(input)
   let response: any
@@ -87,14 +87,13 @@ export async function tryAndWrap<Fn extends ExpectedFn<any>>(
     throw new PRPCClientError(figureOutMessageError(e), e)
   }
   if (response instanceof Response) {
+    handleResponse?.(response)
     const url = response.headers.get('location')
     if (response.headers.get('X-Prpc-Error') === '1') {
       const error = await optionalData(response)
       throw new PRPCClientError(figureOutMessageError(error.error), error.error)
     } else if (!isRedirectResponse(response) || !url) {
       return await optionalData(response)
-    } else {
-      handleRedirect?.(url, response)
     }
   }
   return response

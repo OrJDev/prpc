@@ -10,13 +10,23 @@ import { middleware3, myMiddleware1, myProcedure } from './middleware'
 
 export const cleanSyntaxQuery = query$({
   queryFn: async ({ payload, request$ }) => {
-    console.log('called', request$.headers.get('user-agent'))
-    return { result: payload.a + payload.b }
+    console.log('called', request$.headers.get('user-agent'), payload.isServer)
+    return response$(
+      { result: payload.a + payload.b },
+      payload.isServer
+        ? {
+            headers: {
+              'set-cookie': 'solid-ssr-one=true',
+            },
+          }
+        : {}
+    )
   },
   key: 'cleanSyntaxQuery',
   schema: z.object({
     a: z.number().max(5),
     b: z.number().max(10),
+    isServer: z.boolean().optional(),
   }),
   middlewares: [middleware3],
 })

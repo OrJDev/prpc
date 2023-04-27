@@ -5,8 +5,9 @@ import {
   Switch,
   type VoidComponent,
 } from 'solid-js'
+import { isServer } from 'solid-js/web'
 import { A } from 'solid-start'
-import { cleanSyntaxQuery, testReuseQuery } from '~/server/queries'
+import { cleanSyntaxQuery } from '~/server/queries'
 
 const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
@@ -15,10 +16,12 @@ const Query: VoidComponent = () => {
     () => ({
       a: num1(),
       b: 3,
+      isServer,
     }),
     () => ({
       placeholderData: (prev) => prev,
       onError: (error) => {
+        console.log(error)
         if (error.isZodError()) {
           const fieldErrors = error.cause.fieldErrors
           console.log(fieldErrors.a)
@@ -28,12 +31,6 @@ const Query: VoidComponent = () => {
       retry: false,
     })
   )
-
-  const secQuery = testReuseQuery(undefined, () => ({
-    onSuccess(data) {
-      console.log('onSuccess', data)
-    },
-  }))
 
   return (
     <div class='flex flex-col gap-3 px-3'>

@@ -18,6 +18,8 @@ import {
   tryAndWrap,
   getParams,
 } from '@prpc/core'
+import { useRequest } from 'solid-start/server'
+import { genHandleResponse } from '.'
 
 export type FCreateMutationOptions<
   TData = unknown,
@@ -107,9 +109,11 @@ export function mutation$<
       AsParam<Fn, false>
     >
   ) => {
+    const event = useRequest()
     return createMutation(() => ({
       mutationKey: genQueryKey(key, undefined, true),
-      mutationFn: (input: AsParam<Fn, false>) => tryAndWrap(queryFn, input),
+      mutationFn: (input: AsParam<Fn, false>) =>
+        tryAndWrap(queryFn, input, genHandleResponse(event)),
       ...((mutationOpts?.() || {}) as any),
     })) as CreateMutationResult<
       InferReturnType<Fn>,
