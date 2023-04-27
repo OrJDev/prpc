@@ -1,7 +1,7 @@
 {
   "name": "@prpc/react",
   "description": "Package for easily creating server rpc functions in NextJS/Bling with goodies baked in",
-  "version": "0.2.32",
+  "version": "0.2.33",
   "scripts": {
     "build": "rm -rf dist && tsup --config ./tsup.config.js",
     "clean": "rm -rf ./node_modules dist .turbo",
