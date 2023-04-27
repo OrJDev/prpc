@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.16
+
+### Patch Changes
+
+- [`46dbc6a`](https://github.com/OrJDev/prpc/commit/46dbc6ae5f47873a61e75c4baca5eecc42cc5624) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: bump @prpc/solid
+
 ## 0.1.15
 
 ### Patch Changes
