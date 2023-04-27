@@ -27,8 +27,8 @@
     "solid-start": "^0.2.26",
     "undici": "5.20.0",
     "zod": "^3.20.6",
-    "@prpc/solid": "^0.2.23",
-    "@prpc/vite": "^0.3.19",
+    "@prpc/solid": "^0.2.33",
+    "@prpc/vite": "^0.3.21",
     "@tanstack/solid-query": "^5.0.0-alpha.18"
   },
   "engines": {
