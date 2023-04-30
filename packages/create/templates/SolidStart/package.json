@@ -29,7 +29,7 @@
     "zod": "^3.20.6",
     "@prpc/solid": "^0.2.33",
     "@prpc/vite": "^0.3.21",
-    "@tanstack/solid-query": "^5.0.0-alpha.18"
+    "@tanstack/solid-query": "5.0.0-alpha.20"
   },
   "engines": {
     "node": ">=16"
