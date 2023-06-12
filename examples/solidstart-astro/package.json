@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "dev-solidstart-astro",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
