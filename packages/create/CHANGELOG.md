@@ -1,5 +1,11 @@
 # create-prpc-app
 
+## 0.1.18
+
+### Patch Changes
+
+- [`cc168cc`](https://github.com/OrJDev/prpc/commit/cc168ccae747eaf1f840b2f9b937f67cefdf3307) Thanks [@OrJDev](https://github.com/OrJDev)! - feat: add solidstart-astro example
+
 ## 0.1.17
 
 ### Patch Changes
