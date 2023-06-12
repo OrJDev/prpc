@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.34
+
+### Patch Changes
+
+- feat: solidstart-astro example
+
 ## 0.2.33
 
 ### Patch Changes
