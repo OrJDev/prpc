@@ -9,12 +9,14 @@ export * from './reuseable'
 
 export const genHandleResponse = (event: PageEvent) => {
   return (response: Response) => {
-    if (isServer) {
-      response.headers.forEach((value, key) => {
-        if (key === 'content-type') return
-        event.responseHeaders.set(key, value)
-      })
-      if (response.status !== undefined) {
+    if (isServer && event) {
+      if (event.responseHeaders) {
+        response.headers.forEach((value, key) => {
+          if (key === 'content-type') return
+          event.responseHeaders.set(key, value)
+        })
+      }
+      if (event.setStatusCode && response.status !== undefined) {
         event.setStatusCode(response.status)
       }
     }

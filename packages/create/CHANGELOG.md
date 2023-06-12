@@ -1,5 +1,17 @@
 # create-prpc-app
 
+## 0.1.17
+
+### Patch Changes
+
+- [`a6d2e26`](https://github.com/OrJDev/prpc/commit/a6d2e26403d60d958737170d170bb3016fb2a761) Thanks [@OrJDev](https://github.com/OrJDev)! - bump: vite & solid
+
+- [`900250e`](https://github.com/OrJDev/prpc/commit/900250e0bcee9174ca9928e9ba5c85f86a85beb9) Thanks [@OrJDev](https://github.com/OrJDev)! - bump: bump @prpc/\* in templates
+
+- [`7cd5478`](https://github.com/OrJDev/prpc/commit/7cd54783208034e94eca49d11a8ed86e41e0ff6e) Thanks [@OrJDev](https://github.com/OrJDev)! - solid template: lock solid query on alpha 20
+
+- [`fa3e1ed`](https://github.com/OrJDev/prpc/commit/fa3e1edb334b23503e34c9c904ce47a2c6b6be5f) Thanks [@OrJDev](https://github.com/OrJDev)! - clean: remove lots of useless code from the nextjs template
+
 ## 0.1.16
 
 ### Patch Changes
