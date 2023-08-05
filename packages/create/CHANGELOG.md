@@ -1,5 +1,13 @@
 # create-prpc-app
 
+## 0.1.19
+
+### Patch Changes
+
+- [`4f42d80`](https://github.com/OrJDev/prpc/commit/4f42d80b7c5508bd8efb136827dfc958bf0a60dc) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: bump versions
+
+- [`3af127c`](https://github.com/OrJDev/prpc/commit/3af127ce31209e3570794b3f7c51223ad0785d0d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: get everything uptodate and focus on solid
+
 ## 0.1.18
 
 ### Patch Changes

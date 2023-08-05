@@ -1,5 +1,11 @@
 # @prpc/solid
 
+## 0.2.35
+
+### Patch Changes
+
+- [`3af127c`](https://github.com/OrJDev/prpc/commit/3af127ce31209e3570794b3f7c51223ad0785d0d) Thanks [@OrJDev](https://github.com/OrJDev)! - fix: get everything uptodate and focus on solid
+
 ## 0.2.34
 
 ### Patch Changes
