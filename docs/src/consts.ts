@@ -37,30 +37,6 @@ export const SIDEBAR: Sidebar = {
     { text: 'Introduction', link: 'introduction' },
     { text: 'Install', link: 'install' },
   ],
-  React: [
-    { text: 'Install', link: 'react/install' },
-    { text: 'query$', link: 'react/query' },
-    { text: 'mutation$', link: 'react/mutation' },
-    { text: 'reuseable$', link: 'react/reuseable' },
-  ],
-  NextJS: [
-    {
-      text: 'install',
-      link: 'nextjs/install',
-    },
-    {
-      text: 'withPRPC',
-      link: 'nextjs/withprpc',
-    },
-    {
-      text: 'SSR / SSG Prefetch',
-      link: 'nextjs/gssp',
-    },
-    {
-      text: 'handle$',
-      link: 'nextjs/handle',
-    },
-  ],
   Solid: [
     { text: 'Install', link: 'solid/install' },
     { text: 'query$', link: 'solid/query' },

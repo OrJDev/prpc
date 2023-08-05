@@ -7,10 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": [
-    "dev-solidstart",
-    "docs",
-    "dev-nextjs-thaler",
-    "dev-solidstart-astro"
-  ]
+  "ignore": ["dev-solidstart", "docs"]
 }

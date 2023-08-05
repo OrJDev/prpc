@@ -5,14 +5,14 @@ description: 'Docs intro'
 
 **Welcome to pRPC!**
 
-pRPC is an open source [`NextJS`](/nextjs/install), [`Bling`](/react/install) & [`SolidStart`](/solid/install) utility library to make working with `server$` easier.
+pRPC is an open source[`SolidStart`](/solid/install) utility library to make working with `server$` easier.
 
 ### About
 
-Using pRPC you will be able to write server code in frontend files in Bling, NextJS & SolidStart and connect your functions with tanstack `query` & `mutation` by default. For instance:
+Using pRPC you will be able to write server code in frontend files in SolidStart and connect your functions with tanstack `query` & `mutation` by default. For instance:
 
 ```tsx
-import { middleware$, query$, response$, error$ } from '@prpc/react'
+import { middleware$, query$, response$, error$ } from '@prpc/solid'
 import { type NextPage } from 'next'
 import { z } from 'zod'
 
@@ -42,28 +42,8 @@ const myQuery = query$({
     num: z.number(),
   }),
 })
-
-const Home: NextPage = () => {
-  const { data, isLoading } = myQuery({
-    num: 2,
-  })
-
-  return (
-    <main className='flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]'>
-      {isLoading ? (
-        <p className='text-xl font-bold text-white'>Loading...</p>
-      ) : data ? (
-        <div className='text-5xl text-white'>query: {data}</div>
-      ) : null}
-    </main>
-  )
-}
-
-export default Home
 ```
 
 ### Getting Started
 
-- [NextJS](/nextjs/install)
-- [React](/react/install)
 - [SolidStart](/solid/install)

@@ -25,10 +25,10 @@
     "@prpc/solid": "workspace:*",
     "@prpc/vite": "workspace:*",
     "@solidjs/meta": "^0.28.2",
+    "@tanstack/solid-query": "^5.0.0-beta.15",
+    "solid-js": "^1.7.9",
+    "solid-start": "^0.2.30",
     "@solidjs/router": "^0.8.2",
-    "@tanstack/solid-query": "^v5.0.0-alpha.2",
-    "solid-js": "^1.7.3",
-    "solid-start": "^0.2.26",
     "undici": "5.20.0",
     "zod": "^3.20.6"
   },

@@ -13,6 +13,7 @@ const Query: VoidComponent = () => {
   const [num1, setNum1] = createSignal(1)
 
   const addRes = cleanSyntaxQuery(
+    // eslint-disable-next-line solid/reactivity
     () => ({
       a: num1(),
       b: 3,
@@ -20,14 +21,6 @@ const Query: VoidComponent = () => {
     }),
     () => ({
       placeholderData: (prev) => prev,
-      onError: (error) => {
-        console.log(error)
-        if (error.isZodError()) {
-          const fieldErrors = error.cause.fieldErrors
-          console.log(fieldErrors.a)
-          console.log(fieldErrors.b)
-        }
-      },
       retry: false,
     })
   )

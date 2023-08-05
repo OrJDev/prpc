@@ -5,7 +5,7 @@ SolidSart adapter for pRPC.
 ### Install
 
 ```sh
-pnpm add @prpc/solid@latest @prpc/vite@latest @tanstack/solid-query@alpha
+pnpm add @prpc/solid@latest @prpc/vite@latest @tanstack/solid-query@beta
 ```
 
 ### Vite Plugin
