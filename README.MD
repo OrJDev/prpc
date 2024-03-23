@@ -1,3 +1,5 @@
+This repo is no longer under development, please use MediaKit - https://github.com/solidjs-community/mediakit/tree/main/packages/prpc
+
 # pRPC
 
 Write server code in frontend files with built in colocation, middlewares, schema validation and more, everything is type safed and works with SolidStart
